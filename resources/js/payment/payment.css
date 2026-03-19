@@ -1,0 +1,116 @@
+.student-form {
+  padding: 20px;
+  border-radius: 10px;
+  position: absolute;
+  top: 125px;
+  left: 400px;
+  border: 1px solid white;
+  min-width: 400px;
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.student-form-title {
+  margin-top: 0;
+}
+
+.student-form-inputs {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.input-field {
+  flex: 1;
+  min-width: 180px;
+  outline: none;
+  transition: border 0.2s;
+}
+
+.input-field:focus {
+  border: 1px solid #ffc107; 
+}
+
+.submit-btn {
+  align-self: center;
+}
+
+.subjects-container {
+  border: 1px solid white;
+  min-width: 75px;
+  max-width: 400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 10px;
+  border-radius: 10px;
+  gap: 10px;
+}
+
+.niveau-select {
+  height: 35px;
+  min-width: 75px;
+  max-width: 100;
+  width: auto;
+}
+
+.matiere-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: -10px;           
+  border: 1px solid white;
+  border-radius: 30px;
+  background-color: whitesmoke;
+  padding: 4px 10px;   
+  margin-top: 5px;
+  height: auto;
+  min-width: 175px;
+  max-width: 250px;
+  width: 0 auto;
+}
+
+.matiere-item label {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.matiere-item input[type="checkbox"] {
+  margin: 0;        
+}
+
+.reduction-input {
+  width: 70px;
+  font-size: 0.8rem;
+  padding: 2px 4px;
+  border: none;
+  outline: none;
+  background-color: whitesmoke;
+}
+
+.message {
+  margin-top: 10px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.d-none {
+  display: none;
+}
+
+.checkDiv{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 85px;
+  height: 40px;
+  background-color: white;
+  border-radius: 5px;
+}

@@ -1,0 +1,27 @@
+.ul{
+    list-style-type: none;
+    margin-top: 20px;
+}
+
+.li{
+    margin-bottom: 10px;
+}
+
+aside{
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 300px;
+    border: 1px solid white;
+    height: 100%;
+    overflow-y: auto !important; 
+    display: flex;
+    justify-content: start;
+    align-items: top;
+}
+hr{
+    color: white;
+}
+.yellow{
+    width: 250px;
+}
