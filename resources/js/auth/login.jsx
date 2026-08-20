@@ -1,59 +1,82 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './login.css';
+import API from '../api.js';
 
+const Login = () => {
+  const [name, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [message, setMessage] = useState('');
 
-const Login=()=>{
-    const [username,setUsername]=useState('');
-    const [password,setPassword]=useState('');
-    const [message,setMessage]=useState('');
+  const navigate = useNavigate();
 
-    const navigate=useNavigate();
+  const handleLogin = (e) => {
+  e.preventDefault();
 
-
-    const handleLogin=(e)=>{
-        e.preventDefault();
-        axios.post('http://127.0.0.1:8000/auth/login',
-    { username, password },
-    { withCredentials: true }
-)
-.then(res => {
+  API.post(
+    '/auth/login',
+    { name, password },
+    { withCredentials: true } // important for Laravel session cookies
+  )
+  .then(res => {
     if(res.data.success === true){
-        const user = res.data.user;
-        navigate('/classes',{state: {user}});
+      const user = res.data.user;
+
+      // Store role and user info in localStorage for global access
+      localStorage.setItem('user_role', user.role);
+      localStorage.setItem('user_id', user.id);
+      localStorage.setItem('username', user.name);
+
+      // Dispatch custom event so sidebar updates immediately
+      window.dispatchEvent(new Event('updateRole'));
+
+      // Navigate to classes page (or dashboard)
+      navigate('/classes', { state: { user } });
+
     } else {
-        setMessage('Invalid Credentials!');
+      setMessage('Invalid Credentials!');
     }
-})
-.catch(err => {
+  })
+  .catch(err => {
     if(err.response && err.response.status === 401){
-        setMessage('Invalid Credentials!');
+      setMessage('Invalid Credentials!');
     } else {
-        setMessage('Invalid Credentials!');
+      setMessage('Something went wrong. Please try again!');
     }
-});
+  });
+};
 
-
-    }
-
-    return(
-        <>
-            <div className='containerDiv shadow-lg'>
-                <form className='formDiv' onSubmit={handleLogin}>
-                    <div>
-                        <input className='form form-control' type="text" onChange={(e)=>setUsername(e.target.value)} placeholder='Username'/>
-                        <br />
-                        <input className='form form-control' type="password" onChange={(e)=>setPassword(e.target.value)} placeholder='******'/>
-                        <br />
-                        <input className='btn btn-warning' type="submit" value='Login'/>
-                        {message && <div id='messageBtn' className='btn btn-danger'>{message}</div>}
-                    </div>
-                </form>
-                <div className='imageDiv'><img className='img' src="./images/tulua.png" alt="a regular image!" /></div>
-            </div>
-        </>
-    );
+  return(
+    <div className='containerDiv shadow-lg'>
+      <form className='formDiv' onSubmit={handleLogin}>
+        <div>
+          <input
+            className='form form-control'
+            type="text"
+            onChange={(e)=>setUsername(e.target.value)}
+            placeholder='Username'
+            required
+          />
+          <br />
+          <input
+            className='form form-control'
+            type="password"
+            onChange={(e)=>setPassword(e.target.value)}
+            placeholder='******'
+            required
+          />
+          <br />
+          <input className='btn btn-warning' type="submit" value='Login'/>
+          <p style={{color: 'white',textAlign: 'center',marginTop: 10}}>© 2026-2027 Tulua</p>
+          {message && <div id='messageBtn' className='btn btn-danger mt-2'>{message}</div>}
+        </div>
+      </form>
+      <div className='imageDiv'>
+        <img className='img' src="./images/tulua.png" alt="School Logo" />
+      </div>
+    </div>
+  );
 }
+
 export default Login;

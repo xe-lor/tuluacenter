@@ -522,7 +522,8 @@ public function getRegistredClasses(){
         ->groupBy('niveau_id')
         ->map(function ($values) {
             return [
-                //keys       =>    values
+               //used to return a json table in order to send it to the front end 
+               //keys       =>    values
                 'niveau_id' => $values->first()->niveau_id,
                 'niveau_name' => $values->first()->niveau_name,
                 'matieres' => $values->map(function ($class) {
@@ -598,7 +599,6 @@ public function update(Request $request, $studentId)
 
         DB::transaction(function () use ($validated, $studentId) {
 
-            // Update student info
             DB::table('students')
                 ->where('id', $studentId)
                 ->update([
@@ -612,7 +612,6 @@ public function update(Request $request, $studentId)
 
             $schoolMonths = [9,10,11,12,1,2,3,4,5,6];
 
-            // Update payments
             if (!empty($validated['payments']) && !empty($validated['selected_month'])) {
 
                 foreach ($validated['payments'] as $payment) {
@@ -665,12 +664,11 @@ DB::table('payments')
         'groupe' => $validated['groupe'] ?? null,
         'updated_at' => now()
     ]);
-                    // Update all selected months in DB
+                    
                     
                 }
             }
 
-            // Add new classes
             if (!empty($validated['new_classes'])) {
 
                 foreach ($validated['new_classes'] as $classId) {

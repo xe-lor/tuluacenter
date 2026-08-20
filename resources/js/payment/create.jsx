@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import './payment.css';
+import { useNavigate } from "react-router-dom";
+import API from '../api.js';
 
 const CreateStudent = () => {
   const [name, setName] = useState(""); 
@@ -21,9 +23,15 @@ const CreateStudent = () => {
   const [message,setMessage]=useState('');
   const [type,setType]=useState('');
   const [loading,setLoading]=useState(false);
+
+
+  const navigate=useNavigate()
+
+
+
   useEffect(() => {
-    axios
-      .get("http://127.0.0.1:8000/payment/getClasses")
+    API
+      .get("/payment/getClasses")
       .then((res) => {
         setNiveauMatieres(res.data.classes);
       })
@@ -33,7 +41,7 @@ const CreateStudent = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
-    axios.post("http://127.0.0.1:8000/payment/createStudent",{
+    API.post("/payment/createStudent",{
         name,
         lastName,
         parentName,
@@ -47,8 +55,7 @@ const CreateStudent = () => {
         state,
       },{ withCredentials: true }
     ).then(res=>{
-      setMessage(res.data.message);
-      setType(res.data.type);
+      navigate('/payment/index')
     }).finally(()=>{
         setLoading(false)
       }
@@ -78,8 +85,8 @@ const CreateStudent = () => {
   }
 
   return (
-    <form className="student-form" onSubmit={handleSubmit}>
-      <h1 className="student-form-title text-warning text-center">Student Form</h1>
+    <form className="student-form" onSubmit={handleSubmit} style={{border: "1px solid yellow", padding: 16, borderRadius: 10 }}>
+      <h1 className="student-form-title text-warning text-center" style={{fontSize: 25,textAlign: "center"}}>Student Form</h1>
 
       <div className="student-form-inputs">
         <input type="text" className="form-control input-field" placeholder="Name" onChange={(e) => setName(e.target.value)} />

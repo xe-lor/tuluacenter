@@ -8,23 +8,72 @@ use Illuminate\Http\Request;
 
 class MatiereController extends Controller
 {
-    public function store(Request $request){
+    public function index()
+    {
+        $matieres = Matiere::all();
+
+        return response()->json([
+            'matieres' => $matieres
+        ]);
+    }
+
+    public function store(Request $request)
+    {
         $request->validate([
-            'matiere'=>'required',
+            'name' => 'required|string|max:255',
         ]);
-        $matiere=Matiere::create([
-            'name'=>$request->matiere,
+
+        $matiere = Matiere::create([
+            'name' => $request->name,
         ]);
-        if($matiere){
+
+        return response()->json([
+            'message' => 'Matiere created successfully',
+            'matiere' => $matiere   
+        ]);
+    }
+
+    public function show($id)
+    {
+        $matiere = Matiere::findOrFail($id);
+
+        return response()->json([
+            'matiere' => $matiere
+        ]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        $matiere = Matiere::findOrFail($id);
+
+        $matiere->update([
+            'name' => $request->name
+        ]);
+
+        return response()->json([
+            'message' => 'Matiere updated successfully',
+            'matiere' => $matiere   
+        ]);
+    }
+
+    public function delete(Request $request)
+    {
+        $matiere = Matiere::find($request->id);
+
+        if (!$matiere) {
             return response()->json([
-                'type'=>'btn btn-success',
-                'message'=>'Matiere name inserted successfully!',
-            ]);
-        }else{
-            return response()->json([
-                'type'=>'btn btn-danger',
-                'message'=>'Failed to insert matiere name!!!',
-            ]);
+                'message' => 'Matiere not found'
+            ], 404);
         }
+
+        $matiere->delete();
+
+        return response()->json([
+            'message' => 'Deleted successfully'
+        ]);
     }
 }

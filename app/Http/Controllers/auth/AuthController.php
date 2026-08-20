@@ -9,36 +9,36 @@ use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
+
+
+
+
+
+
+
+
+
 public function login(Request $request)
 {
-    if (Auth::attempt($request->only('username', 'password'))) {
+    $request->validate([
+        'name' => 'required',
+        'password' => 'required',
+    ]);
+
+    if (Auth::attempt($request->only('name', 'password'))) {
 
         $request->session()->regenerate();
 
         $user = Auth::user();
+
         session([
             'user_id' => $user->id,
             'user_role' => $user->role
         ]);
 
-        if ($user->role === 'secretary') {
-
-            $restricted = DB::table('secretaries')
-                ->where('user_id', $user->id)
-                ->value('restricted');
-
-            session([
-                'secretary_restricted' => (bool)$restricted
-            ]);
-        }
-
         return response()->json([
             'success' => true,
-            'user' => $user,
-            'session' => [
-                'user_id' => session('user_id'),
-                'user_role' => session('user_role')
-            ]
+            'user' => $user
         ]);
     }
 
@@ -46,4 +46,28 @@ public function login(Request $request)
         'success' => false
     ], 401);
 }
+
+
+
+public function logout(Request $request)
+    {
+        // Log out user
+        Auth::logout();
+
+        // Invalidate the session
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        // Return success response
+        return response()->json([
+            'success' => true,
+            'message' => 'Logged out successfully'
+        ]);
+    }
+
+
+
+
+
+
 }

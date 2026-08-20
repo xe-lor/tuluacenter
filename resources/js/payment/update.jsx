@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import "./payment.css";
+import API from '../api.js';
 
 const UpdateStudent = () => {
   const { id } = useParams();
@@ -28,8 +28,11 @@ const UpdateStudent = () => {
   const [message, setMessage] = useState("");
   const [type, setType] = useState("");
 
+
+  const navigate=useNavigate();
+
   useEffect(() => {
-    axios.get("http://127.0.0.1:8000/payment/getClasses").then((res) => {
+    API.get("/payment/getClasses").then((res) => {
       const flattened = res.data.classes.flatMap((niveau) =>
         niveau.matieres.map((m) => ({
           ...m,
@@ -41,8 +44,8 @@ const UpdateStudent = () => {
   }, []);
 
   useEffect(() => {
-    axios
-      .get(`http://127.0.0.1:8000/payment/getStudent/${id}`)
+    API
+      .get(`/payment/getStudent/${id}`)
       .then((res) => {
         console.log(res.data.student)
         const s = res.data.student;
@@ -120,7 +123,7 @@ const paymentsArray = existingPayments.map((p) => {
   const update = paymentUpdates[selectedPayment.payment_id] || {};
 
   return {
-    id: selectedPayment.payment_id, // ✅ FIX
+    id: selectedPayment.payment_id, 
     price:
       update.price !== undefined
         ? Number(update.price)
@@ -128,25 +131,10 @@ const paymentsArray = existingPayments.map((p) => {
     status: update.status || selectedPayment.status || "impaye",
   };
 }).filter(Boolean);
-console.log("Submitting update with:");
 
-console.log("Selected Month:", selectedMonth);
-
-console.log("Payments Array:", paymentsArray);
-
-console.log("Apply Next Months:", applyNextMonths);
-
-console.log("Full Payload:", {
-  name,
-  lastname,
-  groupe,
-  selected_month: selectedMonth ? Number(selectedMonth) : null,
-  payments: paymentsArray,
-  apply_next_months: applyNextMonths,
-});
-    axios
+    API
       .post(
-        `http://127.0.0.1:8000/payment/updateStudent/${id}`,
+        `/payment/updateStudent/${id}`,
         {
           name: String(name || ""),
           lastname: String(lastname || ""),
@@ -155,7 +143,7 @@ console.log("Full Payload:", {
           parentphone: String(parentphone || ""),
           groupe: groupe ? Number(groupe) : null,
           date: date || null,
-selected_month: selectedMonth ? Number(selectedMonth) : null,
+          selected_month: selectedMonth ? Number(selectedMonth) : null,
           payments: paymentsArray,
           apply_next_months: applyNextMonths,
           new_classes: newClasses,
@@ -165,8 +153,7 @@ selected_month: selectedMonth ? Number(selectedMonth) : null,
         { withCredentials: true }
       )
       .then((res) => {
-        setMessage(res.data.message);
-        setType(res.data.type);
+        navigate('/payment/index')
       })
       .catch((err) => {
         console.error("Update error response:", err.response?.data || err);
@@ -177,88 +164,42 @@ selected_month: selectedMonth ? Number(selectedMonth) : null,
   };
 
   return (
-    <form
-      className="student-form p-4"
-      onSubmit={submit}
-      style={{ maxWidth: "900px", margin: "auto" }}
-    >
+    <form  className="student-form p-4"  onSubmit={submit}  style={{ maxWidth: "900px", margin: "auto" }}>
       <h1 className="text-warning text-center mb-4">Update Student</h1>
 
       <div className="row g-3 mb-4">
         <div className="col-md-6">
-          <input
-            className="form-control"
-            value={name}
-            placeholder="Name"
-            onChange={(e) => setName(e.target.value)}
-          />
+          <input  className="form-control"  value={name}  placeholder="Name"  onChange={(e) => setName(e.target.value)}/>
         </div>
 
         <div className="col-md-6">
-          <input
-            className="form-control"
-            value={lastname}
-            placeholder="Last Name"
-            onChange={(e) => setLastname(e.target.value)}
-          />
+          <input  className="form-control"  value={lastname}  placeholder="Last Name"  onChange={(e) => setLastname(e.target.value)}/>
         </div>
 
         <div className="col-md-6">
-          <input
-            className="form-control"
-            value={parentname}
-            placeholder="Parent Name"
-            onChange={(e) => setParentname(e.target.value)}
-          />
+          <input  className="form-control"  value={parentname}  placeholder="Parent Name"  onChange={(e) => setParentname(e.target.value)}/>
         </div>
 
         <div className="col-md-6">
-          <input
-            className="form-control"
-            value={studentphone}
-            placeholder="Student Phone"
-            onChange={(e) => setStudentphone(e.target.value)}
-          />
+          <input  className="form-control"  value={studentphone}  placeholder="Student Phone"  onChange={(e) => setStudentphone(e.target.value)}/>
         </div>
 
         <div className="col-md-6">
-          <input
-            className="form-control"
-            value={parentphone}
-            placeholder="Parent Phone"
-            onChange={(e) => setParentphone(e.target.value)}
-          />
+          <input  className="form-control"  value={parentphone}  placeholder="Parent Phone"  onChange={(e) => setParentphone(e.target.value)}/>
         </div>
 
         <div className="col-md-3">
-          <input
-            className="form-control"
-            type="number"
-            value={groupe}
-            placeholder="Groupe"
-            onChange={(e) => setGroupe(e.target.value)}
-          />
+          <input  className="form-control"  type="number"  value={groupe}  placeholder="Groupe"  onChange={(e) => setGroupe(e.target.value)}/>
         </div>
 
         <div className="col-md-3">
-          <input
-            className="form-control"
-            type="date"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-          />
+          <input    className="form-control"    type="date"    value={date}    onChange={(e) => setDate(e.target.value)}  />
         </div>
       </div>
 
       <h3 className="text-warning mb-3">Enrolled Classes</h3>
         <div className="col-md-3">
-          <select
-            className="form-select"
-            value={selectedMonth}
-            onChange={(e) => {
-              console.log("Selected month changed:", e.target.value);
-              setSelectedMonth(e.target.value);
-            }}          >
+          <select  className="form-select"  value={selectedMonth}  onChange={(e) => {    console.log("Selected month changed:", e.target.value);    setSelectedMonth(e.target.value);  }}          >
             <option>Select Month</option>
             {[9, 10, 11, 12, 1, 2, 3, 4, 5, 6].map((m) => (
               <option key={m} value={m}>
@@ -269,12 +210,10 @@ selected_month: selectedMonth ? Number(selectedMonth) : null,
         </div>
       <div className="row g-3 mb-4">
 {existingPayments.map((p) => {
-  // find the payment object for the selected month
   const selectedPayment = p.months.find(
     (m) => m.month === Number(selectedMonth)
   );
 
-  // if no payment exists for that month, skip rendering
   if (!selectedPayment) return null;
 
   const updated = paymentUpdates[selectedPayment.payment_id] || {};
@@ -286,39 +225,10 @@ selected_month: selectedMonth ? Number(selectedMonth) : null,
           {p.class_name} (Month {selectedMonth})
         </label>
 
-        <input
-          type="number"
-          className="form-control mb-2"
-          value={
-            updated.price !== undefined
-              ? updated.price
-              : selectedPayment.payment_price || ""
-          }
-          placeholder="Price"
-          onChange={(e) =>
-            changePayment(
-              selectedPayment.payment_id,
-              "price",
-              e.target.value
-            )
-          }
+        <input type="number" className="form-control mb-2" value={   updated.price !== undefined     ? updated.price     : selectedPayment.payment_price || "" } placeholder="Price" onChange={(e) =>   changePayment(     selectedPayment.payment_id,     "price",     e.target.value   ) }
         />
 
-        <select
-          className="form-select mb-2"
-          value={
-            updated.status !== undefined
-              ? updated.status
-              : selectedPayment.status || ""
-          }
-          onChange={(e) =>
-            changePayment(
-              selectedPayment.payment_id,
-              "status",
-              e.target.value
-            )
-          }
-        >
+        <select  className="form-select mb-2"  value={    updated.status !== undefined      ? updated.status      : selectedPayment.status || ""  }  onChange={(e) =>    changePayment(      selectedPayment.payment_id,      "status",      e.target.value    )  }>
           <option value="">Select a state</option>
           <option value="paye">payed</option>
           <option value="impaye">unpaid</option>
@@ -326,14 +236,7 @@ selected_month: selectedMonth ? Number(selectedMonth) : null,
         </select>
 
         <div className="form-check">
-          <input
-            className="form-check-input"
-            type="checkbox"
-            checked={applyNextMonths[selectedPayment.payment_id] || false}
-            onChange={() =>
-              toggleNextMonths(selectedPayment.payment_id)
-            }
-          />
+          <input  className="form-check-input"  type="checkbox"  checked={applyNextMonths[selectedPayment.payment_id] || false}  onChange={() =>    toggleNextMonths(selectedPayment.payment_id)  }/>
           <label className="form-check-label text-white">
             Apply to following months
           </label>
@@ -363,33 +266,15 @@ selected_month: selectedMonth ? Number(selectedMonth) : null,
                   </label>
 
                   <div className="form-check mb-2">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      checked={newClasses.includes(c.class_id)}
-                      onChange={() => toggleClass(c.class_id)}
-                    />
+                    <input  className="form-check-input"  type="checkbox"  checked={newClasses.includes(c.class_id)}  onChange={() => toggleClass(c.class_id)}/>
                     <label className="form-check-label text-white">
                       Enroll
                     </label>
                   </div>
 
-                  <input
-                    type="number"
-                    className="form-control mb-2"
-                    placeholder="Reduction"
-                    onChange={(e) =>
-                      changePrice(c.class_id, e.target.value)
-                    }
-                  />
+                  <input  type="number"  className="form-control mb-2"  placeholder="Reduction"  onChange={(e) =>    changePrice(c.class_id, e.target.value)  }/>
 
-                  <input
-                    type="date"
-                    className="form-control mb-2"
-                    onChange={(e) =>
-                      changeDate(c.class_id, e.target.value)
-                    }
-                  />
+                  <input  type="date"  className="form-control mb-2"  onChange={(e) =>    changeDate(c.class_id, e.target.value)  }/>
 
                   <span className="fw-bold text-white">
                     Final Price: {finalPrice}
@@ -400,20 +285,12 @@ selected_month: selectedMonth ? Number(selectedMonth) : null,
           })}
       </div>
 
-      <button
-        type="submit"
-        disabled={loading}
-        className="btn btn-warning w-100"
-      >
+      <button  type="submit"  disabled={loading}  className="btn btn-warning w-100">
         {loading ? "Updating..." : "Update Student"}
       </button>
 
       {message && (
-        <div
-          className={`alert mt-3 ${
-            type === "success" ? "alert-success" : "alert-danger"
-          }`}
-        >
+        <div  className={`alert mt-3 ${    type === "success" ? "alert-success" : "alert-danger"  }`}>
           {message}
         </div>
       )}

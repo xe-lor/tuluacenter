@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { exportTableToExcel } from "../utils/exportExcel";
 import { exportTableToPdf } from "../utils/exportPdf";
 import { useNavigate } from "react-router-dom";
+import API from '../api.js';
 
 const Index = () => {
   const [students, setStudents] = useState([]);
@@ -42,7 +42,7 @@ const styles = {
 
 
 useEffect(() => {
-  axios.get("http://127.0.0.1:8000/payment/getStudents")
+  API.get("/payment/getStudents")
     .then(res => {
       setStudents(res.data.students);
 
@@ -57,8 +57,8 @@ useEffect(() => {
 
 
   useEffect(() => {
-    axios
-      .get("http://127.0.0.1:8000/payment/getClasses")
+    API
+      .get("/payment/getClasses")
       .then((res) =>{ setClasses(res.data.classes),console.log(res.data.classes)});
   }, []);
 
@@ -67,8 +67,8 @@ useEffect(() => {
 
   
 const setStateToPayed = async (paymentId, classId, month, studentId) => {
-  const res = await axios.post(
-    "http://127.0.0.1:8000/payment/setPayment",
+  const res = await API.post(
+    "/payment/setPayment",
     { paymentId, classId, month, studentId }
   );
 
@@ -86,8 +86,8 @@ const setStateToPayed = async (paymentId, classId, month, studentId) => {
 
 
 const setStateToPayAll= async (studentId, month)=>{
-  const res=await axios.post(
-    "http://127.0.0.1:8000/payment/setPaymentAll",
+  const res=await API.post(
+    "/payment/setPaymentAll",
     {studentId, month}
   );
 
@@ -108,8 +108,10 @@ const Delete = async (Id) => {
   if (!ok) return;
 
   try {
-    await axios.delete(`http://127.0.0.1:8000/payment/deleteStudent/${Id}`);
-    window.location.reload(); 
+    await API.delete(`/payment/deleteStudent/${Id}`).then(res=>{
+                  setStudents(students.filter(t => t.student_id !== Id));
+    })
+    
   } catch (err) {
     console.error(err);
     alert("Error deleting student");
@@ -120,8 +122,8 @@ const Delete = async (Id) => {
 //cancel methods
 
 const setStateToCanceled = async (month, studentId, classId) => {
-  const res = await axios.post(
-    "http://127.0.0.1:8000/payment/setPaymentToCanceled",
+  const res = await API.post(
+    "/payment/setPaymentToCanceled",
     { studentId, classId, month }
   );
 
@@ -138,8 +140,8 @@ const setStateToCanceled = async (month, studentId, classId) => {
 };
 
 const setStateToCanceledAll= async (month, studentId)=>{
-  const res = await axios.post(
-    "http://127.0.0.1:8000/payment/setPaymentToCanceledAll",
+  const res = await API.post(
+    "/payment/setPaymentToCanceledAll",
     { studentId, month }
   );
 
