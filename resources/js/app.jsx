@@ -8,13 +8,11 @@ import Index from './payment/index.jsx';
 import UpdateStudent from './payment/update.jsx';
 import StudentsQr from './studentsQr/studentsQr.jsx';
 import Scanner from './studentsQr/scanner.jsx';
-import CreateAssistant from './admin/assistances/create.jsx';
 import PrivateRoute from './PrivateRoute.jsx';
 import StudentsPage from './teacher/StudentsPage.jsx';
 import StatsPage from './teacher/StatsPage.jsx';
 import TeacherIndex from './admin/teachers/index.jsx';
 import AssistantIndex from './admin/assistances/index.jsx';
-import AssistantEdit from './admin/assistances/update.jsx';
 import IndexMatieres from './admin/matieres/index.jsx';
 import IndexNiveaux from './admin/niveaux/index.jsx';
 import IndexClass from './admin/classes/index.jsx';
@@ -48,8 +46,6 @@ ReactDOM.createRoot(document.getElementById('app')).render(
      
 
       <Route path='/assistances' element={<PrivateRoute allowedRoles={['admin']}><AssistantIndex /></PrivateRoute>} />
-      <Route path='/assistances/add' element={<PrivateRoute allowedRoles={['admin']}><CreateAssistant /></PrivateRoute>} />
-      <Route path='/assistances/edit/:id' element={<PrivateRoute allowedRoles={['admin']}><AssistantEdit /></PrivateRoute>} />
 
 
 

@@ -1,0 +1,745 @@
+
+.containerDiv {
+    position: relative;
+
+    display: flex;
+
+    width: 850px;
+    height: 500px;
+
+    margin: auto;
+
+    margin-top: 10px;
+
+    border-radius: 28px;
+
+    overflow: hidden;
+
+    background: #101010;
+
+    box-shadow:
+        0 35px 80px rgba(0, 0, 0, 0.65),
+        0 0 0 1px rgba(255, 255, 255, 0.06);
+
+    isolation: isolate;
+}
+
+
+/* =========================================
+   LOGIN SIDE
+   ========================================= */
+
+.formDiv {
+    position: relative;
+
+    width: 45%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 45px;
+
+    background:
+        radial-gradient(
+            circle at 10% 90%,
+            rgba(255, 193, 7, 0.07),
+            transparent 35%
+        ),
+        linear-gradient(
+            145deg,
+            #191919,
+            #0d0d0d
+        );
+}
+
+
+/* Subtle golden corner */
+
+.formDiv::before {
+    content: "";
+
+    position: absolute;
+
+    width: 220px;
+    height: 220px;
+
+    left: -150px;
+    bottom: -150px;
+
+    border-radius: 50%;
+
+    background: #ffc107;
+
+    opacity: 0.04;
+
+    pointer-events: none;
+}
+
+
+/* =========================================
+   FORM CONTENT
+   ========================================= */
+
+.formContent {
+    position: relative;
+
+    width: 100%;
+
+    z-index: 2;
+}
+
+
+/* =========================================
+   BRAND
+   ========================================= */
+
+.brand {
+    position: relative;
+
+    display: inline-block;
+
+    margin-bottom: 30px;
+
+    color: #ffc107;
+
+    font-size: 12px;
+    font-weight: 800;
+
+    letter-spacing: 6px;
+}
+
+
+/* Small golden line */
+
+.brand::after {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    bottom: -9px;
+
+    width: 35px;
+    height: 2px;
+
+    background: #ffc107;
+
+    box-shadow:
+        0 0 10px rgba(255, 193, 7, 0.45);
+}
+
+
+/* =========================================
+   TITLE
+   ========================================= */
+
+.title {
+    margin: 0;
+
+    color: #ffffff;
+
+    font-size: 38px;
+    font-weight: 700;
+
+    line-height: 1.05;
+
+    letter-spacing: -1.5px;
+}
+
+
+/* =========================================
+   SUBTITLE
+   ========================================= */
+
+.subtitle {
+    margin: 10px 0 30px;
+
+    color: #777777;
+
+    font-size: 14px;
+    font-weight: 400;
+}
+
+
+/* =========================================
+   INPUTS
+   ========================================= */
+
+.form {
+    width: 100%;
+
+    height: 50px;
+
+    margin-bottom: 15px;
+
+    padding: 0 16px;
+
+    border: none;
+    border-bottom: 1px solid #383838;
+
+    outline: none;
+
+    border-radius: 0;
+
+    background: transparent;
+
+    color: #ffffff;
+
+    font-size: 14px;
+
+    transition:
+        border-color 0.25s ease,
+        background 0.25s ease,
+        padding 0.25s ease;
+}
+
+
+.form::placeholder {
+    color: #666666;
+}
+
+
+.form:focus {
+    border-bottom-color: #ffc107;
+
+    background: rgba(255, 193, 7, 0.025);
+
+    padding-left: 20px;
+}
+
+
+/* =========================================
+   LOGIN BUTTON
+   ========================================= */
+
+.loginButton {
+    width: 100%;
+    height: 50px;
+
+    margin-top: 12px;
+
+    border: none;
+    border-radius: 4px;
+
+    background: #ffc107;
+
+    color: #111111;
+
+    font-size: 13px;
+    font-weight: 800;
+
+    letter-spacing: 2px;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+}
+
+
+.loginButton:hover {
+    background: #ffd04a;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 10px 25px rgba(255, 193, 7, 0.18);
+}
+
+
+.loginButton:active {
+    transform: translateY(0);
+}
+
+
+/* =========================================
+   COPYRIGHT
+   ========================================= */
+
+.copyright {
+    margin: 25px 0 0;
+
+    color: #555555;
+
+    text-align: center;
+
+    font-size: 11px;
+
+    letter-spacing: 0.5px;
+}
+
+
+/* =========================================
+   ERROR MESSAGE
+   ========================================= */
+
+.messageBtn {
+    position: relative;
+
+    width: 100%;
+
+    margin-top: 15px;
+
+    padding: 10px 12px;
+
+    border: 1px solid rgba(220, 53, 69, 0.35);
+    border-radius: 4px;
+
+    background: rgba(220, 53, 69, 0.08);
+
+    color: #ff6b78;
+
+    text-align: center;
+
+    font-size: 12px;
+}
+
+
+/* =========================================
+   IMAGE SIDE
+   ========================================= */
+
+.imageDiv {
+    position: relative;
+
+    width: 55%;
+    height: 100%;
+
+    overflow: hidden;
+
+    background: #181818;
+}
+
+
+/* =========================================
+   IMAGE
+   ========================================= */
+
+.img {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+
+    filter:
+        brightness(0.78)
+        contrast(1.08)
+        saturate(0.85);
+
+    transform: scale(1.04);
+
+    transition:
+        transform 0.8s ease,
+        filter 0.8s ease;
+}
+
+
+.containerDiv:hover .img {
+    transform: scale(1.08);
+
+    filter:
+        brightness(0.86)
+        contrast(1.08)
+        saturate(1);
+}
+
+
+/* =========================================
+   IMAGE OVERLAY
+   ========================================= */
+
+.imageDiv::after {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(
+            90deg,
+            #101010 0%,
+            rgba(16, 16, 16, 0.72) 8%,
+            rgba(16, 16, 16, 0.12) 55%,
+            rgba(16, 16, 16, 0.42) 100%
+        );
+
+    pointer-events: none;
+}
+
+
+/* =========================================
+   GOLDEN ACCENT
+   ========================================= */
+
+.imageDiv::before {
+    content: "";
+
+    position: absolute;
+
+    z-index: 3;
+
+    left: 26px;
+    top: 35px;
+    bottom: 35px;
+
+    width: 3px;
+
+    border-radius: 10px;
+
+    background: #ffc107;
+
+    box-shadow:
+        0 0 18px rgba(255, 193, 7, 0.45);
+}
+
+
+/* =========================================
+   IMAGE CAPTION
+   ========================================= */
+
+.imageCaption {
+    position: absolute;
+
+    z-index: 4;
+
+    left: 48px;
+    bottom: 38px;
+
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    color: rgba(255, 255, 255, 0.72);
+
+    font-size: 10px;
+    font-weight: 700;
+
+    letter-spacing: 3px;
+}
+
+
+.captionLine {
+    width: 24px;
+    height: 1px;
+
+    background: #ffc107;
+}
+
+
+/* =========================================
+   RESPONSIVE
+   ========================================= */
+
+@media (max-width: 900px) {
+
+    .containerDiv {
+        width: 90%;
+        max-width: 850px;
+    }
+
+}
+
+
+@media (max-width: 650px) {
+
+    .containerDiv {
+        width: 90%;
+        height: auto;
+
+        min-height: 520px;
+    }
+
+
+    .imageDiv {
+        display: none;
+    }
+
+
+    .formDiv {
+        width: 100%;
+
+        padding: 40px;
+    }
+
+}
+
+
+@media (max-width: 420px) {
+
+    .formDiv {
+        padding: 30px 25px;
+    }
+
+
+    .title {
+        font-size: 32px;
+    }
+
+}
+
+
+/* =========================================
+   PAGE OPENING ANIMATION
+   ========================================= */
+
+.containerDiv {
+    animation: pageEnter 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+
+/* Login side enters from the left */
+
+.formDiv {
+    animation: formEnter 0.85s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+}
+
+
+/* Image side enters from the right */
+
+.imageDiv {
+    animation: imageEnter 1s cubic-bezier(0.22, 1, 0.36, 1) 0.05s both;
+}
+
+
+/* Form content appears after the panel */
+
+.formContent {
+    animation: contentEnter 0.7s ease-out 0.35s both;
+}
+
+
+/* Image slowly settles into place */
+
+.img {
+    animation: imageReveal 1.4s ease-out 0.15s both;
+}
+
+
+/* Brand */
+
+.brand {
+    animation: detailEnter 0.6s ease-out 0.5s both;
+}
+
+
+/* Title */
+
+.title {
+    animation: detailEnter 0.6s ease-out 0.6s both;
+}
+
+
+/* Subtitle */
+
+.subtitle {
+    animation: detailEnter 0.6s ease-out 0.7s both;
+}
+
+
+/* Inputs */
+
+.form {
+    animation: detailEnter 0.6s ease-out 0.8s both;
+}
+
+
+/* Login button */
+
+.loginButton {
+    animation: detailEnter 0.6s ease-out 0.9s both;
+}
+
+
+/* Copyright */
+
+.copyright {
+    animation: detailEnter 0.6s ease-out 1s both;
+}
+
+
+/* =========================================
+   KEYFRAMES
+   ========================================= */
+
+@keyframes pageEnter {
+
+    from {
+        opacity: 0;
+        transform: translateY(28px) scale(0.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+
+@keyframes formEnter {
+
+    from {
+        opacity: 0;
+        transform: translateX(-35px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+
+@keyframes imageEnter {
+
+    from {
+        opacity: 0;
+        transform: translateX(35px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+
+@keyframes contentEnter {
+
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+@keyframes imageReveal {
+
+    from {
+        opacity: 0;
+        transform: scale(1.12);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1.04);
+    }
+}
+
+
+@keyframes detailEnter {
+
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* =========================================
+   ACCESSIBILITY
+   ========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .containerDiv,
+    .formDiv,
+    .imageDiv,
+    .formContent,
+    .img,
+    .brand,
+    .title,
+    .subtitle,
+    .form,
+    .loginButton,
+    .copyright {
+        animation: none;
+    }
+
+}
+
+/* =========================================
+   FLOATING LOGO
+   ========================================= */
+
+.logo {
+    position: absolute;
+
+    z-index: 4;
+
+    top: 45%;
+    left: 50%;
+
+    width: 190px;
+    height: auto;
+
+    transform: translate(-50%, -50%);
+
+    object-fit: contain;
+
+    opacity: 0;
+
+    filter:
+        drop-shadow(0 12px 25px rgba(0, 0, 0, 0.45));
+
+    animation: logoEnter 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.45s both;
+
+    transition:
+        transform 0.5s ease,
+        filter 0.5s ease;
+}
+
+
+.containerDiv:hover .logo {
+    transform: translate(-50%, -50%) scale(1.04);
+
+    filter:
+        drop-shadow(0 15px 30px rgba(0, 0, 0, 0.55));
+}
+
+
+/* =========================================
+   LOGO OPENING ANIMATION
+   ========================================= */
+
+@keyframes logoEnter {
+
+    from {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.75);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+}
+
+
+/* Accessibility */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .logo {
+        animation: none;
+        opacity: 1;
+    }
+
+}

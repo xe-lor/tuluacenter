@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import API from '../../api.js';
+import styles from './index.module.css';
 
 const IndexNiveaux = () => {
     const [niveaux, setNiveaux] = useState([]);
@@ -62,101 +63,271 @@ const IndexNiveaux = () => {
     };
 
     return (
-        <div className="container mt-4">
-            <div className="card shadow-sm">
+        <div className={styles.pageContainer}>
+
+            <div className={styles.managementCard}>
+
                 {/* HEADER */}
-                <div className="card-header d-flex justify-content-between align-items-center bg-warning text-dark">
-                    <h5 className="mb-0">Niveaux Management</h5>
-                    <button className="btn btn-dark btn-sm" onClick={() => setIsAdding(true)}>
-                        + Add Niveau
+
+                <div className={styles.cardHeader}>
+
+                    <div className={styles.headerContent}>
+
+                        <span className={styles.headerLabel}>
+                            ACADEMIC ADMINISTRATION
+                        </span>
+
+                        <h1 className={styles.headerTitle}>
+                            Niveaux
+                        </h1>
+
+                        <p className={styles.headerSubtitle}>
+                            Manage academic levels and their average values.
+                        </p>
+
+                    </div>
+
+                    <button
+                        className={styles.addButton}
+                        onClick={() => setIsAdding(true)}
+                    >
+                        <span className={styles.addIcon}>+</span>
+                        Add Niveau
                     </button>
+
                 </div>
 
                 {/* TABLE BODY */}
-                <div className="card-body p-0">
-                    <table className="table table-hover mb-0 text-center align-middle">
-                        <thead className="table-light">
+
+                <div className={styles.cardBody}>
+
+                    <table className={styles.table}>
+
+                        <thead>
+
                             <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Avrage</th>
-                                <th style={{ width: 180 }}>Actions</th>
+                                <th className={styles.idHeader}>
+                                    ID
+                                </th>
+
+                                <th>
+                                    Name
+                                </th>
+
+                                <th>
+                                    Avrage
+                                </th>
+
+                                <th className={styles.actionsHeader}>
+                                    Actions
+                                </th>
                             </tr>
+
                         </thead>
 
                         <tbody>
+
                             {/* ADD ROW */}
+
                             {isAdding && (
-                                <tr className="table-warning">
-                                    <td>New</td>
+
+                                <tr className={styles.addRow}>
+
                                     <td>
+
+                                        <span className={styles.newBadge}>
+                                            NEW
+                                        </span>
+
+                                    </td>
+
+                                    <td>
+
                                         <input
-                                            className="form-control form-control-sm"
+                                            className={styles.tableInput}
                                             placeholder="Name"
                                             value={newName}
                                             onChange={e => setNewName(e.target.value)}
                                         />
+
                                     </td>
+
                                     <td>
+
                                         <input
-                                            className="form-control form-control-sm"
+                                            className={styles.tableInput}
                                             placeholder="Avrage"
                                             value={newAvrage}
                                             onChange={e => setNewAvrage(e.target.value)}
                                         />
+
                                     </td>
+
                                     <td>
-                                        <button className="btn btn-success btn-sm me-2" onClick={handleAdd}>Save</button>
-                                        <button className="btn btn-outline-secondary btn-sm" onClick={() => setIsAdding(false)}>Cancel</button>
+
+                                        <div className={styles.actionGroup}>
+
+                                            <button
+                                                className={styles.saveButton}
+                                                onClick={handleAdd}
+                                            >
+                                                Save
+                                            </button>
+
+                                            <button
+                                                className={styles.cancelButton}
+                                                onClick={() => setIsAdding(false)}
+                                            >
+                                                Cancel
+                                            </button>
+
+                                        </div>
+
                                     </td>
+
                                 </tr>
+
                             )}
 
                             {/* DATA ROWS */}
+
                             {niveaux.length > 0 ? niveaux.map(n => (
-                                <tr key={n.id}>
-                                    <td>{n.id}</td>
+
+                                <tr
+                                    key={n.id}
+                                    className={styles.dataRow}
+                                >
+
                                     <td>
+
+                                        <span className={styles.idNumber}>
+                                            {n.id}
+                                        </span>
+
+                                    </td>
+
+                                    <td>
+
                                         {editingId === n.id ? (
+
                                             <input
-                                                className="form-control form-control-sm"
+                                                className={styles.tableInput}
                                                 value={editName}
                                                 onChange={e => setEditName(e.target.value)}
                                             />
-                                        ) : n.name}
+
+                                        ) : (
+
+                                            <span className={styles.nameText}>
+                                                {n.name}
+                                            </span>
+
+                                        )}
+
                                     </td>
+
                                     <td>
+
                                         {editingId === n.id ? (
+
                                             <input
-                                                className="form-control form-control-sm"
+                                                className={styles.tableInput}
                                                 value={editAvrage}
                                                 onChange={e => setEditAvrage(e.target.value)}
                                             />
-                                        ) : n.avrage}
-                                    </td>
-                                    <td>
-                                        {editingId === n.id ? (
-                                            <>
-                                                <button className="btn btn-success btn-sm me-2" onClick={() => handleUpdate(n.id)}>Save</button>
-                                                <button className="btn btn-outline-secondary btn-sm" onClick={() => setEditingId(null)}>Cancel</button>
-                                            </>
+
                                         ) : (
-                                            <>
-                                                <button className="btn btn-outline-warning btn-sm me-2" onClick={() => handleEdit(n)}>Edit</button>
-                                                <button className="btn btn-outline-danger btn-sm" onClick={() => handleDelete(n.id)}>Delete</button>
-                                            </>
+
+                                            <span className={styles.averageText}>
+                                                {n.avrage}
+                                            </span>
+
                                         )}
+
                                     </td>
+
+                                    <td>
+
+                                        {editingId === n.id ? (
+
+                                            <div className={styles.actionGroup}>
+
+                                                <button
+                                                    className={styles.saveButton}
+                                                    onClick={() => handleUpdate(n.id)}
+                                                >
+                                                    Save
+                                                </button>
+
+                                                <button
+                                                    className={styles.cancelButton}
+                                                    onClick={() => setEditingId(null)}
+                                                >
+                                                    Cancel
+                                                </button>
+
+                                            </div>
+
+                                        ) : (
+
+                                            <div className={styles.actionGroup}>
+
+                                                <button
+                                                    className={styles.editButton}
+                                                    onClick={() => handleEdit(n)}
+                                                >
+                                                    Edit
+                                                </button>
+
+                                                <button
+                                                    className={styles.deleteButton}
+                                                    onClick={() => handleDelete(n.id)}
+                                                >
+                                                    Delete
+                                                </button>
+
+                                            </div>
+
+                                        )}
+
+                                    </td>
+
                                 </tr>
+
                             )) : (
-                                <tr>
-                                    <td colSpan="4" className="text-muted py-3">No Niveaux found</td>
+
+                                <tr className={styles.emptyRow}>
+
+                                    <td colSpan="4">
+
+                                        <div className={styles.emptyState}>
+
+                                            <span className={styles.emptyAccent}></span>
+
+                                            <span className={styles.emptyTitle}>
+                                                No Niveaux Found
+                                            </span>
+
+                                            <span className={styles.emptySubtitle}>
+                                                Add a level to begin managing your academic structure.
+                                            </span>
+
+                                        </div>
+
+                                    </td>
+
                                 </tr>
+
                             )}
+
                         </tbody>
+
                     </table>
+
                 </div>
+
             </div>
+
         </div>
     );
 };

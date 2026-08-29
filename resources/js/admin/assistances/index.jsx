@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import API from '../../api.js';
+import styles from './index.module.css';
 
 const AssistantIndex = () => {
     const [assistants, setAssistants] = useState([]);
@@ -29,7 +30,9 @@ const AssistantIndex = () => {
             password: newPassword
         })
         .then(() => {
-            API.get('/admin/secretaries').then(r => setAssistants(r.data.assistantes));
+            API.get('/admin/secretaries')
+                .then(r => setAssistants(r.data.assistantes));
+
             setNewName("");
             setNewPassword("");
             setIsAdding(false);
@@ -41,7 +44,7 @@ const AssistantIndex = () => {
         setEditingId(assistant.id);
         setEditName(assistant.name);
         setEditRole(assistant.user?.role || "");
-        setEditPassword(""); 
+        setEditPassword("");
     };
 
     const handleUpdate = (id) => {
@@ -55,128 +58,278 @@ const AssistantIndex = () => {
             user_name: editName,
             role: editRole
         };
+
         if (editPassword.trim()) {
-            payload.password = editPassword; // only send if new password is entered
+            payload.password = editPassword;
         }
 
         API.put(`/admin/secretaries/${id}`, payload)
             .then(res => {
-                // update locally
                 const updated = res.data.assistant || {
                     id,
                     name: editName,
                     user: { role: editRole }
                 };
-                setAssistants(assistants.map(a => a.id === id ? updated : a));
+
+                setAssistants(
+                    assistants.map(a => a.id === id ? updated : a)
+                );
+
                 setEditingId(null);
             })
             .catch(err => console.error(err));
     };
 
-    // ✅ DELETE
     const handleDelete = (id) => {
         if (!window.confirm("Are you sure?")) return;
 
         API.delete(`/admin/secretaries/${id}`)
-            .then(() => setAssistants(assistants.filter(a => a.id !== id)))
+            .then(() => {
+                setAssistants(
+                    assistants.filter(a => a.id !== id)
+                );
+            })
             .catch(() => alert("Error deleting"));
     };
 
     return (
-        <div className="container mt-4">
-            <div className="card shadow-sm">
-                <div className="card-header d-flex justify-content-between align-items-center bg-warning text-dark">
-                    <h5 className="mb-0">Secretaries Management</h5>
-                    <button className="btn btn-dark btn-sm" onClick={() => setIsAdding(true)}>+ Add Assistant</button>
+        <div className={styles.pageContainer}>
+
+            <div className={styles.managementCard}>
+
+                <div className={styles.cardHeader}>
+
+                    <div className={styles.headerContent}>
+                        <span className={styles.headerLabel}>
+                            ADMINISTRATION
+                        </span>
+
+                        <h1 className={styles.headerTitle}>
+                            Secretaries
+                        </h1>
+
+                        <p className={styles.headerSubtitle}>
+                            Manage assistant accounts and access.
+                        </p>
+                    </div>
+
+                    <button
+                        className={styles.addButton}
+                        onClick={() => setIsAdding(true)}
+                    >
+                        <span className={styles.addIcon}>+</span>
+                        Add Assistant
+                    </button>
+
                 </div>
 
-                <div className="card-body p-0">
-                    <table className="table table-hover mb-0 text-center align-middle">
-                        <thead className="table-light">
+
+                <div className={styles.tableContainer}>
+
+                    <table className={styles.table}>
+
+                        <thead>
                             <tr>
                                 <th>ID</th>
                                 <th>Name</th>
                                 <th>Password</th>
-                                <th style={{ width: 200 }}>Actions</th>
+                                <th className={styles.actionsHeader}>
+                                    Actions
+                                </th>
                             </tr>
                         </thead>
+
                         <tbody>
-                            {/* ADD ROW */}
+
                             {isAdding && (
-                                <tr className="table-warning">
-                                    <td>New</td>
+                                <tr className={styles.addRow}>
+
+                                    <td>
+                                        <span className={styles.newBadge}>
+                                            NEW
+                                        </span>
+                                    </td>
+
                                     <td>
                                         <input
-                                            className="form-control form-control-sm"
+                                            className={styles.tableInput}
                                             placeholder="Name"
                                             value={newName}
                                             onChange={e => setNewName(e.target.value)}
                                         />
                                     </td>
+
                                     <td>
                                         <input
                                             type="password"
-                                            className="form-control form-control-sm"
+                                            className={styles.tableInput}
                                             placeholder="Password"
                                             value={newPassword}
                                             onChange={e => setNewPassword(e.target.value)}
                                         />
                                     </td>
+
                                     <td>
-                                        <button className="btn btn-success btn-sm me-2" onClick={handleAdd}>Save</button>
-                                        <button className="btn btn-outline-secondary btn-sm" onClick={() => setIsAdding(false)}>Cancel</button>
+                                        <div className={styles.actionGroup}>
+
+                                            <button
+                                                className={styles.saveButton}
+                                                onClick={handleAdd}
+                                            >
+                                                Save
+                                            </button>
+
+                                            <button
+                                                className={styles.cancelButton}
+                                                onClick={() => setIsAdding(false)}
+                                            >
+                                                Cancel
+                                            </button>
+
+                                        </div>
                                     </td>
+
                                 </tr>
                             )}
 
-                            {/* DATA ROWS */}
-                            {assistants.length > 0 ? assistants.map(a => (
-                                <tr key={a.id}>
-                                    <td>{a.id}</td>
-                                    <td>
-                                        {editingId === a.id ? (
-                                            <input
-                                                className="form-control form-control-sm"
-                                                value={editName}
-                                                onChange={e => setEditName(e.target.value)}
-                                            />
-                                        ) : a.name}
-                                    </td>
 
-                                    <td>
-                                        {editingId === a.id ? (
-                                            <input
-                                                type="password"
-                                                className="form-control form-control-sm"
-                                                placeholder="New password (optional)"
-                                                value={editPassword}
-                                                onChange={e => setEditPassword(e.target.value)}
-                                            />
-                                        ) : "••••••"}
-                                    </td>
-                                    <td>
-                                        {editingId === a.id ? (
-                                            <>
-                                                <button className="btn btn-success btn-sm me-2" onClick={() => handleUpdate(a.id)}>Save</button>
-                                                <button className="btn btn-outline-secondary btn-sm" onClick={() => setEditingId(null)}>Cancel</button>
-                                            </>
-                                        ) : (
-                                            <>
-                                                <button className="btn btn-outline-warning btn-sm me-2" onClick={() => handleEdit(a)}>Edit</button>
-                                                <button className="btn btn-outline-danger btn-sm" onClick={() => handleDelete(a.id)}>Delete</button>
-                                            </>
-                                        )}
+                            {assistants.length > 0 ? (
+
+                                assistants.map(a => (
+
+                                    <tr
+                                        key={a.id}
+                                        className={styles.dataRow}
+                                    >
+
+                                        <td>
+                                            <span className={styles.idNumber}>
+                                                {a.id}
+                                            </span>
+                                        </td>
+
+                                        <td>
+
+                                            {editingId === a.id ? (
+
+                                                <input
+                                                    className={styles.tableInput}
+                                                    value={editName}
+                                                    onChange={e => setEditName(e.target.value)}
+                                                />
+
+                                            ) : (
+
+                                                <span className={styles.nameText}>
+                                                    {a.name}
+                                                </span>
+
+                                            )}
+
+                                        </td>
+
+
+                                        <td>
+
+                                            {editingId === a.id ? (
+
+                                                <input
+                                                    type="password"
+                                                    className={styles.tableInput}
+                                                    placeholder="New password (optional)"
+                                                    value={editPassword}
+                                                    onChange={e => setEditPassword(e.target.value)}
+                                                />
+
+                                            ) : (
+
+                                                <span className={styles.passwordText}>
+                                                    ••••••
+                                                </span>
+
+                                            )}
+
+                                        </td>
+
+
+                                        <td>
+
+                                            {editingId === a.id ? (
+
+                                                <div className={styles.actionGroup}>
+
+                                                    <button
+                                                        className={styles.saveButton}
+                                                        onClick={() => handleUpdate(a.id)}
+                                                    >
+                                                        Save
+                                                    </button>
+
+                                                    <button
+                                                        className={styles.cancelButton}
+                                                        onClick={() => setEditingId(null)}
+                                                    >
+                                                        Cancel
+                                                    </button>
+
+                                                </div>
+
+                                            ) : (
+
+                                                <div className={styles.actionGroup}>
+
+                                                    <button
+                                                        className={styles.editButton}
+                                                        onClick={() => handleEdit(a)}
+                                                    >
+                                                        Edit
+                                                    </button>
+
+                                                    <button
+                                                        className={styles.deleteButton}
+                                                        onClick={() => handleDelete(a.id)}
+                                                    >
+                                                        Delete
+                                                    </button>
+
+                                                </div>
+
+                                            )}
+
+                                        </td>
+
+                                    </tr>
+
+                                ))
+
+                            ) : (
+
+                                <tr className={styles.emptyRow}>
+                                    <td colSpan="4">
+                                        <div className={styles.emptyState}>
+                                            <span className={styles.emptyAccent}></span>
+
+                                            <span className={styles.emptyTitle}>
+                                                No Assistants Found
+                                            </span>
+
+                                            <span className={styles.emptySubtitle}>
+                                                Create an assistant account to get started.
+                                            </span>
+                                        </div>
                                     </td>
                                 </tr>
-                            )) : (
-                                <tr>
-                                    <td colSpan="5" className="text-muted py-3">No Assistants found</td>
-                                </tr>
+
                             )}
+
                         </tbody>
+
                     </table>
+
                 </div>
+
             </div>
+
         </div>
     );
 };

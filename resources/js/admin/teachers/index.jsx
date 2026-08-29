@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import API from '../../api.js';
+import styles from './index.module.css';
 
 const TeacherIndex = () => {
     const [teachers, setTeachers] = useState([]);
@@ -66,141 +67,276 @@ const TeacherIndex = () => {
     };
 
     return (
-        <div className="container mt-4">
-            <div className="card shadow-sm">
-                
+        <div className={styles.pageContainer}>
+
+            <div className={styles.managementCard}>
+
                 {/* HEADER */}
-                <div className="card-header d-flex justify-content-between align-items-center bg-warning text-dark">
-                    <h5 className="mb-0">Teachers Management</h5>
-                    <button 
-                        className="btn btn-dark btn-sm"
+
+                <div className={styles.cardHeader}>
+
+                    <div className={styles.headerContent}>
+
+                        <span className={styles.headerLabel}>
+                            ACADEMIC ADMINISTRATION
+                        </span>
+
+                        <h1 className={styles.headerTitle}>
+                            Teachers
+                        </h1>
+
+                        <p className={styles.headerSubtitle}>
+                            Manage teacher accounts and credentials.
+                        </p>
+
+                    </div>
+
+                    <button
+                        className={styles.addButton}
                         onClick={() => setIsAdding(true)}
                     >
-                        + Add Teacher
+                        <span className={styles.addIcon}>+</span>
+                        Add Teacher
                     </button>
+
                 </div>
 
                 {/* BODY */}
-                <div className="card-body p-0">
-                    <table className="table table-hover mb-0 text-center align-middle">
-                        <thead className="table-light">
+
+                <div className={styles.cardBody}>
+
+                    <table className={styles.table}>
+
+                        <thead>
+
                             <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Password</th>
-                                <th style={{ width: 180 }}>Actions</th>
+
+                                <th className={styles.idHeader}>
+                                    ID
+                                </th>
+
+                                <th>
+                                    Name
+                                </th>
+
+                                <th>
+                                    Password
+                                </th>
+
+                                <th className={styles.actionsHeader}>
+                                    Actions
+                                </th>
+
                             </tr>
+
                         </thead>
 
                         <tbody>
 
                             {/* ADD ROW */}
+
                             {isAdding && (
-                                <tr className="table-warning">
-                                    <td>New</td>
+
+                                <tr className={styles.addRow}>
+
                                     <td>
+
+                                        <span className={styles.newBadge}>
+                                            NEW
+                                        </span>
+
+                                    </td>
+
+                                    <td>
+
                                         <input
-                                            className="form-control form-control-sm"
+                                            className={styles.tableInput}
                                             placeholder="Teacher name"
                                             value={newName}
                                             onChange={e => setNewName(e.target.value)}
                                         />
+
                                     </td>
+
                                     <td>
+
                                         <input
                                             type="password"
-                                            className="form-control form-control-sm"
+                                            className={styles.tableInput}
                                             placeholder="Password"
                                             value={newPassword}
                                             onChange={e => setNewPassword(e.target.value)}
                                         />
+
                                     </td>
+
                                     <td>
-                                        <button className="btn btn-success btn-sm me-2" onClick={handleAdd}>
-                                            Save
-                                        </button>
-                                        <button className="btn btn-outline-secondary btn-sm" onClick={() => setIsAdding(false)}>
-                                            Cancel
-                                        </button>
+
+                                        <div className={styles.actionGroup}>
+
+                                            <button
+                                                className={styles.saveButton}
+                                                onClick={handleAdd}
+                                            >
+                                                Save
+                                            </button>
+
+                                            <button
+                                                className={styles.cancelButton}
+                                                onClick={() => setIsAdding(false)}
+                                            >
+                                                Cancel
+                                            </button>
+
+                                        </div>
+
                                     </td>
+
                                 </tr>
+
                             )}
 
                             {/* DATA */}
+
                             {teachers.length > 0 ? teachers.map(t => (
-                                <tr key={t.id}>
-                                    <td>{t.id}</td>
+
+                                <tr
+                                    key={t.id}
+                                    className={styles.dataRow}
+                                >
 
                                     <td>
-                                        {editingId === t.id ? (
-                                            <input
-                                                className="form-control form-control-sm"
-                                                value={editName}
-                                                onChange={e => setEditName(e.target.value)}
-                                            />
-                                        ) : t.name}
+
+                                        <span className={styles.idNumber}>
+                                            {t.id}
+                                        </span>
+
                                     </td>
 
                                     <td>
+
                                         {editingId === t.id ? (
+
+                                            <input
+                                                className={styles.tableInput}
+                                                value={editName}
+                                                onChange={e => setEditName(e.target.value)}
+                                            />
+
+                                        ) : (
+
+                                            <span className={styles.nameText}>
+                                                {t.name}
+                                            </span>
+
+                                        )}
+
+                                    </td>
+
+                                    <td>
+
+                                        {editingId === t.id ? (
+
                                             <input
                                                 type="password"
-                                                className="form-control form-control-sm"
+                                                className={styles.tableInput}
                                                 placeholder="New password"
                                                 value={editPassword}
                                                 onChange={e => setEditPassword(e.target.value)}
                                             />
+
                                         ) : (
-                                            <span className="text-muted">••••••</span>
+
+                                            <span className={styles.passwordText}>
+                                                ••••••
+                                            </span>
+
                                         )}
+
                                     </td>
 
                                     <td>
+
                                         {editingId === t.id ? (
-                                            <>
-                                                <button 
-                                                    className="btn btn-success btn-sm me-2"
+
+                                            <div className={styles.actionGroup}>
+
+                                                <button
+                                                    className={styles.saveButton}
                                                     onClick={() => handleUpdate(t.id)}
                                                 >
                                                     Save
                                                 </button>
-                                                <button 
-                                                    className="btn btn-outline-secondary btn-sm"
+
+                                                <button
+                                                    className={styles.cancelButton}
                                                     onClick={() => setEditingId(null)}
                                                 >
                                                     Cancel
                                                 </button>
-                                            </>
+
+                                            </div>
+
                                         ) : (
-                                            <>
-                                                <button 
-                                                    className="btn btn-outline-warning btn-sm me-2"
+
+                                            <div className={styles.actionGroup}>
+
+                                                <button
+                                                    className={styles.editButton}
                                                     onClick={() => handleEdit(t)}
                                                 >
                                                     Edit
                                                 </button>
-                                                <button 
-                                                    className="btn btn-outline-danger btn-sm"
+
+                                                <button
+                                                    className={styles.deleteButton}
                                                     onClick={() => handleDelete(t.id)}
                                                 >
                                                     Delete
                                                 </button>
-                                            </>
+
+                                            </div>
+
                                         )}
+
                                     </td>
+
                                 </tr>
+
                             )) : (
-                                <tr>
-                                    <td colSpan="4" className="text-muted py-3">
-                                        No teachers found
+
+                                <tr className={styles.emptyRow}>
+
+                                    <td colSpan="4">
+
+                                        <div className={styles.emptyState}>
+
+                                            <span className={styles.emptyAccent}></span>
+
+                                            <span className={styles.emptyTitle}>
+                                                No Teachers Found
+                                            </span>
+
+                                            <span className={styles.emptySubtitle}>
+                                                Add a teacher to begin managing your staff.
+                                            </span>
+
+                                        </div>
+
                                     </td>
+
                                 </tr>
+
                             )}
 
                         </tbody>
+
                     </table>
+
                 </div>
+
             </div>
+
         </div>
     );
 };

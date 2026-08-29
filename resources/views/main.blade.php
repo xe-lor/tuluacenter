@@ -16,7 +16,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: #212529;
+            background: whitesmoke;
             background-size: cover;
             background-position: center;
         }

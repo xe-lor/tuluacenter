@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import API from '../../api.js';
+import styles from './index.module.css';
 
 const IndexMatieres = () => {
     const [matieres, setMatieres] = useState([]);
@@ -59,82 +60,236 @@ const IndexMatieres = () => {
     };
 
     return (
-        <div className="container mt-4">
-            <div className="card shadow-sm">
+        <div className={styles.pageContainer}>
+
+            <div className={styles.managementCard}>
+
                 {/* HEADER */}
-                <div className="card-header d-flex justify-content-between align-items-center bg-warning text-dark">
-                    <h5 className="mb-0">Matieres Management</h5>
-                    <button className="btn btn-dark btn-sm" onClick={() => setIsAdding(true)}>
-                        + Add Matiere
+
+                <div className={styles.cardHeader}>
+
+                    <div className={styles.headerContent}>
+
+                        <span className={styles.headerLabel}>
+                            ACADEMIC ADMINISTRATION
+                        </span>
+
+                        <h1 className={styles.headerTitle}>
+                            Matieres
+                        </h1>
+
+                        <p className={styles.headerSubtitle}>
+                            Manage subjects and their academic information.
+                        </p>
+
+                    </div>
+
+                    <button
+                        className={styles.addButton}
+                        onClick={() => setIsAdding(true)}
+                    >
+                        <span className={styles.addIcon}>+</span>
+                        Add Matiere
                     </button>
+
                 </div>
 
                 {/* TABLE BODY */}
-                <div className="card-body p-0">
-                    <table className="table table-hover mb-0 text-center align-middle" style={{width: 500}}>
-                        <thead className="table-light">
+
+                <div className={styles.cardBody}>
+
+                    <table className={styles.table}>
+
+                        <thead>
+
                             <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th style={{ width: 180 }}>Actions</th>
+                                <th className={styles.idHeader}>
+                                    ID
+                                </th>
+
+                                <th>
+                                    Name
+                                </th>
+
+                                <th className={styles.actionsHeader}>
+                                    Actions
+                                </th>
                             </tr>
+
                         </thead>
+
                         <tbody>
+
                             {/* ADD ROW */}
+
                             {isAdding && (
-                                <tr className="table-warning">
-                                    <td>New</td>
+
+                                <tr className={styles.addRow}>
+
                                     <td>
+
+                                        <span className={styles.newBadge}>
+                                            NEW
+                                        </span>
+
+                                    </td>
+
+                                    <td>
+
                                         <input
-                                            className="form-control form-control-sm"
+                                            className={styles.tableInput}
                                             placeholder="Matiere name"
                                             value={newMatiere}
                                             onChange={e => setNewMatiere(e.target.value)}
                                         />
+
                                     </td>
+
                                     <td>
-                                        <button className="btn btn-success btn-sm me-2" onClick={handleAdd}>Save</button>
-                                        <button className="btn btn-outline-secondary btn-sm" onClick={() => setIsAdding(false)}>Cancel</button>
+
+                                        <div className={styles.actionGroup}>
+
+                                            <button
+                                                className={styles.saveButton}
+                                                onClick={handleAdd}
+                                            >
+                                                Save
+                                            </button>
+
+                                            <button
+                                                className={styles.cancelButton}
+                                                onClick={() => setIsAdding(false)}
+                                            >
+                                                Cancel
+                                            </button>
+
+                                        </div>
+
                                     </td>
+
                                 </tr>
+
                             )}
 
                             {/* DATA ROWS */}
+
                             {matieres.length > 0 ? matieres.map(m => (
-                                <tr key={m.id}>
-                                    <td>{m.id}</td>
+
+                                <tr
+                                    key={m.id}
+                                    className={styles.dataRow}
+                                >
+
                                     <td>
+
+                                        <span className={styles.idNumber}>
+                                            {m.id}
+                                        </span>
+
+                                    </td>
+
+                                    <td>
+
                                         {editingId === m.id ? (
+
                                             <input
-                                                className="form-control form-control-sm"
+                                                className={styles.tableInput}
                                                 value={editValue}
                                                 onChange={e => setEditValue(e.target.value)}
                                             />
-                                        ) : m.name}
-                                    </td>
-                                    <td>
-                                        {editingId === m.id ? (
-                                            <>
-                                                <button className="btn btn-success btn-sm me-2" onClick={() => handleUpdate(m.id)}>Save</button>
-                                                <button className="btn btn-outline-secondary btn-sm" onClick={() => setEditingId(null)}>Cancel</button>
-                                            </>
+
                                         ) : (
-                                            <>
-                                                <button className="btn btn-outline-warning btn-sm me-2" onClick={() => handleEdit(m)}>Edit</button>
-                                                <button className="btn btn-outline-danger btn-sm" onClick={() => handleDelete(m.id)}>Delete</button>
-                                            </>
+
+                                            <span className={styles.nameText}>
+                                                {m.name}
+                                            </span>
+
                                         )}
+
                                     </td>
+
+                                    <td>
+
+                                        {editingId === m.id ? (
+
+                                            <div className={styles.actionGroup}>
+
+                                                <button
+                                                    className={styles.saveButton}
+                                                    onClick={() => handleUpdate(m.id)}
+                                                >
+                                                    Save
+                                                </button>
+
+                                                <button
+                                                    className={styles.cancelButton}
+                                                    onClick={() => setEditingId(null)}
+                                                >
+                                                    Cancel
+                                                </button>
+
+                                            </div>
+
+                                        ) : (
+
+                                            <div className={styles.actionGroup}>
+
+                                                <button
+                                                    className={styles.editButton}
+                                                    onClick={() => handleEdit(m)}
+                                                >
+                                                    Edit
+                                                </button>
+
+                                                <button
+                                                    className={styles.deleteButton}
+                                                    onClick={() => handleDelete(m.id)}
+                                                >
+                                                    Delete
+                                                </button>
+
+                                            </div>
+
+                                        )}
+
+                                    </td>
+
                                 </tr>
+
                             )) : (
-                                <tr>
-                                    <td colSpan="3" className="text-muted py-3">No Matieres found</td>
+
+                                <tr className={styles.emptyRow}>
+
+                                    <td colSpan="3">
+
+                                        <div className={styles.emptyState}>
+
+                                            <span className={styles.emptyAccent}></span>
+
+                                            <span className={styles.emptyTitle}>
+                                                No Matieres Found
+                                            </span>
+
+                                            <span className={styles.emptySubtitle}>
+                                                Add a subject to begin managing your academic data.
+                                            </span>
+
+                                        </div>
+
+                                    </td>
+
                                 </tr>
+
                             )}
+
                         </tbody>
+
                     </table>
+
                 </div>
+
             </div>
+
         </div>
     );
 };

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import API from '../../api.js';
+import styles from './index.module.css';
 
 const IndexClasses = () => {
 
@@ -245,25 +246,38 @@ const IndexClasses = () => {
 
     return (
 
-        <div className="container mt-4">
+        <div className={styles.pageContainer}>
 
-            <div className="card shadow-sm">
+            <div className={styles.managementCard}>
 
                 {/* HEADER */}
 
-                <div className="card-header d-flex justify-content-between align-items-center bg-warning text-dark">
+                <div className={styles.cardHeader}>
 
-                    <h5 className="mb-0">
-                        Classes Management
-                    </h5>
+                    <div className={styles.headerContent}>
+
+                        <span className={styles.headerLabel}>
+                            ACADEMIC ADMINISTRATION
+                        </span>
+
+                        <h1 className={styles.headerTitle}>
+                            Classes
+                        </h1>
+
+                        <p className={styles.headerSubtitle}>
+                            Manage classes, teachers, levels and pricing.
+                        </p>
+
+                    </div>
 
                     {!isAdding && !editingId && (
 
                         <button
-                            className="btn btn-dark btn-sm"
+                            className={styles.addButton}
                             onClick={() => setIsAdding(true)}
                         >
-                            + Add Class
+                            <span className={styles.addIcon}>+</span>
+                            Add Class
                         </button>
 
                     )}
@@ -272,31 +286,36 @@ const IndexClasses = () => {
 
                 {/* TABLE */}
 
-                <div className="card-body p-0">
+                <div className={styles.cardBody}>
 
                     {loading ? (
 
-                        <div className="text-center py-5 text-muted">
-                            Loading classes...
+                        <div className={styles.loadingState}>
+
+                            <span className={styles.loadingLine}></span>
+
+                            <span className={styles.loadingText}>
+                                Loading classes...
+                            </span>
+
                         </div>
 
                     ) : (
 
-                        <div className="table-responsive">
+                        <div className={styles.tableWrapper}>
 
-                            <table className="table table-hover mb-0 text-center align-middle">
+                            <table className={styles.table}>
 
-                                <thead className="table-light">
+                                <thead>
 
                                     <tr>
 
-                                        <th>ID</th>
                                         <th>Matiere</th>
                                         <th>Teacher</th>
                                         <th>Niveau</th>
-                                        <th>Percentage</th>
                                         <th>Price</th>
-                                        <th style={{ width: 190 }}>
+
+                                        <th className={styles.actionsHeader}>
                                             Actions
                                         </th>
 
@@ -312,10 +331,14 @@ const IndexClasses = () => {
 
                                     {isAdding && (
 
-                                        <tr className="table-warning">
+                                        <tr className={styles.addRow}>
 
                                             <td>
-                                                New
+
+                                                <span className={styles.newBadge}>
+                                                    NEW
+                                                </span>
+
                                             </td>
 
                                             {/* MATIERE */}
@@ -323,7 +346,7 @@ const IndexClasses = () => {
                                             <td>
 
                                                 <select
-                                                    className="form-select form-select-sm"
+                                                    className={styles.selectInput}
                                                     value={newMatiere}
                                                     onChange={e =>
                                                         setNewMatiere(e.target.value)
@@ -354,7 +377,7 @@ const IndexClasses = () => {
                                             <td>
 
                                                 <select
-                                                    className="form-select form-select-sm"
+                                                    className={styles.selectInput}
                                                     value={newTeacher}
                                                     onChange={e =>
                                                         setNewTeacher(e.target.value)
@@ -385,7 +408,7 @@ const IndexClasses = () => {
                                             <td>
 
                                                 <select
-                                                    className="form-select form-select-sm"
+                                                    className={styles.selectInput}
                                                     value={newNiveau}
                                                     onChange={e =>
                                                         setNewNiveau(e.target.value)
@@ -417,7 +440,7 @@ const IndexClasses = () => {
 
                                                 <input
                                                     type="number"
-                                                    className="form-control form-control-sm"
+                                                    className={styles.numberInput}
                                                     min="0"
                                                     max="100"
                                                     value={newPercentage}
@@ -434,7 +457,7 @@ const IndexClasses = () => {
 
                                                 <input
                                                     type="number"
-                                                    className="form-control form-control-sm"
+                                                    className={styles.numberInput}
                                                     min="0"
                                                     step="0.01"
                                                     value={newPrice}
@@ -449,19 +472,23 @@ const IndexClasses = () => {
 
                                             <td>
 
-                                                <button
-                                                    className="btn btn-success btn-sm me-2"
-                                                    onClick={handleAdd}
-                                                >
-                                                    Save
-                                                </button>
+                                                <div className={styles.actionGroup}>
 
-                                                <button
-                                                    className="btn btn-outline-secondary btn-sm"
-                                                    onClick={handleCancelAdd}
-                                                >
-                                                    Cancel
-                                                </button>
+                                                    <button
+                                                        className={styles.saveButton}
+                                                        onClick={handleAdd}
+                                                    >
+                                                        Save
+                                                    </button>
+
+                                                    <button
+                                                        className={styles.cancelButton}
+                                                        onClick={handleCancelAdd}
+                                                    >
+                                                        Cancel
+                                                    </button>
+
+                                                </div>
 
                                             </td>
 
@@ -477,13 +504,10 @@ const IndexClasses = () => {
 
                                         classes.map(classe => (
 
-                                            <tr key={classe.id}>
-
-                                                {/* ID */}
-
-                                                <td>
-                                                    {classe.id}
-                                                </td>
+                                            <tr
+                                                key={classe.id}
+                                                className={styles.dataRow}
+                                            >
 
                                                 {/* MATIERE */}
 
@@ -492,7 +516,7 @@ const IndexClasses = () => {
                                                     {editingId === classe.id ? (
 
                                                         <select
-                                                            className="form-select form-select-sm"
+                                                            className={styles.selectInput}
                                                             value={editMatiere}
                                                             onChange={e =>
                                                                 setEditMatiere(e.target.value)
@@ -518,7 +542,9 @@ const IndexClasses = () => {
 
                                                     ) : (
 
-                                                        classe.matiere_name
+                                                        <span className={styles.cellText}>
+                                                            {classe.matiere_name}
+                                                        </span>
 
                                                     )}
 
@@ -531,7 +557,7 @@ const IndexClasses = () => {
                                                     {editingId === classe.id ? (
 
                                                         <select
-                                                            className="form-select form-select-sm"
+                                                            className={styles.selectInput}
                                                             value={editTeacher}
                                                             onChange={e =>
                                                                 setEditTeacher(e.target.value)
@@ -557,7 +583,9 @@ const IndexClasses = () => {
 
                                                     ) : (
 
-                                                        classe.prof_name
+                                                        <span className={styles.cellText}>
+                                                            {classe.prof_name}
+                                                        </span>
 
                                                     )}
 
@@ -570,7 +598,7 @@ const IndexClasses = () => {
                                                     {editingId === classe.id ? (
 
                                                         <select
-                                                            className="form-select form-select-sm"
+                                                            className={styles.selectInput}
                                                             value={editNiveau}
                                                             onChange={e =>
                                                                 setEditNiveau(e.target.value)
@@ -596,36 +624,14 @@ const IndexClasses = () => {
 
                                                     ) : (
 
-                                                        classe.niveau_name
+                                                        <span className={styles.cellText}>
+                                                            {classe.niveau_name}
+                                                        </span>
 
                                                     )}
 
                                                 </td>
 
-                                                {/* PERCENTAGE */}
-
-                                                <td>
-
-                                                    {editingId === classe.id ? (
-
-                                                        <input
-                                                            type="number"
-                                                            className="form-control form-control-sm"
-                                                            min="0"
-                                                            max="100"
-                                                            value={editPercentage}
-                                                            onChange={e =>
-                                                                setEditPercentage(e.target.value)
-                                                            }
-                                                        />
-
-                                                    ) : (
-
-                                                        `${classe.percentage}%`
-
-                                                    )}
-
-                                                </td>
 
                                                 {/* PRICE */}
 
@@ -635,7 +641,7 @@ const IndexClasses = () => {
 
                                                         <input
                                                             type="number"
-                                                            className="form-control form-control-sm"
+                                                            className={styles.numberInput}
                                                             min="0"
                                                             step="0.01"
                                                             value={editPrice}
@@ -646,7 +652,9 @@ const IndexClasses = () => {
 
                                                     ) : (
 
-                                                        `${Number(classe.price).toFixed(2)} DH`
+                                                        <span className={styles.priceText}>
+                                                            {`${Number(classe.price).toFixed(2)} DH`}
+                                                        </span>
 
                                                     )}
 
@@ -658,10 +666,10 @@ const IndexClasses = () => {
 
                                                     {editingId === classe.id ? (
 
-                                                        <>
+                                                        <div className={styles.actionGroup}>
 
                                                             <button
-                                                                className="btn btn-success btn-sm me-2"
+                                                                className={styles.saveButton}
                                                                 onClick={() =>
                                                                     handleUpdate(classe.id)
                                                                 }
@@ -670,20 +678,20 @@ const IndexClasses = () => {
                                                             </button>
 
                                                             <button
-                                                                className="btn btn-outline-secondary btn-sm"
+                                                                className={styles.cancelButton}
                                                                 onClick={handleCancelEdit}
                                                             >
                                                                 Cancel
                                                             </button>
 
-                                                        </>
+                                                        </div>
 
                                                     ) : (
 
-                                                        <>
+                                                        <div className={styles.actionGroup}>
 
                                                             <button
-                                                                className="btn btn-outline-warning btn-sm me-2"
+                                                                className={styles.editButton}
                                                                 onClick={() =>
                                                                     handleEdit(classe)
                                                                 }
@@ -692,7 +700,7 @@ const IndexClasses = () => {
                                                             </button>
 
                                                             <button
-                                                                className="btn btn-outline-danger btn-sm"
+                                                                className={styles.deleteButton}
                                                                 onClick={() =>
                                                                     handleDelete(classe.id)
                                                                 }
@@ -700,7 +708,7 @@ const IndexClasses = () => {
                                                                 Delete
                                                             </button>
 
-                                                        </>
+                                                        </div>
 
                                                     )}
 
@@ -712,13 +720,24 @@ const IndexClasses = () => {
 
                                     ) : (
 
-                                        <tr>
+                                        <tr className={styles.emptyRow}>
 
-                                            <td
-                                                colSpan="7"
-                                                className="text-muted py-3"
-                                            >
-                                                No Classes found
+                                            <td colSpan="7">
+
+                                                <div className={styles.emptyState}>
+
+                                                    <span className={styles.emptyAccent}></span>
+
+                                                    <span className={styles.emptyTitle}>
+                                                        No Classes Found
+                                                    </span>
+
+                                                    <span className={styles.emptySubtitle}>
+                                                        Add a class to begin managing your academic schedule.
+                                                    </span>
+
+                                                </div>
+
                                             </td>
 
                                         </tr>
