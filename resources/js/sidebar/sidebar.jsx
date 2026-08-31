@@ -1,80 +1,169 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import './sidebar.css';
-import useLogout from './useLogout';
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import styles from "./sidebar.module.css";
+import useLogout from "./useLogout";
 
 const SideBar = () => {
-  const [scrollY, setScrollY] = useState(0);
-  const [role, setRole] = useState(localStorage.getItem('user_role'));
+  const [role, setRole] = useState(localStorage.getItem("user_role"));
+  const [mobileOpen, setMobileOpen] = useState(false);
+
   const logout = useLogout();
 
-  // Scroll listener
   useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    const updateRole = () => {
+      setRole(localStorage.getItem("user_role"));
+    };
 
-  // Update role immediately on login/logout
-  useEffect(() => {
-    const updateRole = () => setRole(localStorage.getItem('user_role'));
-    window.addEventListener('updateRole', updateRole);
-    return () => window.removeEventListener('updateRole', updateRole);
+    window.addEventListener("updateRole", updateRole);
+
+    return () => {
+      window.removeEventListener("updateRole", updateRole);
+    };
   }, []);
 
   if (!role) return null;
 
+  const adminLinks = [
+    { label: "Classes", to: "/classes/index" },
+    { label: "Levels", to: "/niveaux" },
+    { label: "Teachers", to: "/teachers" },
+    { label: "Assistant", to: "/assistances" },
+    { label: "Subjects", to: "/matieres" },
+    { label: "Add Student", to: "/payment/add" },
+    { label: "All Students", to: "/payment/index" },
+    { label: "Students Cards", to: "/students/studentsQr" },
+    { label: "Scanner", to: "/students/scanner" },
+  ];
+
+  const assistantLinks = [
+    { label: "Add Student", to: "/payment/add" },
+    { label: "All Students", to: "/payment/index" },
+    { label: "Students Cards", to: "/students/studentsQr" },
+    { label: "Scanner", to: "/students/scanner" },
+  ];
+
+  const teacherLinks = [
+    { label: "Students", to: "/teacher/students" },
+    { label: "Statistics", to: "/teacher/statistiques" },
+  ];
+
+  const links =
+    role === "admin"
+      ? adminLinks
+      : role === "assistant"
+        ? assistantLinks
+        : role === "teacher"
+          ? teacherLinks
+          : [];
+
+  const handleMobileLinkClick = () => {
+    setMobileOpen(false);
+  };
+
+  const handleLogout = () => {
+    setMobileOpen(false);
+    logout();
+  };
+
   return (
     <aside
-      className='sidebar'
-      style={{
-        position: 'fixed',
-        height: `${window.innerHeight + scrollY}px`,
-        transition: 'height 0.1s ease',
-        overflowY: 'auto',
-      }}
+      className={`${styles.sidebar} ${
+        mobileOpen ? styles.mobileOpen : ""
+      }`}
     >
-      <ul className='ul' style={{ marginLeft: 20 }}>
-        {/* Logout button always on top */}
-        <li className='li mb-3'>
-          <button className='btn btn-dark text-danger' style={{ width: 250, fontSize: 20 }} onClick={logout}>
-            Logout <i className="bi bi-box-arrow-right"></i>
+      {/* =====================================================
+          MOBILE TOP BAR
+          ===================================================== */}
+
+      <div className={styles.mobileHeader}>
+        <div className={styles.mobileBrand}>
+          <span className={styles.brandMark}>T</span>
+
+          <div>
+            <span className={styles.brandName}>TULUA</span>
+            <span className={styles.brandLabel}>CENTER</span>
+          </div>
+        </div>
+
+        <button
+          type="button"
+          className={`${styles.menuToggle} ${
+            mobileOpen ? styles.menuToggleOpen : ""
+          }`}
+          onClick={() => setMobileOpen((prev) => !prev)}
+          aria-label={
+            mobileOpen ? "Close navigation" : "Open navigation"
+          }
+          aria-expanded={mobileOpen}
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+
+      {/* =====================================================
+          SIDEBAR CONTENT
+          ===================================================== */}
+
+      <div className={styles.sidebarInner}>
+        {/* DESKTOP BRAND */}
+
+        <div className={styles.brand}>
+          <span className={styles.brandMark}>T</span>
+
+          <div>
+            <span className={styles.brandName}>TULUA</span>
+            <span className={styles.brandLabel}>CENTER</span>
+          </div>
+        </div>
+
+        {/* ROLE */}
+
+        <div className={styles.role}>
+          <span className={styles.roleLine} />
+          <span>{role}</span>
+        </div>
+
+        {/* NAVIGATION */}
+
+        <nav className={styles.navigation}>
+          <div className={styles.navLabel}>Navigation</div>
+
+          {links.map((link, index) => (
+            <React.Fragment key={link.to}>
+              <Link
+                className={styles.navLink}
+                to={link.to}
+                onClick={handleMobileLinkClick}
+              >
+                <span className={styles.navNumber}>
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+
+                <span>{link.label}</span>
+
+                <span className={styles.arrow}>→</span>
+              </Link>
+
+              <div className={styles.separator} />
+            </React.Fragment>
+          ))}
+        </nav>
+
+        {/* FOOTER */}
+
+        <div className={styles.sidebarFooter}>
+          <button
+            type="button"
+            className={styles.logoutButton}
+            onClick={handleLogout}
+          >
+            <span>Logout</span>
+            <span className={styles.logoutIcon}>↗</span>
           </button>
-        </li>
-        <hr />
-
-        {/* Admin links */}
-        {role === 'admin' && (
-          <>
-            <li className='li'><Link className='btn btn-dark yellow' to='/classes/index'>Classes</Link></li><hr />
-            <li className='li'><Link className='btn btn-dark yellow' to='/niveaux'>Levels</Link></li><hr />
-            <li className='li'><Link className='btn btn-dark yellow' to='/teachers'>Teachers</Link></li><hr />
-            <li className='li'><Link className='btn btn-dark yellow' to='/assistances'>Assistant</Link></li><hr />
-            <li className='li'><Link className='btn btn-dark yellow' to='/matieres'>Subjects</Link></li><hr />
-            <li className='li'><Link className='btn btn-dark yellow' to='/payment/add'>Add Student</Link></li><hr />
-            <li className='li'><Link className='btn btn-dark yellow' to='/payment/index'>All Students</Link></li><hr />
-            <li className='li'><Link className='btn btn-dark yellow' to='/students/studentsQr'>Students Cards</Link></li><hr />
-            <li className='li'><Link className='btn btn-dark yellow' to='/students/scanner'>Scanner</Link></li><hr />
-          </>
-        )}
-
-        {/* Assistant links */}
-        {role === 'assistant' && (
-          <>
-            <li className='li'><Link className='btn btn-dark yellow' to='/payment/add'>Add Student</Link></li><hr />
-            <li className='li'><Link className='btn btn-dark yellow' to='/payment/index'>All Students</Link></li><hr />
-            <li className='li'><Link className='btn btn-dark yellow' to='/students/studentsQr'>Students Cards</Link></li><hr />
-            <li className='li'><Link className='btn btn-dark yellow' to='/students/scanner'>Scanner</Link></li><hr />
-          </>
-        )}
-                {role === 'teacher' && (
-          <>
-            <li className='li'><Link className='btn btn-dark yellow' to='/teacher/students'>Studens</Link></li><hr />
-            <li className='li'><Link className='btn btn-dark yellow' to='/teacher/statistiques'>statistiques</Link></li><hr />
-            
-          </>
-        )}
-      </ul>
+        </div>
+      </div>
     </aside>
   );
 };

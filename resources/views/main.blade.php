@@ -19,6 +19,7 @@
             background: whitesmoke;
             background-size: cover;
             background-position: center;
+            background-color: black;
         }
     </style>
 </head>

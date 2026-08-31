@@ -69,69 +69,124 @@ public function delete($Id){
 
 
 
+public function store(Request $request)
+{
+    $request->validate([
+        'name' => 'required',
+        'lastName' => 'required',
+        'parentName' => 'required',
+        'studentPhone' => 'required',
+        'parentPhone' => 'nullable',
+        'niveau' => 'required',
+        'classe' => 'required|array',
+        'groupe' => 'nullable',
+        'date' => 'required|date',
+        'state' => 'required|in:paye,impaye',
+    ]);
 
-    public function store(Request $request){
-        $request->validate([
-            'name'=>'required',
-            'lastName'=>'required',
-            'parentName'=>'required',
-            'studentPhone'=>'required',
-            'parentPhone'=>'nullable',
-            'niveau'=>'required',
-            'classe'=>'required|array',
-            'groupe'=>'nullable',
-        ]);
-        $student=Student::create([
-            'name'=>$request->name,
-            'lastname'=>$request->lastName,
-            'parentname'=>$request->parentName,
-            'studentphone'=>$request->studentPhone, 
-            'parentphone'=>$request->parentPhone,
-        ]);
+    $student = Student::create([
+        'name' => $request->name,
+        'lastname' => $request->lastName,
+        'parentname' => $request->parentName,
+        'studentphone' => $request->studentPhone,
+        'parentphone' => $request->parentPhone,
+    ]);
 
-        $date=Carbon::parse($request->date);
-        $day=$date->day;
+    $date = Carbon::parse($request->date);
 
-        $schoolyearmonths = [9,10,11,12,1,2,3,4,5,6];
+    $day = $date->day;
 
-        $reductions=$request->reduction;
+    // Month in which the student starts
+    $registrationMonth = $date->month;
 
-        foreach($request->classe as $classId){
-            $class=Classe::find($classId);
-            $finalPrice = $reductions[$class->matiere_id]  ?? $class->price;
-                if($finalPrice < $class->price){
-                    $reduction=1;
-                }elseif($finalPrice == $class->price){
-                    $reduction=0;
-                }
-            foreach($schoolyearmonths as $monthnumber){
-                $payment=Payment::create([
-                    'student_id'=>$student->id,
-                    'matiere_id'=>$class->matiere_id,
-                    'niveau_id'=>$class->niveau_id,
-                    'class_id'=>$classId,
-                    'groupe'=>$request->groupe,
-                    'price' => $finalPrice,
-                    'reduction'=>$reduction,
-                    'date'=>$request->date,
-                    'month'=>$monthnumber,
-                    'day'=>$day,
-                    'status'=>$request->state,
-                ]);
-            }
-        }
-        if($payment){
-            return response()->json([
-                'message'=>'Student inserted successfuly!',
-                'type'=>'btn btn-success',
-            ]);
-        }else{
-            return response()->json([
-                'message'=>'Failed to insert student!',
-                'type'=>'btn btn-danger',
+    /*
+     * School year:
+     * September -> October -> November -> December
+     * -> January -> February -> March -> April -> May -> June
+     */
+    $schoolyearmonths = [9, 10, 11, 12, 1, 2, 3, 4, 5, 6];
+
+    /*
+     * Find the position of the registration month.
+     *
+     * Example:
+     * November = index 2
+     *
+     * Therefore we only create:
+     * November -> December -> January -> ... -> June
+     */
+    $startIndex = array_search($registrationMonth, $schoolyearmonths);
+
+    // If the date is July or August, there is no payment month
+    // in the current school year.
+    if ($startIndex === false) {
+        return response()->json([
+            'message' => 'Registration date must be between September and June.',
+            'type' => 'btn btn-danger',
+        ], 422);
+    }
+
+    // Only months from the registration month onward
+    $monthsToCreate = array_slice(
+        $schoolyearmonths,
+        $startIndex
+    );
+
+    $reductions = $request->reduction ?? [];
+
+    $payment = null;
+
+    foreach ($request->classe as $classId) {
+
+        $class = Classe::findOrFail($classId);
+
+        $finalPrice = $reductions[$class->matiere_id] ?? $class->price;
+
+        $reduction = $finalPrice < $class->price ? 1 : 0;
+
+        foreach ($monthsToCreate as $monthnumber) {
+
+            /*
+             * Only the registration month can be paid
+             * when the student is created.
+             *
+             * All future months remain unpaid.
+             */
+            $status = (
+                $request->state === 'paye' &&
+                $monthnumber === $registrationMonth
+            )
+                ? 'paye'
+                : 'impaye';
+
+            $payment = Payment::create([
+                'student_id' => $student->id,
+                'matiere_id' => $class->matiere_id,
+                'niveau_id' => $class->niveau_id,
+                'class_id' => $classId,
+                'groupe' => $request->groupe,
+                'price' => $finalPrice,
+                'reduction' => $reduction,
+                'date' => $request->date,
+                'month' => $monthnumber,
+                'day' => $day,
+                'status' => $status,
             ]);
         }
     }
+
+    if ($payment) {
+        return response()->json([
+            'message' => 'Student inserted successfully!',
+            'type' => 'btn btn-success',
+        ]);
+    }
+
+    return response()->json([
+        'message' => 'Failed to insert student!',
+        'type' => 'btn btn-danger',
+    ]);
+}
 
 
 

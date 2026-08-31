@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import "./payment.css";
-import API from '../api.js';
+import styles from "./update.module.css";
+import API from "../api.js";
 
 const UpdateStudent = () => {
   const { id } = useParams();
@@ -164,138 +164,360 @@ const paymentsArray = existingPayments.map((p) => {
   };
 
   return (
-    <form  className="student-form p-4"  onSubmit={submit}  style={{ maxWidth: "900px", margin: "auto" }}>
-      <h1 className="text-warning text-center mb-4">Update Student</h1>
-
-      <div className="row g-3 mb-4">
-        <div className="col-md-6">
-          <input  className="form-control"  value={name}  placeholder="Name"  onChange={(e) => setName(e.target.value)}/>
-        </div>
-
-        <div className="col-md-6">
-          <input  className="form-control"  value={lastname}  placeholder="Last Name"  onChange={(e) => setLastname(e.target.value)}/>
-        </div>
-
-        <div className="col-md-6">
-          <input  className="form-control"  value={parentname}  placeholder="Parent Name"  onChange={(e) => setParentname(e.target.value)}/>
-        </div>
-
-        <div className="col-md-6">
-          <input  className="form-control"  value={studentphone}  placeholder="Student Phone"  onChange={(e) => setStudentphone(e.target.value)}/>
-        </div>
-
-        <div className="col-md-6">
-          <input  className="form-control"  value={parentphone}  placeholder="Parent Phone"  onChange={(e) => setParentphone(e.target.value)}/>
-        </div>
-
-        <div className="col-md-3">
-          <input  className="form-control"  type="number"  value={groupe}  placeholder="Groupe"  onChange={(e) => setGroupe(e.target.value)}/>
-        </div>
-
-        <div className="col-md-3">
-          <input    className="form-control"    type="date"    value={date}    onChange={(e) => setDate(e.target.value)}  />
-        </div>
+  <form className={styles.page} onSubmit={submit}>
+    <div className={styles.header}>
+      <div>
+        <span className={styles.eyebrow}>STUDENT MANAGEMENT</span>
+        <h1>Update Student</h1>
       </div>
 
-      <h3 className="text-warning mb-3">Enrolled Classes</h3>
-        <div className="col-md-3">
-          <select  className="form-select"  value={selectedMonth}  onChange={(e) => {    console.log("Selected month changed:", e.target.value);    setSelectedMonth(e.target.value);  }}          >
-            <option>Select Month</option>
-            {[9, 10, 11, 12, 1, 2, 3, 4, 5, 6].map((m) => (
-              <option key={m} value={m}>
-                {m}
-              </option>
-            ))}
-          </select>
-        </div>
-      <div className="row g-3 mb-4">
-{existingPayments.map((p) => {
-  const selectedPayment = p.months.find(
-    (m) => m.month === Number(selectedMonth)
-  );
-
-  if (!selectedPayment) return null;
-
-  const updated = paymentUpdates[selectedPayment.payment_id] || {};
-
-  return (
-    <div key={`existing-${p.class_id}`} className="col-md-4">
-      <div className="p-3 border border-warning rounded bg-transparent">
-        <label className="form-label fw-bold text-white">
-          {p.class_name} (Month {selectedMonth})
-        </label>
-
-        <input type="number" className="form-control mb-2" value={   updated.price !== undefined     ? updated.price     : selectedPayment.payment_price || "" } placeholder="Price" onChange={(e) =>   changePayment(     selectedPayment.payment_id,     "price",     e.target.value   ) }
-        />
-
-        <select  className="form-select mb-2"  value={    updated.status !== undefined      ? updated.status      : selectedPayment.status || ""  }  onChange={(e) =>    changePayment(      selectedPayment.payment_id,      "status",      e.target.value    )  }>
-          <option value="">Select a state</option>
-          <option value="paye">payed</option>
-          <option value="impaye">unpaid</option>
-          <option value="canceled">canceled</option>
-        </select>
-
-        <div className="form-check">
-          <input  className="form-check-input"  type="checkbox"  checked={applyNextMonths[selectedPayment.payment_id] || false}  onChange={() =>    toggleNextMonths(selectedPayment.payment_id)  }/>
-          <label className="form-check-label text-white">
-            Apply to following months
-          </label>
-        </div>
-      </div>
+      <div className={styles.headerLine}></div>
     </div>
-  );
-})}
+
+    <section className={styles.studentSection}>
+      <div className={styles.sectionHeader}>
+        <span className={styles.sectionNumber}>01</span>
+
+        <div>
+          <span className={styles.sectionLabel}>PROFILE</span>
+          <h2>Student Information</h2>
+        </div>
       </div>
 
+      <div className={styles.formGrid}>
+        <div className={styles.field}>
+          <label>Name</label>
+          <input
+            value={name}
+            placeholder="Name"
+            onChange={(e) => setName(e.target.value)}
+          />
+        </div>
 
-      <div className="row g-3 mb-4">
+        <div className={styles.field}>
+          <label>Last Name</label>
+          <input
+            value={lastname}
+            placeholder="Last Name"
+            onChange={(e) => setLastname(e.target.value)}
+          />
+        </div>
+
+        <div className={styles.field}>
+          <label>Parent Name</label>
+          <input
+            value={parentname}
+            placeholder="Parent Name"
+            onChange={(e) => setParentname(e.target.value)}
+          />
+        </div>
+
+        <div className={styles.field}>
+          <label>Student Phone</label>
+          <input
+            value={studentphone}
+            placeholder="Student Phone"
+            onChange={(e) => setStudentphone(e.target.value)}
+          />
+        </div>
+
+        <div className={styles.field}>
+          <label>Parent Phone</label>
+          <input
+            value={parentphone}
+            placeholder="Parent Phone"
+            onChange={(e) => setParentphone(e.target.value)}
+          />
+        </div>
+
+        <div className={styles.field}>
+          <label>Group</label>
+          <input
+            type="number"
+            value={groupe}
+            placeholder="Groupe"
+            onChange={(e) => setGroupe(e.target.value)}
+          />
+        </div>
+
+        <div className={styles.field}>
+          <label>Payment Date</label>
+          <input
+            type="date"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+          />
+        </div>
+      </div>
+    </section>
+
+    <section className={styles.paymentSection}>
+      <div className={styles.sectionHeader}>
+        <span className={styles.sectionNumber}>02</span>
+
+        <div>
+          <span className={styles.sectionLabel}>PAYMENTS</span>
+          <h2>Enrolled Classes</h2>
+        </div>
+      </div>
+
+      <div className={styles.monthSelector}>
+        <label>Payment Month</label>
+
+        <select
+          value={selectedMonth}
+          onChange={(e) => {
+            console.log(
+              "Selected month changed:",
+              e.target.value
+            );
+            setSelectedMonth(e.target.value);
+          }}
+        >
+          <option>Select Month</option>
+
+          {[9, 10, 11, 12, 1, 2, 3, 4, 5, 6].map((m) => (
+            <option key={m} value={m}>
+              {m}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div className={styles.paymentGrid}>
+        {existingPayments.map((p) => {
+          const selectedPayment = p.months.find(
+            (m) => m.month === Number(selectedMonth)
+          );
+
+          if (!selectedPayment) return null;
+
+          const updated =
+            paymentUpdates[selectedPayment.payment_id] || {};
+
+          return (
+            <div
+              key={`existing-${p.class_id}`}
+              className={styles.paymentCard}
+            >
+              <div className={styles.cardTop}>
+                <span className={styles.cardIndex}>
+                  {String(p.class_id).padStart(2, "0")}
+                </span>
+
+                <span className={styles.monthTag}>
+                  MONTH {selectedMonth}
+                </span>
+              </div>
+
+              <h3>{p.class_name}</h3>
+
+              <div className={styles.cardField}>
+                <label>Price</label>
+
+                <input
+                  type="number"
+                  value={
+                    updated.price !== undefined
+                      ? updated.price
+                      : selectedPayment.payment_price || ""
+                  }
+                  placeholder="Price"
+                  onChange={(e) =>
+                    changePayment(
+                      selectedPayment.payment_id,
+                      "price",
+                      e.target.value
+                    )
+                  }
+                />
+              </div>
+
+              <div className={styles.cardField}>
+                <label>Payment Status</label>
+
+                <select
+                  value={
+                    updated.status !== undefined
+                      ? updated.status
+                      : selectedPayment.status || ""
+                  }
+                  onChange={(e) =>
+                    changePayment(
+                      selectedPayment.payment_id,
+                      "status",
+                      e.target.value
+                    )
+                  }
+                >
+                  <option value="">Select a state</option>
+                  <option value="paye">Payed</option>
+                  <option value="impaye">Unpaid</option>
+                  <option value="canceled">
+                    Canceled
+                  </option>
+                </select>
+              </div>
+
+              <label className={styles.checkboxRow}>
+                <input
+                  type="checkbox"
+                  checked={
+                    applyNextMonths[
+                      selectedPayment.payment_id
+                    ] || false
+                  }
+                  onChange={() =>
+                    toggleNextMonths(
+                      selectedPayment.payment_id
+                    )
+                  }
+                />
+
+                <span className={styles.checkmark}></span>
+
+                <span>
+                  Apply to following months
+                </span>
+              </label>
+            </div>
+          );
+        })}
+      </div>
+    </section>
+
+    <section className={styles.newClassesSection}>
+      <div className={styles.sectionHeader}>
+        <span className={styles.sectionNumber}>03</span>
+
+        <div>
+          <span className={styles.sectionLabel}>
+            ENROLLMENT
+          </span>
+
+          <h2>Add New Subjects</h2>
+        </div>
+      </div>
+
+      <div className={styles.newClassesGrid}>
         {classes
-          .filter((c) => !existingPayments.some((p) => p.class_id === c.class_id))
+          .filter(
+            (c) =>
+              !existingPayments.some(
+                (p) => p.class_id === c.class_id
+              )
+          )
           .map((c) => {
             const price = Number(c.matiere_price);
-            const reduction = Number(newClassesPrices[c.class_id] || 0);
+            const reduction = Number(
+              newClassesPrices[c.class_id] || 0
+            );
             const finalPrice = price - reduction;
 
             return (
-              
-              <div key={`new-${c.class_id}`} className="col-md-4">
-                <h3 className="text-warning mb-3">Add New Subjects</h3>
-                <div className="p-3 border border-warning rounded bg-transparent">
-                  <label className="form-label fw-bold text-white">
-                    {c.matiere_name} ({c.niveau_name})
-                  </label>
+              <div
+                key={`new-${c.class_id}`}
+                className={styles.newClassCard}
+              >
+                <div className={styles.newClassHeader}>
+                  <div>
+                    <span className={styles.subjectLevel}>
+                      {c.niveau_name}
+                    </span>
 
-                  <div className="form-check mb-2">
-                    <input  className="form-check-input"  type="checkbox"  checked={newClasses.includes(c.class_id)}  onChange={() => toggleClass(c.class_id)}/>
-                    <label className="form-check-label text-white">
-                      Enroll
-                    </label>
+                    <h3>{c.matiere_name}</h3>
                   </div>
 
-                  <input  type="number"  className="form-control mb-2"  placeholder="Reduction"  onChange={(e) =>    changePrice(c.class_id, e.target.value)  }/>
-
-                  <input  type="date"  className="form-control mb-2"  onChange={(e) =>    changeDate(c.class_id, e.target.value)  }/>
-
-                  <span className="fw-bold text-white">
-                    Final Price: {finalPrice}
+                  <span className={styles.subjectNumber}>
+                    {String(c.class_id).padStart(2, "0")}
                   </span>
+                </div>
+
+                <label className={styles.checkboxRow}>
+                  <input
+                    type="checkbox"
+                    checked={newClasses.includes(
+                      c.class_id
+                    )}
+                    onChange={() =>
+                      toggleClass(c.class_id)
+                    }
+                  />
+
+                  <span className={styles.checkmark}></span>
+
+                  <span>Enroll</span>
+                </label>
+
+                <div className={styles.cardField}>
+                  <label>Reduction</label>
+
+                  <input
+                    type="number"
+                    placeholder="Reduction"
+                    onChange={(e) =>
+                      changePrice(
+                        c.class_id,
+                        e.target.value
+                      )
+                    }
+                  />
+                </div>
+
+                <div className={styles.cardField}>
+                  <label>Start Date</label>
+
+                  <input
+                    type="date"
+                    onChange={(e) =>
+                      changeDate(
+                        c.class_id,
+                        e.target.value
+                      )
+                    }
+                  />
+                </div>
+
+                <div className={styles.finalPrice}>
+                  <span>FINAL PRICE</span>
+
+                  <strong>{finalPrice}</strong>
                 </div>
               </div>
             );
           })}
       </div>
+    </section>
 
-      <button  type="submit"  disabled={loading}  className="btn btn-warning w-100">
-        {loading ? "Updating..." : "Update Student"}
+    <div className={styles.actions}>
+      <button
+        type="submit"
+        disabled={loading}
+        className={styles.submitButton}
+      >
+        <span>
+          {loading ? "Updating..." : "Update Student"}
+        </span>
+
+        {!loading && (
+          <span className={styles.arrow}>→</span>
+        )}
       </button>
+    </div>
 
-      {message && (
-        <div  className={`alert mt-3 ${    type === "success" ? "alert-success" : "alert-danger"  }`}>
-          {message}
-        </div>
-      )}
-    </form>
-  );
+    {message && (
+      <div
+        className={`${styles.message} ${
+          type === "success"
+            ? styles.success
+            : styles.error
+        }`}
+      >
+        {message}
+      </div>
+    )}
+  </form>
+);
 };
 
 export default UpdateStudent;

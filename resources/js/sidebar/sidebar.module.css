@@ -1,0 +1,651 @@
+/* =========================================================
+   SIDEBAR
+   DESKTOP
+   ========================================================= */
+
+.sidebar {
+  position: fixed;
+
+  top: 0;
+  left: 0;
+
+  width: 300px;
+  height: 100vh;
+
+  box-sizing: border-box;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  color: #f5f5f5;
+
+  background:
+    radial-gradient(
+      circle at 20% 10%,
+      rgba(255, 193, 7, 0.055),
+      transparent 30%
+    ),
+    #090909;
+
+  border-right: 1px solid rgba(255, 255, 255, 0.07);
+
+  z-index: 1000;
+
+  scrollbar-width: thin;
+  scrollbar-color: #3b3b3b #101010;
+}
+
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: #101010;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: #3b3b3b;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+  background: #ffc107;
+}
+
+
+/* =========================================================
+   DESKTOP SIDEBAR INNER
+   ========================================================= */
+
+.sidebarInner {
+  min-height: 100%;
+
+  display: flex;
+
+  flex-direction: column;
+
+  box-sizing: border-box;
+
+  padding: 35px 22px 25px;
+}
+
+
+/* =========================================================
+   DESKTOP BRAND
+   ========================================================= */
+
+.brand {
+  display: flex;
+
+  align-items: center;
+
+  gap: 13px;
+
+  margin-bottom: 38px;
+
+  padding-left: 5px;
+}
+
+.brandMark {
+  display: flex;
+
+  width: 38px;
+  height: 38px;
+
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  color: #090909;
+
+  font-size: 1.1rem;
+
+  font-weight: 900;
+
+  background: #ffc107;
+}
+
+.brandName {
+  display: block;
+
+  color: #f5f5f5;
+
+  font-size: 0.82rem;
+
+  font-weight: 800;
+
+  letter-spacing: 0.18em;
+}
+
+.brandLabel {
+  display: block;
+
+  margin-top: 2px;
+
+  color: rgba(255, 255, 255, 0.3);
+
+  font-size: 0.5rem;
+
+  font-weight: 700;
+
+  letter-spacing: 0.28em;
+}
+
+
+/* =========================================================
+   ROLE
+   ========================================================= */
+
+.role {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  margin-bottom: 34px;
+
+  padding-left: 5px;
+
+  color: rgba(255, 255, 255, 0.35);
+
+  font-size: 0.56rem;
+
+  font-weight: 700;
+
+  letter-spacing: 0.2em;
+
+  text-transform: uppercase;
+}
+
+.roleLine {
+  width: 22px;
+
+  height: 1px;
+
+  flex-shrink: 0;
+
+  background: #ffc107;
+}
+
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+
+.navigation {
+  flex: 1;
+}
+
+.navLabel {
+  margin-bottom: 13px;
+
+  padding-left: 5px;
+
+  color: rgba(255, 255, 255, 0.23);
+
+  font-size: 0.55rem;
+
+  font-weight: 700;
+
+  letter-spacing: 0.2em;
+
+  text-transform: uppercase;
+}
+
+.navLink {
+  position: relative;
+
+  display: grid;
+
+  grid-template-columns: 25px minmax(0, 1fr) 18px;
+
+  align-items: center;
+
+  min-height: 47px;
+
+  padding: 0 5px;
+
+  color: rgba(255, 255, 255, 0.62);
+
+  font-size: 0.78rem;
+
+  font-weight: 600;
+
+  letter-spacing: 0.015em;
+
+  text-decoration: none;
+
+  transition:
+    color 180ms ease,
+    padding 180ms ease,
+    background 180ms ease;
+}
+
+.navLink::before {
+  content: "";
+
+  position: absolute;
+
+  left: -22px;
+
+  top: 0;
+
+  width: 2px;
+
+  height: 100%;
+
+  background: #ffc107;
+
+  opacity: 0;
+
+  transition: opacity 180ms ease;
+}
+
+.navLink:hover {
+  padding-left: 10px;
+
+  color: #ffc107;
+
+  background: rgba(255, 193, 7, 0.035);
+}
+
+.navLink:hover::before {
+  opacity: 1;
+}
+
+.navNumber {
+  color: rgba(255, 255, 255, 0.2);
+
+  font-size: 0.54rem;
+
+  font-weight: 700;
+}
+
+.navLink:hover .navNumber {
+  color: rgba(255, 193, 7, 0.55);
+}
+
+.arrow {
+  color: rgba(255, 193, 7, 0);
+
+  font-size: 0.95rem;
+
+  transform: translateX(-5px);
+
+  transition:
+    color 180ms ease,
+    transform 180ms ease;
+}
+
+.navLink:hover .arrow {
+  color: #ffc107;
+
+  transform: translateX(0);
+}
+
+.separator {
+  height: 1px;
+
+  background: rgba(255, 255, 255, 0.055);
+}
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.sidebarFooter {
+  margin-top: 40px;
+
+  padding-top: 20px;
+
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.logoutButton {
+  width: 100%;
+
+  min-height: 44px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  padding: 0 14px;
+
+  color: rgba(255, 255, 255, 0.52);
+
+  font-family: inherit;
+
+  font-size: 0.68rem;
+
+  font-weight: 700;
+
+  letter-spacing: 0.12em;
+
+  text-transform: uppercase;
+
+  cursor: pointer;
+
+  background: #101010;
+
+  border: 1px solid rgba(255, 255, 255, 0.07);
+
+  border-radius: 2px;
+
+  transition:
+    color 180ms ease,
+    border-color 180ms ease,
+    background 180ms ease,
+    transform 180ms ease;
+}
+
+.logoutButton:hover {
+  color: #ffc107;
+
+  background: rgba(255, 193, 7, 0.035);
+
+  border-color: rgba(255, 193, 7, 0.25);
+
+  transform: translateY(-1px);
+}
+
+.logoutIcon {
+  font-size: 1rem;
+
+  line-height: 1;
+}
+
+
+/* =========================================================
+   MOBILE HEADER
+   Hidden on desktop
+   ========================================================= */
+
+.mobileHeader {
+  display: none;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 650px) {
+
+  .sidebar {
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+
+    height: auto;
+
+    max-height: 70px;
+
+    overflow: hidden;
+
+    border-right: none;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+
+    background:
+      radial-gradient(
+        circle at 20% 10%,
+        rgba(255, 193, 7, 0.055),
+        transparent 35%
+      ),
+      #090909;
+
+    transition:
+      max-height 280ms ease,
+      box-shadow 280ms ease;
+  }
+
+  .sidebar.mobileOpen {
+    max-height: calc(100vh - 10px);
+
+    overflow-y: auto;
+
+    box-shadow:
+      0 20px 60px rgba(0, 0, 0, 0.65);
+  }
+
+
+  /* ---------------------------------------------------------
+     MOBILE TOP BAR
+     --------------------------------------------------------- */
+
+  .mobileHeader {
+    height: 70px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 0 18px;
+
+    box-sizing: border-box;
+  }
+
+  .mobileBrand {
+    display: flex;
+
+    align-items: center;
+
+    gap: 11px;
+  }
+
+  .mobileBrand .brandMark {
+    width: 34px;
+    height: 34px;
+
+    font-size: 1rem;
+  }
+
+  .mobileBrand .brandName {
+    font-size: 0.75rem;
+  }
+
+  .mobileBrand .brandLabel {
+    font-size: 0.45rem;
+  }
+
+
+  /* ---------------------------------------------------------
+     MOBILE TOGGLE
+     --------------------------------------------------------- */
+
+  .menuToggle {
+    position: relative;
+
+    width: 44px;
+    height: 44px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 5px;
+
+    padding: 0;
+
+    background: #101010;
+
+    border: 1px solid rgba(255, 255, 255, 0.1);
+
+    border-radius: 2px;
+
+    cursor: pointer;
+
+    transition:
+      background 180ms ease,
+      border-color 180ms ease;
+  }
+
+  .menuToggle span {
+    display: block;
+
+    width: 17px;
+
+    height: 1px;
+
+    background: rgba(255, 255, 255, 0.75);
+
+    transition:
+      transform 220ms ease,
+      opacity 180ms ease,
+      background 180ms ease;
+  }
+
+  .menuToggle:hover {
+    background: rgba(255, 193, 7, 0.06);
+
+    border-color: rgba(255, 193, 7, 0.3);
+  }
+
+  .menuToggle:hover span {
+    background: #ffc107;
+  }
+
+
+  /* ---------------------------------------------------------
+     ANIMATED X
+     --------------------------------------------------------- */
+
+  .menuToggleOpen span:nth-child(1) {
+    transform: translateY(6px) rotate(45deg);
+  }
+
+  .menuToggleOpen span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .menuToggleOpen span:nth-child(3) {
+    transform: translateY(-6px) rotate(-45deg);
+  }
+
+
+  /* ---------------------------------------------------------
+     MOBILE SIDEBAR CONTENT
+     --------------------------------------------------------- */
+
+  .sidebarInner {
+    min-height: auto;
+
+    padding: 0 18px 20px;
+  }
+
+  /* Hide desktop brand because mobileHeader already has it */
+
+  .sidebarInner > .brand {
+    display: none;
+  }
+
+  .role {
+    margin-top: 10px;
+
+    margin-bottom: 25px;
+
+    padding-left: 0;
+  }
+
+  .navigation {
+    flex: none;
+  }
+
+  .navLabel {
+    padding-left: 0;
+
+    margin-bottom: 8px;
+  }
+
+  .navLink {
+    grid-template-columns: 35px minmax(0, 1fr) 20px;
+
+    min-height: 50px;
+
+    padding: 0 8px;
+  }
+
+  .navLink:hover {
+    padding-left: 13px;
+  }
+
+  .navLink::before {
+    left: -18px;
+  }
+
+  .separator {
+    background: rgba(255, 255, 255, 0.055);
+  }
+
+  .sidebarFooter {
+    margin-top: 25px;
+
+    padding-top: 18px;
+  }
+
+  .logoutButton {
+    min-height: 46px;
+  }
+}
+
+
+/* =========================================================
+   VERY SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 400px) {
+
+  .mobileHeader {
+    height: 64px;
+
+    padding: 0 14px;
+  }
+
+  .sidebar {
+    max-height: 64px;
+  }
+
+  .sidebarInner {
+    padding-left: 14px;
+    padding-right: 14px;
+    padding-bottom: 18px;
+  }
+
+  .mobileBrand .brandMark {
+    width: 32px;
+    height: 32px;
+  }
+
+  .mobileBrand .brandName {
+    font-size: 0.7rem;
+  }
+
+  .mobileBrand .brandLabel {
+    font-size: 0.42rem;
+  }
+
+  .menuToggle {
+    width: 42px;
+    height: 42px;
+  }
+
+  .navLink {
+    min-height: 47px;
+
+    font-size: 0.73rem;
+  }
+}

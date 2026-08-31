@@ -7,13 +7,11 @@ export default defineConfig({
     laravel({
       input: ['resources/js/app.jsx'],
       refresh: true,
-      // مهم: specify build path لـ public
-      buildDirectory: 'public/build',
     }),
     react(),
   ],
   server: {
-    host: '127.0.0.1',  // localhost فقط
+    host: '127.0.0.1',
     port: 5173,
     strictPort: true,
     cors: true,

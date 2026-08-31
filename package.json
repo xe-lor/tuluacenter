@@ -1,7 +1,7 @@
 {
     "$schema": "https://www.schemastore.org/package.json",
     "private": true,
-    "type": "module", 
+    "type": "module",
     "scripts": {
         "build": "vite build",
         "dev": "vite"
@@ -15,6 +15,7 @@
         "vite": "^7.0.7"
     },
     "dependencies": {
+        "@blackbox-vision/react-qr-reader": "^5.0.0",
         "@vitejs/plugin-react": "^5.1.4",
         "html5-qrcode": "^2.3.8",
         "jspdf": "^4.2.0",
@@ -23,6 +24,7 @@
         "qrcode.react": "^4.2.0",
         "react": "^19.2.4",
         "react-dom": "^19.2.4",
+        "react-qr-reader": "^3.0.0-beta-1",
         "react-router-dom": "^7.13.1",
         "xlsx": "^0.18.5"
     }

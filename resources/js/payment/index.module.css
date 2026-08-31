@@ -1,0 +1,981 @@
+.page {
+  position: relative;
+
+  width: calc(100vw - 325px);
+
+  max-width: calc(100vw - 325px);
+
+  min-height: 100vh;
+
+  top: 120px;
+
+  left: 150px;
+
+  box-sizing: border-box;
+
+  padding: 55px 55px 70px;
+
+  overflow-x: hidden;
+
+  overflow-y: visible;
+
+  min-width: 0;
+
+  color: #f5f5f5;
+
+  background:
+    radial-gradient(
+      circle at 92% 4%,
+      rgba(255, 193, 7, 0.055),
+      transparent 25%
+    ),
+    radial-gradient(
+      circle at 4% 95%,
+      rgba(255, 255, 255, 0.02),
+      transparent 30%
+    ),
+    #090909;
+}
+
+
+/* =========================================
+   Header
+========================================= */
+
+.pageHeader {
+  display: flex;
+
+  align-items: flex-end;
+
+  justify-content: space-between;
+
+  gap: 40px;
+
+  margin-bottom: 50px;
+
+  min-width: 0;
+}
+
+.pageHeader > * {
+  min-width: 0;
+}
+
+.eyebrow {
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  margin-bottom: 17px;
+
+  color: #ffc107;
+
+  font-size: 0.62rem;
+
+  font-weight: 750;
+
+  letter-spacing: 0.22em;
+
+  text-transform: uppercase;
+}
+
+.eyebrow::before {
+  content: "";
+
+  width: 28px;
+
+  height: 1px;
+
+  flex-shrink: 0;
+
+  background: #ffc107;
+}
+
+.title {
+  margin: 0;
+
+  color: #f5f5f5;
+
+  font-size: clamp(2.7rem, 5vw, 5rem);
+
+  font-weight: 800;
+
+  line-height: 0.9;
+
+  letter-spacing: -0.055em;
+}
+
+.subtitle {
+  max-width: 600px;
+
+  margin: 20px 0 0;
+
+  color: #ffffff;
+
+  font-size: 0.82rem;
+
+  line-height: 1.7;
+}
+
+.studentCounter {
+  min-width: 180px;
+
+  flex-shrink: 0;
+
+  padding: 18px 22px;
+
+  background: #101010;
+
+  border-left: 2px solid #ffc107;
+
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.28);
+}
+
+.studentCounter span {
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: rgba(255, 255, 255, 0.35);
+
+  font-size: 0.55rem;
+
+  font-weight: 700;
+
+  letter-spacing: 0.16em;
+
+  text-transform: uppercase;
+}
+
+.studentCounter strong {
+  color: #ffc107;
+
+  font-size: 1.7rem;
+
+  font-weight: 750;
+
+  letter-spacing: -0.035em;
+}
+
+.studentCounter small {
+  color: rgba(255, 255, 255, 0.34);
+
+  font-size: 0.8rem;
+}
+
+
+/* =========================================
+   Filters
+========================================= */
+
+.filtersSection {
+  width: 100%;
+
+  min-width: 0;
+
+  margin-bottom: 32px;
+
+  padding: 25px 25px 29px;
+
+  box-sizing: border-box;
+
+  background: #101010;
+
+  border: 1px solid rgba(255, 255, 255, 0.055);
+
+  box-shadow:
+    0 20px 45px rgba(0, 0, 0, 0.24);
+}
+
+.sectionLabel {
+  margin-bottom: 18px;
+
+  color: #ffc107;
+
+  font-size: 0.58rem;
+
+  font-weight: 750;
+
+  letter-spacing: 0.2em;
+
+  text-transform: uppercase;
+}
+
+.filtersContainer {
+  display: grid;
+
+  grid-template-columns:
+    repeat(5, minmax(0, 1fr));
+
+  gap: 13px;
+
+  width: 100%;
+
+  min-width: 0;
+
+  box-sizing: border-box;
+}
+
+.filterInput,
+.filterSelect {
+  width: 100%;
+
+  min-width: 0;
+
+  height: 43px;
+
+  padding: 0 13px;
+
+  box-sizing: border-box;
+
+  color: #f2f2f2;
+
+  font-family: inherit;
+
+  font-size: 0.74rem;
+
+  outline: none;
+
+  background: #171717;
+
+  border: 1px solid rgba(255, 255, 255, 0.075);
+
+  border-radius: 2px;
+
+  transition:
+    border-color 180ms ease,
+    background 180ms ease;
+}
+
+.filterInput::placeholder {
+  color: rgb(255, 255, 255);
+}
+
+.filterInput:focus,
+.filterSelect:focus {
+  background: #151515;
+
+  border-color: rgba(255, 193, 7, 0.55);
+}
+
+.filterSelect {
+  cursor: pointer;
+}
+
+.filterSelect option {
+  color: #f5f5f5;
+
+  background: #101010;
+}
+
+
+/* =========================================
+   Actions
+========================================= */
+
+.actionsRow {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 25px;
+
+  min-width: 0;
+
+  margin-bottom: 20px;
+}
+
+.actionsInfo {
+  display: flex;
+
+  align-items: center;
+
+  gap: 15px;
+
+  min-width: 0;
+
+  color: rgba(255, 255, 255, 0.3);
+
+  font-size: 0.57rem;
+
+  font-weight: 700;
+
+  letter-spacing: 0.16em;
+
+  text-transform: uppercase;
+}
+
+.actionLine {
+  width: 35px;
+
+  height: 1px;
+
+  flex-shrink: 0;
+
+  background: #ffc107;
+}
+
+.exportButtons {
+  display: flex;
+
+  gap: 9px;
+
+  flex-shrink: 0;
+}
+
+.actionButton,
+.smallButton {
+  font-family: inherit;
+
+  font-weight: 750;
+
+  letter-spacing: 0.06em;
+
+  text-transform: uppercase;
+
+  cursor: pointer;
+
+  border: none;
+
+  border-radius: 2px;
+
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease,
+    background 160ms ease;
+}
+
+.actionButton {
+  min-width: 90px;
+
+  height: 40px;
+
+  padding: 0 15px;
+
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 20px;
+
+  font-size: 0.61rem;
+}
+
+.actionButton:hover,
+.smallButton:hover {
+  transform: translateY(-1px);
+}
+
+.excelButton {
+  color: #090909;
+
+  background: #ffc107;
+
+  box-shadow:
+    0 8px 22px rgba(0, 0, 0, 0.23);
+}
+
+.excelButton:hover {
+  background: #ffca28;
+}
+
+.pdfButton {
+  color: #f5f5f5;
+
+  background: #171717;
+
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
+  box-shadow:
+    0 8px 22px rgba(0, 0, 0, 0.2);
+}
+
+.pdfButton:hover {
+  color: #ffc107;
+
+  border-color: rgba(255, 193, 7, 0.3);
+}
+
+.buttonArrow {
+  font-size: 0.95rem;
+}
+
+
+/* =========================================
+   TABLE
+========================================= */
+
+.tableWrapper {
+  width: 100%;
+
+  max-width: 100%;
+
+  min-width: 0;
+
+  box-sizing: border-box;
+
+  /*
+   * Keep the table inside the page.
+   * No horizontal scrolling.
+   */
+  overflow-x: hidden;
+
+  overflow-y: hidden;
+
+  background: #101010;
+
+  border: 1px solid rgba(255, 255, 255, 0.06);
+
+  box-shadow:
+    0 28px 60px rgba(0, 0, 0, 0.3);
+}
+
+.table {
+  width: 100%;
+
+  max-width: 100%;
+
+  min-width: 0;
+
+  border-collapse: collapse;
+
+  table-layout: fixed;
+}
+
+
+/* =========================================
+   TABLE HEADER
+========================================= */
+
+.thead {
+  display: table;
+
+  width: 100%;
+
+  table-layout: fixed;
+}
+
+.thead tr {
+  background: #171717;
+}
+
+.thead th {
+  padding: 16px 14px;
+
+  color: rgba(255, 193, 7, 0.82);
+
+  font-size: 0.58rem;
+
+  font-weight: 750;
+
+  letter-spacing: 0.15em;
+
+  text-align: left;
+
+  text-transform: uppercase;
+
+  border-bottom: 1px solid rgba(255, 193, 7, 0.15);
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================
+   TABLE BODY
+========================================= */
+
+.tbody {
+  display: block;
+
+  width: 100%;
+
+  max-width: 100%;
+
+  max-height: 500px;
+
+  overflow-y: auto;
+
+  overflow-x: hidden;
+
+  scrollbar-width: thin;
+
+  scrollbar-color:
+    #3d3d3d
+    #101010;
+}
+
+.tbody::-webkit-scrollbar {
+  width: 7px;
+}
+
+.tbody::-webkit-scrollbar-track {
+  background: #101010;
+}
+
+.tbody::-webkit-scrollbar-thumb {
+  background: #3d3d3d;
+}
+
+.tbody::-webkit-scrollbar-thumb:hover {
+  background: #ffc107;
+}
+
+
+/* =========================================
+   STUDENT ROW
+========================================= */
+
+.studentRow {
+  display: table;
+
+  width: 100%;
+
+  max-width: 100%;
+
+  table-layout: fixed;
+
+  cursor: pointer;
+
+  transition:
+    background 160ms ease,
+    transform 160ms ease;
+}
+
+.studentRow:hover {
+  background: rgba(255, 193, 7, 0.028);
+}
+
+.studentRow td {
+  padding: 17px 14px;
+
+  color: rgba(255, 255, 255, 0.68);
+
+  font-size: 0.76rem;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+.studentRow td:first-child {
+  color: rgba(255, 193, 7, 0.55);
+
+  font-weight: 700;
+}
+
+.studentRow td:nth-child(2),
+.studentRow td:nth-child(3) {
+  color: rgba(255, 255, 255, 0.86);
+
+  font-weight: 600;
+}
+
+
+/* =========================================
+   Status
+========================================= */
+
+.monthStatus {
+  width: 100px;
+
+  max-width: 100%;
+
+  min-height: 29px;
+
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 0 9px;
+
+  box-sizing: border-box;
+
+  font-size: 0.6rem;
+
+  font-weight: 750;
+
+  letter-spacing: 0.08em;
+
+  text-transform: uppercase;
+
+  border-radius: 2px;
+}
+
+
+/* =========================================
+   Row actions
+========================================= */
+
+.rowActions {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 6px;
+
+  min-width: 0;
+
+  overflow: hidden;
+}
+
+.smallButton {
+  min-height: 31px;
+
+  padding: 0 12px;
+
+  font-size: 0.56rem;
+
+  white-space: nowrap;
+}
+
+.updateButton {
+  color: #090909;
+
+  background: #ffc107;
+}
+
+.updateButton:hover {
+  background: #ffca28;
+}
+
+.deleteButton {
+  color: #f5f5f5;
+
+  background: #171717;
+
+  border: 1px solid rgba(255, 255, 255, 0.09);
+}
+
+.deleteButton:hover {
+  color: #fff;
+
+  background: #6b2521;
+
+  border-color: rgba(255, 100, 90, 0.35);
+}
+
+
+/* =========================================
+   Expanded row
+========================================= */
+
+.expandedRow {
+  display: table;
+
+  width: 100%;
+
+  table-layout: fixed;
+}
+
+.expandedCell {
+  padding: 25px !important;
+
+  background:
+    radial-gradient(
+      circle at 95% 10%,
+      rgba(255, 193, 7, 0.035),
+      transparent 30%
+    ),
+    #141414;
+
+  border-bottom: 1px solid rgba(255, 193, 7, 0.11);
+
+  box-shadow:
+    inset 0 12px 28px rgba(0, 0, 0, 0.18);
+
+  /*
+   * Prevent expanded content from making
+   * the entire page wider.
+   */
+  max-width: 100%;
+
+  overflow: hidden;
+}
+
+.expandedControls {
+  display: flex;
+
+  align-items: center;
+
+  flex-wrap: wrap;
+
+  gap: 10px;
+
+  max-width: 100%;
+
+  margin-bottom: 25px;
+}
+
+.monthSelect {
+  width: 170px;
+
+  height: 34px;
+
+  padding: 0 10px;
+
+  color: rgba(255, 255, 255, 0.74);
+
+  font-family: inherit;
+
+  font-size: 0.68rem;
+
+  outline: none;
+
+  cursor: pointer;
+
+  background: #101010;
+
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
+  border-radius: 2px;
+}
+
+.monthSelect:focus {
+  border-color: rgba(255, 193, 7, 0.5);
+}
+
+.monthSelect option {
+  color: #f5f5f5;
+
+  background: #101010;
+}
+
+.cancelAllButton {
+  color: #090909;
+
+  background: #ffc107;
+}
+
+.payAllButton {
+  color: #090909;
+
+  background: #198754;
+}
+
+.cancelButton {
+  color: #090909;
+
+  background: #ffc107;
+
+  margin-bottom: 18px;
+}
+
+.classesGrid {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 15px;
+
+  max-width: 100%;
+
+  overflow: hidden;
+}
+
+.classCard {
+  min-width: 150px;
+
+  max-width: 100%;
+
+  padding: 14px;
+
+  box-sizing: border-box;
+
+  cursor: pointer;
+
+  border: 1px solid rgba(255, 255, 255, 0.12);
+
+  border-radius: 4px;
+
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease,
+    border-color 160ms ease;
+}
+
+.classCard:hover {
+  transform: translateY(-2px);
+
+  border-color: rgba(255, 193, 7, 0.28);
+
+  box-shadow:
+    0 10px 25px rgba(0, 0, 0, 0.25);
+}
+
+.classTitle {
+  margin: 0 0 8px;
+
+  font-size: 1rem;
+
+  line-height: 1.2;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+}
+
+.classDetails {
+  margin-top: 12px;
+
+  padding-top: 13px;
+
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+
+  max-width: 100%;
+
+  overflow: hidden;
+}
+
+.monthGrid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(5, minmax(60px, 1fr));
+
+  gap: 6px;
+
+  max-width: 100%;
+}
+
+.monthButton {
+  min-height: 32px;
+
+  min-width: 0;
+
+  padding: 4px 7px;
+
+  color: #fff;
+
+  font-family: inherit;
+
+  font-size: 0.58rem;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  border-radius: 2px;
+
+  transition:
+    background-color 300ms ease,
+    border-color 300ms ease,
+    color 300ms ease,
+    transform 160ms ease;
+}
+
+.monthButton:hover {
+  transform: translateY(-1px);
+}
+
+
+/* =========================================
+   Responsive
+========================================= */
+
+@media (max-width: 1100px) {
+  .filtersContainer {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .filterInput {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 850px) {
+  .page {
+    width: 100%;
+
+    max-width: 100%;
+
+    left: 0;
+
+    padding: 35px 25px 50px;
+  }
+
+  .pageHeader {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+  .studentCounter {
+    width: 100%;
+
+    box-sizing: border-box;
+  }
+
+  .actionsRow {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+  .exportButtons {
+    width: 100%;
+  }
+
+  .actionButton {
+    flex: 1;
+  }
+
+  .tableWrapper {
+    overflow-x: hidden;
+  }
+}
+
+@media (max-width: 600px) {
+  .filtersContainer {
+    grid-template-columns: 1fr;
+  }
+
+  .filterInput {
+    grid-column: auto;
+  }
+
+  .studentRow td {
+    padding: 12px 8px;
+
+    font-size: 0.67rem;
+  }
+
+  .rowActions {
+    flex-direction: column;
+  }
+
+  .expandedCell {
+    padding: 17px !important;
+  }
+
+  .monthGrid {
+    grid-template-columns:
+      repeat(3, minmax(60px, 1fr));
+  }
+
+  .classesGrid {
+    flex-direction: column;
+  }
+
+  .classCard {
+    max-width: 100%;
+  }
+}

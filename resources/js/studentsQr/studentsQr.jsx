@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { QRCodeCanvas } from "qrcode.react";
-import API from '../api.js';
+import API from "../api.js";
+import styles from "./studentsQr.module.css";
 
 const StudentsQr = () => {
   const [students, setStudents] = useState([]);
@@ -10,58 +11,108 @@ const StudentsQr = () => {
   useEffect(() => {
     API
       .get("/payment/students/Qr")
-      .then((res) =>{ 
-        setStudents(res.data.students)
-        console.log(res.data.students)
+      .then((res) => {
+        setStudents(res.data.students);
+        console.log(res.data.students);
       })
       .catch((err) => console.error("Failed to fetch students:", err));
   }, []);
 
   return (
-    <div className="gap-6 p-6" style={{display: "flex", justifyContent: "center", alignItems: "center"}} >
-      {students.map((s) => (
-        <div
-          key={s.student_id}
-          style={{height: 400}}
-          className="w-64 mt-5 p-3 bg-white rounded-xl shadow-md flex flex-col items-center transform transition-transform hover:scale-105"
-        >
-          {s.payment_reduction
-          ?
-            <div style={{backgroundColor: 'red', width: 250, height: 200, marginRight: 7,
-              background: 'linear-gradient(to left, rgba(255,0,0,0), rgba(255,0,0,1))'}}></div>
-          :
-            <div style={{backgroundColor: 'yellow', width: 250, height: 200, marginRight: 7,
-              background: 'linear-gradient(to left, rgba(255,0,0,0), rgb(255, 251, 0))'}}></div>
-          }
-          <img
-            src={s.student_image || fallbackImage}
-            alt={s.student_name}
-            className="w-24 h-24 rounded-full object-cover mb-1 mt-2 border-2 border-gray-200"
-          />
+    <div className={styles.page}>
+      <div className={styles.header}>
+        <div>
+          <span className={styles.eyebrow}>Student Management</span>
 
-          <p className="text-sm text-gray-500 mb-1">ID: {s.student_id}</p>
+          <div><h1 className={styles.title}><span style={{color: '#ffc107'}}>Student</span> Cards</h1></div>
 
-          <h3 className="text-lg font-semibold text-gray-900 mb-2 text-center">
-            {s.student_name} {s.student_lastname}
-          </h3>
-
-          <p className="text-sm text-gray-600 mb-1">
-            Niveau: <span className="font-medium text-black-800">{s.niveau_name}</span>
-          </p>
-
-          <QRCodeCanvas
-            value={JSON.stringify({ student_id: s.student_id })}
-            size={120}
-            level="H"
-            className="mb-3"
-          />
-
-          <p className="text-sm text-gray-600 mb-1" style={{width: 190,marginLeft: 5}}>
-            Enrollement date: <span className="font-medium text-black-800">{s.payment_date}</span>
+          <p className={styles.subtitle}>
+            Student identification cards with secure QR access.
           </p>
         </div>
-        
-      ))}
+
+        <div className={styles.headerDecoration}>
+          <span>QR</span>
+          <div />
+        </div>
+      </div>
+
+      <div className={styles.cardsGrid}>
+        {students.map((s) => (
+          <div
+            key={s.student_id}
+            className={`${styles.card} ${
+              s.payment_reduction
+                ? styles.reductionCard
+                : styles.standardCard
+            }`}
+          >
+            <div
+              className={
+                s.payment_reduction
+                  ? styles.reductionBanner
+                  : styles.standardBanner
+              }
+            >
+              <span>
+                {s.payment_reduction ? "Reduced Payment" : "Student"}
+              </span>
+
+              <span className={styles.bannerMark}>
+                {String(s.student_id).padStart(3, "0")}
+              </span>
+            </div>
+
+            <div className={styles.cardContent}>
+              <div className={styles.imageWrapper}>
+                <img
+                  src={s.student_image || fallbackImage}
+                  alt={s.student_name}
+                  className={styles.studentImage}
+                />
+              </div>
+
+              <p className={styles.studentId}>
+                ID: <span>{s.student_id}</span>
+              </p>
+
+              <h3 className={styles.studentName}>
+                {s.student_name} {s.student_lastname}
+              </h3>
+
+              <div className={styles.infoBlock}>
+                <p className={styles.infoLabel}>Niveau</p>
+                <p className={styles.infoValue}>
+                  {s.niveau_name}
+                </p>
+              </div>
+
+              <div className={styles.qrWrapper}>
+                <QRCodeCanvas
+                  value={JSON.stringify({
+                    student_id: s.student_id,
+                  })}
+                  size={120}
+                  level="H"
+                  className={styles.qrCode}
+                />
+              </div>
+
+              <div className={styles.infoBlock}>
+                <p className={styles.infoLabel}>Enrollement date</p>
+                <p className={styles.infoValue}>
+                  {s.payment_date}
+                </p>
+              </div>
+            </div>
+
+            <div className={styles.cardFooter}>
+              <span>Student Identification</span>
+              <span>TULUA CENTER</span>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
