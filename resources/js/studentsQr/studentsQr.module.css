@@ -1,11 +1,11 @@
 .page {
   position: relative;
 
-  width: 146%;
+  width: 115%;
   min-height: 100vh;
 
-  top: 75px;
-  left: 0;
+  top: 250px;
+  left: 100px;
 
   box-sizing: border-box;
 
@@ -28,6 +28,7 @@
     ),
     #090909;
 }
+
 
 /* ========================================= */
 /* Header                                    */
@@ -136,13 +137,15 @@
 /* ========================================= */
 
 .cardsGrid {
-  display: flex;
+  display: grid;
 
-  flex-wrap: wrap;
-
-  align-items: flex-start;
+  grid-template-columns: repeat(3, 220px);
 
   gap: 28px;
+
+  align-items: start;
+
+  justify-content: start;
 }
 
 /* ========================================= */
@@ -150,8 +153,8 @@
 /* ========================================= */
 
 .card {
-  --card-width: 250px;
-  --card-height: 400px;
+  --card-width: 220px;
+  --card-height: 350px;
 
   position: relative;
 
@@ -676,6 +679,8 @@
   }
 
   .cardsGrid {
+    grid-template-columns: repeat(2, 220px);
+
     gap: 20px;
   }
 }
@@ -698,7 +703,9 @@
   }
 
   .cardsGrid {
-    justify-content: center;
+    grid-template-columns: 1fr;
+
+    justify-items: center;
 
     gap: 18px;
   }
@@ -708,3 +715,4 @@
     --card-height: 300px;
   }
 }
+

@@ -16,7 +16,7 @@ use App\Http\Controllers\teacher\TeacherController as TeacherPaymentController;
 use Illuminate\Support\Facades\Route;
 
 
-Route::prefix('tuluacenter/admin')->group(function(){
+Route::prefix('/admin')->group(function(){
     Route::get('/matieres', [MatiereController::class, 'index']);
     Route::post('/storeMatiere',[MatiereController::class,'store']);
     Route::post('/matieres/delete', [MatiereController::class, 'delete']);
@@ -56,7 +56,7 @@ Route::prefix('tuluacenter/admin')->group(function(){
 
 
 
-Route::prefix('tuluacenter/auth')->group(function () {
+Route::prefix('/auth')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/logout', [AuthController::class, 'logout']);
 });
@@ -69,7 +69,7 @@ Route::prefix('tuluacenter/auth')->group(function () {
 
 
 
-Route::prefix('tuluacenter/payment')->group(function(){
+Route::prefix('/payment')->group(function(){
     Route::post('/createStudent',[PaymentController::class,'store']);
     Route::get('/getClasses',[PaymentController::class,'getClasses']);
     Route::get('/getStudents',[PaymentController::class,'getStudents']);
@@ -85,7 +85,7 @@ Route::prefix('tuluacenter/payment')->group(function(){
 });
 
 
-Route::prefix('tuluacenter/teacher')->group(function () {
+Route::prefix('/teacher')->group(function () {
 
     // Students list (filters + ajax)
     Route::get('/students', [TeacherPaymentController::class, 'index']);

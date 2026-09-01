@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styles from "./sidebar.module.css";
@@ -9,6 +10,7 @@ const SideBar = () => {
 
   const logout = useLogout();
 
+  // Update role when login/logout changes it
   useEffect(() => {
     const updateRole = () => {
       setRole(localStorage.getItem("user_role"));
@@ -21,20 +23,23 @@ const SideBar = () => {
     };
   }, []);
 
+  // Do not display sidebar if user is not authenticated
   if (!role) return null;
 
+  // =========================
+  // ADMIN LINKS
+  // =========================
   const adminLinks = [
     { label: "Classes", to: "/classes/index" },
     { label: "Levels", to: "/niveaux" },
     { label: "Teachers", to: "/teachers" },
     { label: "Assistant", to: "/assistances" },
     { label: "Subjects", to: "/matieres" },
-    { label: "Add Student", to: "/payment/add" },
-    { label: "All Students", to: "/payment/index" },
-    { label: "Students Cards", to: "/students/studentsQr" },
-    { label: "Scanner", to: "/students/scanner" },
   ];
 
+  // =========================
+  // ASSISTANT LINKS
+  // =========================
   const assistantLinks = [
     { label: "Add Student", to: "/payment/add" },
     { label: "All Students", to: "/payment/index" },
@@ -42,24 +47,41 @@ const SideBar = () => {
     { label: "Scanner", to: "/students/scanner" },
   ];
 
-  const teacherLinks = [
-    { label: "Students", to: "/teacher/students" },
-    { label: "Statistics", to: "/teacher/statistiques" },
-  ];
+  // =========================
+  // TEACHER LINKS
+  // =========================
+  // Leave empty for now.
+  // Add teacher navigation here later.
+  const teacherLinks = [];
 
-  const links =
-    role === "admin"
-      ? adminLinks
-      : role === "assistant"
-        ? assistantLinks
-        : role === "teacher"
-          ? teacherLinks
-          : [];
+  // =========================
+  // SELECT LINKS BASED ON ROLE
+  // =========================
+  let links = [];
 
+  switch (role) {
+    case "admin":
+      links = adminLinks;
+      break;
+
+    case "assistant":
+      links = assistantLinks;
+      break;
+
+    case "teacher":
+      links = teacherLinks;
+      break;
+
+    default:
+      links = [];
+  }
+
+  // Close mobile menu after clicking a link
   const handleMobileLinkClick = () => {
     setMobileOpen(false);
   };
 
+  // Logout
   const handleLogout = () => {
     setMobileOpen(false);
     logout();
@@ -71,10 +93,9 @@ const SideBar = () => {
         mobileOpen ? styles.mobileOpen : ""
       }`}
     >
-      {/* =====================================================
+      {/* =========================
           MOBILE TOP BAR
-          ===================================================== */}
-
+          ========================= */}
       <div className={styles.mobileHeader}>
         <div className={styles.mobileBrand}>
           <span className={styles.brandMark}>T</span>
@@ -102,13 +123,12 @@ const SideBar = () => {
         </button>
       </div>
 
-      {/* =====================================================
+      {/* =========================
           SIDEBAR CONTENT
-          ===================================================== */}
-
+          ========================= */}
       <div className={styles.sidebarInner}>
-        {/* DESKTOP BRAND */}
 
+        {/* DESKTOP BRAND */}
         <div className={styles.brand}>
           <span className={styles.brandMark}>T</span>
 
@@ -119,14 +139,12 @@ const SideBar = () => {
         </div>
 
         {/* ROLE */}
-
         <div className={styles.role}>
           <span className={styles.roleLine} />
           <span>{role}</span>
         </div>
 
         {/* NAVIGATION */}
-
         <nav className={styles.navigation}>
           <div className={styles.navLabel}>Navigation</div>
 
@@ -152,7 +170,6 @@ const SideBar = () => {
         </nav>
 
         {/* FOOTER */}
-
         <div className={styles.sidebarFooter}>
           <button
             type="button"
@@ -160,9 +177,10 @@ const SideBar = () => {
             onClick={handleLogout}
           >
             <span>Logout</span>
-            <span className={styles.logoutIcon}>↗</span>
+            <span className={styles.logoutIcon}></span>
           </button>
         </div>
+
       </div>
     </aside>
   );
