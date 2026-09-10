@@ -79,13 +79,22 @@ const Login = () => {
                 </div>
             </form>
             <div className={styles.imageDiv}>
-              <img className={styles.img} src="./images/tulua.png" alt="Tulua"/>
-              <img className={styles.logo} src="./images/Logo.png" alt="Tulua Logo"/>
-              <div className={styles.imageCaption}>
-                  <span className={styles.captionLine}></span>
-                  <span>LEARN · CREATE · BECOME</span>
-              </div>
-          </div>
+                <img
+                    className={styles.img}
+                    src="/images/tulua.png"
+                    alt="Tulua"
+                />
+
+                <img
+                    className={styles.logo}
+                    src="/images/Logo.png"
+                    alt="Tulua Logo"
+                />
+                <div className={styles.imageCaption}>
+                    <span className={styles.captionLine}></span>
+                    <span>LEARN · CREATE · BECOME</span>
+                </div>
+            </div>
         </div>
     );
 };
