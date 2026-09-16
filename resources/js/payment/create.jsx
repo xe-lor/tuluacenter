@@ -25,6 +25,9 @@ const CreateStudent = () => {
     const [type, setType] = useState("");
     const [loading, setLoading] = useState(false);
 
+    const [duplicateStudent, setDuplicateStudent] = useState(null);
+    const [showDuplicateWarning, setShowDuplicateWarning] = useState(false);
+
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -35,35 +38,96 @@ const CreateStudent = () => {
             .catch((err) => console.error(err));
     }, []);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e, forceCreate = false) => {
         e.preventDefault();
+
         setLoading(true);
 
-        API.post(
-            "/payment/createStudent",
+        try {
+            const response = await API.post(
+                "/payment/createStudent",
+                {
+                    name,
+                    lastName,
+                    parentName,
+                    studentPhone,
+                    parentPhone,
+                    niveau,
+                    date,
+                    reduction,
+                    groupe,
+                    classe,
+                    state,
+
+                    /*
+                     * false = normal creation/check
+                     * true  = user confirmed duplicate
+                     */
+                    force_create: forceCreate,
+                },
+                {
+                    withCredentials: true,
+                },
+            );
+
+            /*
+             * No duplicate.
+             *
+             * Student was created normally.
+             */
+            navigate("/payment/index");
+        } catch (err) {
+            /*
+             * Laravel returns HTTP 409 when it finds
+             * a possible duplicate.
+             */
+            if (err.response?.status === 409 && err.response?.data?.duplicate) {
+                setDuplicateStudent(err.response.data.existing_student);
+
+                setShowDuplicateWarning(true);
+
+                return;
+            }
+
+            console.error(err);
+
+            setMessage(
+                err.response?.data?.message || "Failed to create student.",
+            );
+
+            setType("error");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const confirmStudentCreation = () => {
+        /*
+         * Close the warning first.
+         */
+        setShowDuplicateWarning(false);
+
+        /*
+         * Send the SAME information again,
+         * but force_create = true.
+         */
+        handleSubmit(
             {
-                name,
-                lastName,
-                parentName,
-                studentPhone,
-                parentPhone,
-                niveau,
-                date,
-                reduction,
-                groupe,
-                classe,
-                state,
+                preventDefault: () => {},
             },
-            {
-                withCredentials: true,
-            },
-        )
-            .then(() => {
-                navigate("/payment/index");
-            })
-            .finally(() => {
-                setLoading(false);
-            });
+            true,
+        );
+    };
+
+    const cancelStudentCreation = () => {
+        /*
+         * Only close the warning.
+         *
+         * We DO NOT reset any input.
+         */
+        setShowDuplicateWarning(false);
+
+        setDuplicateStudent(null);
     };
 
     const handleSelectedNiveau = (e) => {
@@ -501,7 +565,202 @@ const CreateStudent = () => {
                     )}
                 </button>
             </div>
+{showDuplicateWarning && duplicateStudent && (
+    <div className={styles.duplicateOverlay}>
 
+        <div className={styles.duplicateModal}>
+
+            {/* HEADER */}
+
+            <div className={styles.duplicateHeader}>
+
+                <div className={styles.duplicateEyebrow}>
+                    <span className={styles.duplicateEyebrowLine} />
+                    <span>Registration / Verification</span>
+                </div>
+
+                <div className={styles.duplicateTitleRow}>
+
+                    <h2 className={styles.duplicateTitle}>
+                        Possible
+                        <br />
+                        <span>Duplicate.</span>
+                    </h2>
+
+                    <span className={styles.duplicateNumber}>
+                        02
+                    </span>
+
+                </div>
+
+                <p className={styles.duplicateSubtitle}>
+                    A student with matching information has
+                    been found in the records.
+                </p>
+
+            </div>
+
+
+            {/* MATCHING PERCENTAGE */}
+
+            <div className={styles.matchPercentage}>
+
+                <div className={styles.matchPercentageHeader}>
+
+                    <div className={styles.matchingInfo}>
+
+                        <span className={styles.matchingLabel}>
+                            Similarity analysis
+                        </span>
+
+                        <span className={styles.matchingDescription}>
+                            Based on name, last name & subjects
+                        </span>
+
+                    </div>
+
+                    <strong className={styles.matchingScore}>
+                        {duplicateStudent.matching_percentage}%
+                    </strong>
+
+                </div>
+
+                <div className={styles.matchPercentageBar}>
+                    <span
+                        className={styles.matchPercentageFill}
+                        style={{
+                            width: `${duplicateStudent.matching_percentage}%`,
+                        }}
+                    />
+                </div>
+
+            </div>
+
+
+            {/* EXISTING STUDENT */}
+
+            <div className={styles.existingStudent}>
+
+                <span className={styles.existingStudentLabel}>
+                    Existing student
+                </span>
+
+                <div className={styles.existingStudentInfo}>
+
+                    <div className={styles.studentInitial}>
+                        {duplicateStudent.name
+                            ?.charAt(0)
+                            .toUpperCase()}
+                    </div>
+
+                    <div className={styles.studentIdentity}>
+
+                        <strong>
+                            {duplicateStudent.name}{" "}
+                            {duplicateStudent.lastname}
+                        </strong>
+
+                        <span>
+                            Student record #
+                            {duplicateStudent.student_id}
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                {/* SUBJECTS */}
+
+                {duplicateStudent.subjects?.length > 0 && (
+
+                    <div className={styles.existingSubjects}>
+
+                        <span className={styles.subjectsLabel}>
+                            Registered subjects
+                        </span>
+
+                        <div className={styles.subjectTags}>
+
+                            {duplicateStudent.subjects.map(
+                                (subject, index) => (
+
+                                    <span
+                                        key={index}
+                                        className={styles.subjectTag}
+                                    >
+                                        {subject}
+                                    </span>
+
+                                )
+                            )}
+
+                        </div>
+
+                    </div>
+
+                )}
+
+            </div>
+
+
+            {/* QUESTION */}
+
+            <div className={styles.duplicateQuestion}>
+
+                <span className={styles.questionLabel}>
+                    Confirmation required
+                </span>
+
+                <p>
+                    Do you want to register this student anyway?
+                </p>
+
+            </div>
+
+
+            {/* BUTTONS */}
+
+            <div className={styles.duplicateActions}>
+
+                <button
+                    type="button"
+                    className={styles.cancelDuplicateButton}
+                    onClick={cancelStudentCreation}
+                >
+                    <span>
+                        Cancel registration
+                    </span>
+
+                    <span className={styles.buttonArrow}>
+                        ↗
+                    </span>
+                </button>
+
+
+                <button
+                    type="button"
+                    className={styles.confirmDuplicateButton}
+                    onClick={confirmStudentCreation}
+                    disabled={loading}
+                >
+                    <span>
+                        {loading
+                            ? "Creating..."
+                            : "Confirm registration"}
+                    </span>
+
+                    <span className={styles.buttonArrow}>
+                        →
+                    </span>
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+)}
             {message && (
                 <div
                     onClick={() => {
