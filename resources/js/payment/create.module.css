@@ -840,3 +840,734 @@
   }
 }
 
+/* =========================================================
+   DUPLICATE STUDENT WARNING
+   Cinematic / Academic / Amber
+   ========================================================= */
+
+
+/* ---------------------------------------------------------
+   OVERLAY
+   --------------------------------------------------------- */
+
+.duplicateOverlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 24px;
+
+    background:
+        radial-gradient(
+            circle at 75% 20%,
+            rgba(255, 193, 7, 0.045),
+            transparent 42%
+        ),
+        rgba(5, 5, 5, 0.88);
+
+    backdrop-filter: blur(7px);
+
+    animation: duplicateOverlayIn 0.25s ease-out;
+}
+
+
+/* ---------------------------------------------------------
+   MODAL
+   --------------------------------------------------------- */
+
+.duplicateModal {
+    position: relative;
+
+    width: 100%;
+    max-width: 570px;
+
+    max-height: calc(100vh - 48px);
+
+    overflow-y: auto;
+
+    padding: 38px 40px 34px;
+
+    background:
+        radial-gradient(
+            circle at 100% 0%,
+            rgba(255, 193, 7, 0.045),
+            transparent 40%
+        ),
+        #101010;
+
+    border: 1px solid rgba(
+        255,
+        255,
+        255,
+        0.08
+    );
+
+    border-radius: 4px;
+
+    color: #fff;
+
+    box-shadow:
+        0 35px 90px rgba(0, 0, 0, 0.75),
+        0 12px 35px rgba(0, 0, 0, 0.45);
+
+    animation: duplicateModalIn 0.3s ease-out;
+}
+
+
+/* Thin gold decorative line */
+
+.duplicateModal::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 110px;
+    height: 2px;
+
+    background: #ffc107;
+}
+
+
+/* ---------------------------------------------------------
+   HEADER
+   --------------------------------------------------------- */
+
+.duplicateHeader {
+    margin-bottom: 30px;
+}
+
+
+.duplicateEyebrow {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    margin-bottom: 22px;
+
+    color: #777;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.18em;
+}
+
+
+.duplicateEyebrowLine {
+    width: 28px;
+    height: 1px;
+
+    background: #ffc107;
+}
+
+
+.duplicateTitleRow {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    gap: 20px;
+}
+
+
+.duplicateTitle {
+    margin: 0;
+
+    color: #f5f5f5;
+
+    font-size: 42px;
+    font-weight: 800;
+
+    line-height: 0.96;
+
+    letter-spacing: -0.055em;
+}
+
+
+.duplicateTitle span {
+    color: #ffc107;
+}
+
+
+.duplicateNumber {
+    padding-top: 4px;
+
+    color: #3d3d3d;
+
+    font-size: 38px;
+    font-weight: 800;
+
+    line-height: 1;
+
+    letter-spacing: -0.06em;
+}
+
+
+.duplicateSubtitle {
+    max-width: 390px;
+
+    margin: 20px 0 0;
+
+    color: #858585;
+
+    font-size: 13px;
+
+    line-height: 1.7;
+}
+
+
+/* ---------------------------------------------------------
+   MATCHING PERCENTAGE
+   --------------------------------------------------------- */
+
+.matchPercentage {
+    padding: 20px 0;
+
+    margin-bottom: 27px;
+
+    border-top: 1px solid rgba(
+        255,
+        255,
+        255,
+        0.07
+    );
+
+    border-bottom: 1px solid rgba(
+        255,
+        255,
+        255,
+        0.07
+    );
+}
+
+
+.matchPercentageHeader {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    margin-bottom: 15px;
+}
+
+
+.matchingInfo {
+    display: flex;
+    flex-direction: column;
+
+    gap: 6px;
+}
+
+
+.matchingLabel {
+    color: #ffc107;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.15em;
+}
+
+
+.matchingDescription {
+    color: #666;
+
+    font-size: 11px;
+}
+
+
+.matchingScore {
+    color: #ffc107;
+
+    font-size: 36px;
+    font-weight: 800;
+
+    line-height: 1;
+
+    letter-spacing: -0.06em;
+}
+
+
+/* Background of percentage bar */
+
+.matchPercentageBar {
+    width: 100%;
+    height: 4px;
+
+    overflow: hidden;
+
+    background: #282828;
+}
+
+
+/* Actual percentage */
+
+.matchPercentageFill {
+    display: block;
+
+    height: 100%;
+
+    background: #ffc107;
+
+    transition: width 0.45s ease;
+}
+
+
+/* ---------------------------------------------------------
+   EXISTING STUDENT
+   --------------------------------------------------------- */
+
+.existingStudent {
+    padding: 21px;
+
+    margin-bottom: 27px;
+
+    background: #171717;
+
+    border: 1px solid rgba(
+        255,
+        255,
+        255,
+        0.055
+    );
+
+    border-radius: 3px;
+}
+
+
+.existingStudentLabel {
+    display: block;
+
+    margin-bottom: 17px;
+
+    color: #6f6f6f;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.16em;
+}
+
+
+.existingStudentInfo {
+    display: flex;
+    align-items: center;
+
+    gap: 15px;
+}
+
+
+/* Gold square containing first letter */
+
+.studentInitial {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 48px;
+    height: 48px;
+
+    flex-shrink: 0;
+
+    background: #ffc107;
+
+    color: #101010;
+
+    font-size: 19px;
+    font-weight: 800;
+
+    border-radius: 2px;
+}
+
+
+.studentIdentity {
+    display: flex;
+    flex-direction: column;
+
+    gap: 5px;
+}
+
+
+.studentIdentity strong {
+    color: #f5f5f5;
+
+    font-size: 18px;
+    font-weight: 700;
+
+    letter-spacing: -0.025em;
+}
+
+
+.studentIdentity span {
+    color: #606060;
+
+    font-size: 10px;
+
+    letter-spacing: 0.04em;
+}
+
+
+/* ---------------------------------------------------------
+   SUBJECTS
+   --------------------------------------------------------- */
+
+.existingSubjects {
+    margin-top: 22px;
+
+    padding-top: 17px;
+
+    border-top: 1px solid rgba(
+        255,
+        255,
+        255,
+        0.055
+    );
+}
+
+
+.subjectsLabel {
+    display: block;
+
+    margin-bottom: 11px;
+
+    color: #777;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.14em;
+}
+
+
+.subjectTags {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 7px;
+}
+
+
+.subjectTag {
+    display: inline-block;
+
+    padding: 6px 10px;
+
+    background: rgba(
+        255,
+        193,
+        7,
+        0.06
+    );
+
+    border: 1px solid rgba(
+        255,
+        193,
+        7,
+        0.22
+    );
+
+    border-radius: 2px;
+
+    color: #ffc107;
+
+    font-size: 10px;
+    font-weight: 600;
+}
+
+
+/* ---------------------------------------------------------
+   CONFIRMATION QUESTION
+   --------------------------------------------------------- */
+
+.duplicateQuestion {
+    margin-bottom: 26px;
+}
+
+
+.questionLabel {
+    display: block;
+
+    margin-bottom: 10px;
+
+    color: #ffc107;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.15em;
+}
+
+
+.duplicateQuestion p {
+    margin: 0;
+
+    color: #b5b5b5;
+
+    font-size: 14px;
+
+    line-height: 1.65;
+}
+
+
+/* ---------------------------------------------------------
+   ACTIONS
+   --------------------------------------------------------- */
+
+.duplicateActions {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 12px;
+
+    padding-top: 23px;
+
+    border-top: 1px solid rgba(
+        255,
+        255,
+        255,
+        0.07
+    );
+}
+
+
+.cancelDuplicateButton,
+.confirmDuplicateButton {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    min-height: 50px;
+
+    padding: 13px 15px;
+
+    border-radius: 2px;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.045em;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+/* Cancel */
+
+.cancelDuplicateButton {
+    background: transparent;
+
+    border: 1px solid rgba(
+        255,
+        255,
+        255,
+        0.13
+    );
+
+    color: #999;
+}
+
+
+.cancelDuplicateButton:hover {
+    background: #171717;
+
+    border-color: rgba(
+        255,
+        193,
+        7,
+        0.45
+    );
+
+    color: #ffc107;
+
+    transform: translateY(-2px);
+}
+
+
+/* Confirm */
+
+.confirmDuplicateButton {
+    background: #ffc107;
+
+    border: 1px solid #ffc107;
+
+    color: #101010;
+}
+
+
+.confirmDuplicateButton:hover {
+    background: #ffca2c;
+
+    box-shadow:
+        0 8px 25px rgba(
+            255,
+            193,
+            7,
+            0.13
+        );
+
+    transform: translateY(-2px);
+}
+
+
+.confirmDuplicateButton:disabled {
+    opacity: 0.55;
+
+    cursor: not-allowed;
+
+    transform: none;
+
+    box-shadow: none;
+}
+
+
+/* Arrow */
+
+.buttonArrow {
+    font-size: 17px;
+
+    line-height: 1;
+}
+
+
+/* ---------------------------------------------------------
+   ANIMATIONS
+   --------------------------------------------------------- */
+
+@keyframes duplicateOverlayIn {
+
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+
+}
+
+
+@keyframes duplicateModalIn {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(14px)
+            scale(0.985);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+    }
+
+}
+
+
+/* ---------------------------------------------------------
+   SCROLLBAR
+   --------------------------------------------------------- */
+
+.duplicateModal::-webkit-scrollbar {
+    width: 5px;
+}
+
+
+.duplicateModal::-webkit-scrollbar-track {
+    background: #090909;
+}
+
+
+.duplicateModal::-webkit-scrollbar-thumb {
+    background: #383838;
+
+    border-radius: 0;
+}
+
+
+.duplicateModal::-webkit-scrollbar-thumb:hover {
+    background: #ffc107;
+}
+
+
+/* ---------------------------------------------------------
+   RESPONSIVE
+   --------------------------------------------------------- */
+
+@media (max-width: 600px) {
+
+    .duplicateOverlay {
+        padding: 14px;
+    }
+
+
+    .duplicateModal {
+        max-height: calc(100vh - 28px);
+
+        padding: 30px 22px 25px;
+    }
+
+
+    .duplicateTitle {
+        font-size: 34px;
+    }
+
+
+    .duplicateNumber {
+        font-size: 30px;
+    }
+
+
+    .matchingScore {
+        font-size: 30px;
+    }
+
+
+    .existingStudent {
+        padding: 17px;
+    }
+
+
+    .duplicateActions {
+        grid-template-columns: 1fr;
+    }
+
+
+    .cancelDuplicateButton,
+    .confirmDuplicateButton {
+        min-height: 48px;
+    }
+
+}
