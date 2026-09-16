@@ -244,99 +244,274 @@ const IndexClasses = () => {
     // RENDER
     // =========================
 
-    return (
+   return (
 
-        <div className={styles.pageContainer}>
+    <div className={styles.pageContainer}>
 
-            <div className={styles.managementCard}>
+        <div className={styles.managementCard}>
 
-                {/* HEADER */}
+            {/* HEADER */}
 
-                <div className={styles.cardHeader}>
+            <div className={styles.cardHeader}>
 
-                    <div className={styles.headerContent}>
+                <div className={styles.headerContent}>
 
-                        <span className={styles.headerLabel}>
-                            ACADEMIC ADMINISTRATION
-                        </span>
+                    <span className={styles.headerLabel}>
+                        ACADEMIC ADMINISTRATION
+                    </span>
 
-                        <h1 className={styles.headerTitle}>
-                            Classes
-                        </h1>
+                    <h1 className={styles.headerTitle}>
+                        Classes
+                    </h1>
 
-                        <p className={styles.headerSubtitle}>
-                            Manage classes, teachers, levels and pricing.
-                        </p>
-
-                    </div>
-
-                    {!isAdding && !editingId && (
-
-                        <button
-                            className={styles.addButton}
-                            onClick={() => setIsAdding(true)}
-                        >
-                            <span className={styles.addIcon}>+</span>
-                            Add Class
-                        </button>
-
-                    )}
+                    <p className={styles.headerSubtitle}>
+                        Manage classes, teachers, levels and pricing.
+                    </p>
 
                 </div>
 
-                {/* TABLE */}
+                {!isAdding && !editingId && (
 
-                <div className={styles.cardBody}>
+                    <button
+                        className={styles.addButton}
+                        onClick={() => setIsAdding(true)}
+                    >
+                        <span className={styles.addIcon}>+</span>
+                        Add Class
+                    </button>
 
-                    {loading ? (
+                )}
 
-                        <div className={styles.loadingState}>
+            </div>
 
-                            <span className={styles.loadingLine}></span>
+            {/* TABLE */}
 
-                            <span className={styles.loadingText}>
-                                Loading classes...
-                            </span>
+            <div className={styles.cardBody}>
 
-                        </div>
+                {loading ? (
 
-                    ) : (
+                    <div className={styles.loadingState}>
 
-                        <div className={styles.tableWrapper}>
+                        <span className={styles.loadingLine}></span>
 
-                            <table className={styles.table}>
+                        <span className={styles.loadingText}>
+                            Loading classes...
+                        </span>
 
-                                <thead>
+                    </div>
 
-                                    <tr>
+                ) : (
 
-                                        <th>Matiere</th>
-                                        <th>Teacher</th>
-                                        <th>Niveau</th>
-                                        <th>Price</th>
+                    <div className={styles.tableWrapper}>
 
-                                        <th className={styles.actionsHeader}>
-                                            Actions
-                                        </th>
+                        <table className={styles.table}>
+
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Matiere</th>
+                            <th>Teacher</th>
+                            <th>Niveau</th>
+                            <th>Percentage</th>
+                            <th>Price</th>
+                            <th className={styles.actionsHeader}>Actions</th>
+                        </tr>
+                        </thead>
+
+                            <tbody>
+
+                                {/* =========================
+                                    ADD ROW
+                                ========================= */}
+
+                                {isAdding && (
+
+                                    <tr className={styles.addRow}>
+
+                                        {/* ID / NEW BADGE */}
+
+                                        <td>
+
+                                            <span className={styles.newBadge}>
+                                                NEW
+                                            </span>
+
+                                        </td>
+
+                                        {/* MATIERE */}
+
+                                        <td>
+
+                                            <select
+                                                className={styles.selectInput}
+                                                value={newMatiere}
+                                                onChange={e =>
+                                                    setNewMatiere(e.target.value)
+                                                }
+                                            >
+
+                                                <option value="">
+                                                    Select Matiere
+                                                </option>
+
+                                                {matieres.map(matiere => (
+
+                                                    <option
+                                                        key={matiere.id}
+                                                        value={matiere.id}
+                                                    >
+                                                        {matiere.name}
+                                                    </option>
+
+                                                ))}
+
+                                            </select>
+
+                                        </td>
+
+                                        {/* TEACHER */}
+
+                                        <td>
+
+                                            <select
+                                                className={styles.selectInput}
+                                                value={newTeacher}
+                                                onChange={e =>
+                                                    setNewTeacher(e.target.value)
+                                                }
+                                            >
+
+                                                <option value="">
+                                                    Select Teacher
+                                                </option>
+
+                                                {teachers.map(teacher => (
+
+                                                    <option
+                                                        key={teacher.id}
+                                                        value={teacher.id}
+                                                    >
+                                                        {teacher.name}
+                                                    </option>
+
+                                                ))}
+
+                                            </select>
+
+                                        </td>
+
+                                        {/* NIVEAU */}
+
+                                        <td>
+
+                                            <select
+                                                className={styles.selectInput}
+                                                value={newNiveau}
+                                                onChange={e =>
+                                                    setNewNiveau(e.target.value)
+                                                }
+                                            >
+
+                                                <option value="">
+                                                    Select Niveau
+                                                </option>
+
+                                                {niveaux.map(niveau => (
+
+                                                    <option
+                                                        key={niveau.id}
+                                                        value={niveau.id}
+                                                    >
+                                                        {niveau.name}
+                                                    </option>
+
+                                                ))}
+
+                                            </select>
+
+                                        </td>
+
+                                        {/* PERCENTAGE */}
+
+                                        <td>
+
+                                            <input
+                                                type="number"
+                                                className={styles.numberInput}
+                                                min="0"
+                                                max="100"
+                                                value={newPercentage}
+                                                onChange={e =>
+                                                    setNewPercentage(e.target.value)
+                                                }
+                                            />
+
+                                        </td>
+
+                                        {/* PRICE */}
+
+                                        <td>
+
+                                            <input
+                                                type="number"
+                                                className={styles.numberInput}
+                                                min="0"
+                                                step="0.01"
+                                                value={newPrice}
+                                                onChange={e =>
+                                                    setNewPrice(e.target.value)
+                                                }
+                                            />
+
+                                        </td>
+
+                                        {/* ACTIONS */}
+
+                                        <td>
+
+                                            <div className={styles.actionGroup}>
+
+                                                <button
+                                                    className={styles.saveButton}
+                                                    onClick={handleAdd}
+                                                >
+                                                    Save
+                                                </button>
+
+                                                <button
+                                                    className={styles.cancelButton}
+                                                    onClick={handleCancelAdd}
+                                                >
+                                                    Cancel
+                                                </button>
+
+                                            </div>
+
+                                        </td>
 
                                     </tr>
 
-                                </thead>
+                                )}
 
-                                <tbody>
+                                {/* =========================
+                                    CLASS ROWS
+                                ========================= */}
 
-                                    {/* =========================
-                                        ADD ROW
-                                    ========================= */}
+                                {classes.length > 0 ? (
 
-                                    {isAdding && (
+                                    classes.map(classe => (
 
-                                        <tr className={styles.addRow}>
+                                        <tr
+                                            key={classe.id}
+                                            className={styles.dataRow}
+                                        >
+
+                                            {/* ID */}
 
                                             <td>
 
-                                                <span className={styles.newBadge}>
-                                                    NEW
+                                                <span className={styles.idNumber}>
+                                                    {classe.id}
                                                 </span>
 
                                             </td>
@@ -345,30 +520,40 @@ const IndexClasses = () => {
 
                                             <td>
 
-                                                <select
-                                                    className={styles.selectInput}
-                                                    value={newMatiere}
-                                                    onChange={e =>
-                                                        setNewMatiere(e.target.value)
-                                                    }
-                                                >
+                                                {editingId === classe.id ? (
 
-                                                    <option value="">
-                                                        Select Matiere
-                                                    </option>
+                                                    <select
+                                                        className={styles.selectInput}
+                                                        value={editMatiere}
+                                                        onChange={e =>
+                                                            setEditMatiere(e.target.value)
+                                                        }
+                                                    >
 
-                                                    {matieres.map(matiere => (
-
-                                                        <option
-                                                            key={matiere.id}
-                                                            value={matiere.id}
-                                                        >
-                                                            {matiere.name}
+                                                        <option value="">
+                                                            Select Matiere
                                                         </option>
 
-                                                    ))}
+                                                        {matieres.map(matiere => (
 
-                                                </select>
+                                                            <option
+                                                                key={matiere.id}
+                                                                value={matiere.id}
+                                                            >
+                                                                {matiere.name}
+                                                            </option>
+
+                                                        ))}
+
+                                                    </select>
+
+                                                ) : (
+
+                                                    <span className={styles.cellText}>
+                                                        {classe.matiere_name}
+                                                    </span>
+
+                                                )}
 
                                             </td>
 
@@ -376,30 +561,40 @@ const IndexClasses = () => {
 
                                             <td>
 
-                                                <select
-                                                    className={styles.selectInput}
-                                                    value={newTeacher}
-                                                    onChange={e =>
-                                                        setNewTeacher(e.target.value)
-                                                    }
-                                                >
+                                                {editingId === classe.id ? (
 
-                                                    <option value="">
-                                                        Select Teacher
-                                                    </option>
+                                                    <select
+                                                        className={styles.selectInput}
+                                                        value={editTeacher}
+                                                        onChange={e =>
+                                                            setEditTeacher(e.target.value)
+                                                        }
+                                                    >
 
-                                                    {teachers.map(teacher => (
-
-                                                        <option
-                                                            key={teacher.id}
-                                                            value={teacher.id}
-                                                        >
-                                                            {teacher.name}
+                                                        <option value="">
+                                                            Select Teacher
                                                         </option>
 
-                                                    ))}
+                                                        {teachers.map(teacher => (
 
-                                                </select>
+                                                            <option
+                                                                key={teacher.id}
+                                                                value={teacher.id}
+                                                            >
+                                                                {teacher.name}
+                                                            </option>
+
+                                                        ))}
+
+                                                    </select>
+
+                                                ) : (
+
+                                                    <span className={styles.cellText}>
+                                                        {classe.prof_name}
+                                                    </span>
+
+                                                )}
 
                                             </td>
 
@@ -407,30 +602,40 @@ const IndexClasses = () => {
 
                                             <td>
 
-                                                <select
-                                                    className={styles.selectInput}
-                                                    value={newNiveau}
-                                                    onChange={e =>
-                                                        setNewNiveau(e.target.value)
-                                                    }
-                                                >
+                                                {editingId === classe.id ? (
 
-                                                    <option value="">
-                                                        Select Niveau
-                                                    </option>
+                                                    <select
+                                                        className={styles.selectInput}
+                                                        value={editNiveau}
+                                                        onChange={e =>
+                                                            setEditNiveau(e.target.value)
+                                                        }
+                                                    >
 
-                                                    {niveaux.map(niveau => (
-
-                                                        <option
-                                                            key={niveau.id}
-                                                            value={niveau.id}
-                                                        >
-                                                            {niveau.name}
+                                                        <option value="">
+                                                            Select Niveau
                                                         </option>
 
-                                                    ))}
+                                                        {niveaux.map(niveau => (
 
-                                                </select>
+                                                            <option
+                                                                key={niveau.id}
+                                                                value={niveau.id}
+                                                            >
+                                                                {niveau.name}
+                                                            </option>
+
+                                                        ))}
+
+                                                    </select>
+
+                                                ) : (
+
+                                                    <span className={styles.cellText}>
+                                                        {classe.niveau_name}
+                                                    </span>
+
+                                                )}
 
                                             </td>
 
@@ -438,16 +643,26 @@ const IndexClasses = () => {
 
                                             <td>
 
-                                                <input
-                                                    type="number"
-                                                    className={styles.numberInput}
-                                                    min="0"
-                                                    max="100"
-                                                    value={newPercentage}
-                                                    onChange={e =>
-                                                        setNewPercentage(e.target.value)
-                                                    }
-                                                />
+                                                {editingId === classe.id ? (
+
+                                                    <input
+                                                        type="number"
+                                                        className={styles.numberInput}
+                                                        min="0"
+                                                        max="100"
+                                                        value={editPercentage}
+                                                        onChange={e =>
+                                                            setEditPercentage(e.target.value)
+                                                        }
+                                                    />
+
+                                                ) : (
+
+                                                    <span className={styles.valueText}>
+                                                        {`${classe.percentage}%`}
+                                                    </span>
+
+                                                )}
 
                                             </td>
 
@@ -455,16 +670,26 @@ const IndexClasses = () => {
 
                                             <td>
 
-                                                <input
-                                                    type="number"
-                                                    className={styles.numberInput}
-                                                    min="0"
-                                                    step="0.01"
-                                                    value={newPrice}
-                                                    onChange={e =>
-                                                        setNewPrice(e.target.value)
-                                                    }
-                                                />
+                                                {editingId === classe.id ? (
+
+                                                    <input
+                                                        type="number"
+                                                        className={styles.numberInput}
+                                                        min="0"
+                                                        step="0.01"
+                                                        value={editPrice}
+                                                        onChange={e =>
+                                                            setEditPrice(e.target.value)
+                                                        }
+                                                    />
+
+                                                ) : (
+
+                                                    <span className={styles.priceText}>
+                                                        {`${Number(classe.price).toFixed(2)} DH`}
+                                                    </span>
+
+                                                )}
 
                                             </td>
 
@@ -472,292 +697,100 @@ const IndexClasses = () => {
 
                                             <td>
 
-                                                <div className={styles.actionGroup}>
+                                                {editingId === classe.id ? (
 
-                                                    <button
-                                                        className={styles.saveButton}
-                                                        onClick={handleAdd}
-                                                    >
-                                                        Save
-                                                    </button>
+                                                    <div className={styles.actionGroup}>
 
-                                                    <button
-                                                        className={styles.cancelButton}
-                                                        onClick={handleCancelAdd}
-                                                    >
-                                                        Cancel
-                                                    </button>
+                                                        <button
+                                                            className={styles.saveButton}
+                                                            onClick={() =>
+                                                                handleUpdate(classe.id)
+                                                            }
+                                                        >
+                                                            Save
+                                                        </button>
 
-                                                </div>
+                                                        <button
+                                                            className={styles.cancelButton}
+                                                            onClick={handleCancelEdit}
+                                                        >
+                                                            Cancel
+                                                        </button>
+
+                                                    </div>
+
+                                                ) : (
+
+                                                    <div className={styles.actionGroup}>
+
+                                                        <button
+                                                            className={styles.editButton}
+                                                            onClick={() =>
+                                                                handleEdit(classe)
+                                                            }
+                                                        >
+                                                            Edit
+                                                        </button>
+
+                                                        <button
+                                                            className={styles.deleteButton}
+                                                            onClick={() =>
+                                                                handleDelete(classe.id)
+                                                            }
+                                                        >
+                                                            Delete
+                                                        </button>
+
+                                                    </div>
+
+                                                )}
 
                                             </td>
 
                                         </tr>
 
-                                    )}
+                                    ))
 
-                                    {/* =========================
-                                        CLASS ROWS
-                                    ========================= */}
+                                ) : (
 
-                                    {classes.length > 0 ? (
+                                    <tr className={styles.emptyRow}>
 
-                                        classes.map(classe => (
+                                        <td colSpan="7">
 
-                                            <tr
-                                                key={classe.id}
-                                                className={styles.dataRow}
-                                            >
+                                            <div className={styles.emptyState}>
 
-                                                {/* MATIERE */}
+                                                <span className={styles.emptyAccent}></span>
 
-                                                <td>
+                                                <span className={styles.emptyTitle}>
+                                                    No Classes Found
+                                                </span>
 
-                                                    {editingId === classe.id ? (
+                                                <span className={styles.emptySubtitle}>
+                                                    Add a class to begin managing your academic schedule.
+                                                </span>
 
-                                                        <select
-                                                            className={styles.selectInput}
-                                                            value={editMatiere}
-                                                            onChange={e =>
-                                                                setEditMatiere(e.target.value)
-                                                            }
-                                                        >
+                                            </div>
 
-                                                            <option value="">
-                                                                Select Matiere
-                                                            </option>
+                                        </td>
 
-                                                            {matieres.map(matiere => (
+                                    </tr>
 
-                                                                <option
-                                                                    key={matiere.id}
-                                                                    value={matiere.id}
-                                                                >
-                                                                    {matiere.name}
-                                                                </option>
+                                )}
 
-                                                            ))}
+                            </tbody>
 
-                                                        </select>
+                        </table>
 
-                                                    ) : (
+                    </div>
 
-                                                        <span className={styles.cellText}>
-                                                            {classe.matiere_name}
-                                                        </span>
-
-                                                    )}
-
-                                                </td>
-
-                                                {/* TEACHER */}
-
-                                                <td>
-
-                                                    {editingId === classe.id ? (
-
-                                                        <select
-                                                            className={styles.selectInput}
-                                                            value={editTeacher}
-                                                            onChange={e =>
-                                                                setEditTeacher(e.target.value)
-                                                            }
-                                                        >
-
-                                                            <option value="">
-                                                                Select Teacher
-                                                            </option>
-
-                                                            {teachers.map(teacher => (
-
-                                                                <option
-                                                                    key={teacher.id}
-                                                                    value={teacher.id}
-                                                                >
-                                                                    {teacher.name}
-                                                                </option>
-
-                                                            ))}
-
-                                                        </select>
-
-                                                    ) : (
-
-                                                        <span className={styles.cellText}>
-                                                            {classe.prof_name}
-                                                        </span>
-
-                                                    )}
-
-                                                </td>
-
-                                                {/* NIVEAU */}
-
-                                                <td>
-
-                                                    {editingId === classe.id ? (
-
-                                                        <select
-                                                            className={styles.selectInput}
-                                                            value={editNiveau}
-                                                            onChange={e =>
-                                                                setEditNiveau(e.target.value)
-                                                            }
-                                                        >
-
-                                                            <option value="">
-                                                                Select Niveau
-                                                            </option>
-
-                                                            {niveaux.map(niveau => (
-
-                                                                <option
-                                                                    key={niveau.id}
-                                                                    value={niveau.id}
-                                                                >
-                                                                    {niveau.name}
-                                                                </option>
-
-                                                            ))}
-
-                                                        </select>
-
-                                                    ) : (
-
-                                                        <span className={styles.cellText}>
-                                                            {classe.niveau_name}
-                                                        </span>
-
-                                                    )}
-
-                                                </td>
-
-
-                                                {/* PRICE */}
-
-                                                <td>
-
-                                                    {editingId === classe.id ? (
-
-                                                        <input
-                                                            type="number"
-                                                            className={styles.numberInput}
-                                                            min="0"
-                                                            step="0.01"
-                                                            value={editPrice}
-                                                            onChange={e =>
-                                                                setEditPrice(e.target.value)
-                                                            }
-                                                        />
-
-                                                    ) : (
-
-                                                        <span className={styles.priceText}>
-                                                            {`${Number(classe.price).toFixed(2)} DH`}
-                                                        </span>
-
-                                                    )}
-
-                                                </td>
-
-                                                {/* ACTIONS */}
-
-                                                <td>
-
-                                                    {editingId === classe.id ? (
-
-                                                        <div className={styles.actionGroup}>
-
-                                                            <button
-                                                                className={styles.saveButton}
-                                                                onClick={() =>
-                                                                    handleUpdate(classe.id)
-                                                                }
-                                                            >
-                                                                Save
-                                                            </button>
-
-                                                            <button
-                                                                className={styles.cancelButton}
-                                                                onClick={handleCancelEdit}
-                                                            >
-                                                                Cancel
-                                                            </button>
-
-                                                        </div>
-
-                                                    ) : (
-
-                                                        <div className={styles.actionGroup}>
-
-                                                            <button
-                                                                className={styles.editButton}
-                                                                onClick={() =>
-                                                                    handleEdit(classe)
-                                                                }
-                                                            >
-                                                                Edit
-                                                            </button>
-
-                                                            <button
-                                                                className={styles.deleteButton}
-                                                                onClick={() =>
-                                                                    handleDelete(classe.id)
-                                                                }
-                                                            >
-                                                                Delete
-                                                            </button>
-
-                                                        </div>
-
-                                                    )}
-
-                                                </td>
-
-                                            </tr>
-
-                                        ))
-
-                                    ) : (
-
-                                        <tr className={styles.emptyRow}>
-
-                                            <td colSpan="7">
-
-                                                <div className={styles.emptyState}>
-
-                                                    <span className={styles.emptyAccent}></span>
-
-                                                    <span className={styles.emptyTitle}>
-                                                        No Classes Found
-                                                    </span>
-
-                                                    <span className={styles.emptySubtitle}>
-                                                        Add a class to begin managing your academic schedule.
-                                                    </span>
-
-                                                </div>
-
-                                            </td>
-
-                                        </tr>
-
-                                    )}
-
-                                </tbody>
-
-                            </table>
-
-                        </div>
-
-                    )}
-
-                </div>
+                )}
 
             </div>
 
         </div>
-    );
+
+    </div>
+);
 };
 
 export default IndexClasses;

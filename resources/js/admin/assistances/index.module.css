@@ -1,6 +1,7 @@
 .managementCard {
-    position: relative;
-
+    position: fixed;
+    top:75px;
+    left: -70px;
     width: 50%;
     max-width: 1250px;
 
@@ -809,4 +810,54 @@
         transition: none;
     }
 
+}
+/* =========================================
+   SCROLLABLE TABLE BODY
+   ========================================= */
+
+.table tbody {
+    display: block;
+    max-height: calc(100vh - 280px);
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    /* Firefox */
+    scrollbar-width: thin;
+    scrollbar-color: rgb(255, 193, 7) rgba(255, 255, 255, 0.025);
+}
+
+/* Keep table columns aligned */
+.table thead,
+.table tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+
+
+/* =========================================
+   CUSTOM SCROLLBAR
+   ========================================= */
+
+/* Chrome / Edge / Brave / Safari */
+.table tbody::-webkit-scrollbar {
+    width: 7px;
+}
+
+.table tbody::-webkit-scrollbar-track {
+    background: rgb(255, 193, 7);
+    border-radius: 10px;
+    margin: 4px 0;
+}
+
+.table tbody::-webkit-scrollbar-thumb {
+    background: rgb(255, 193, 7);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 193, 7, 0.08);
+
+    transition: background 0.25s ease;
+}
+
+.table tbody::-webkit-scrollbar-corner {
+    background: transparent;
 }

@@ -64,7 +64,166 @@ public function delete($Id){
 }
 
 
+
+
 //-----------------------------------------------------------------------------------------------
+
+
+private function findPossibleDuplicate(Request $request)
+{
+    $name = trim($request->name);
+    $lastName = trim($request->lastName);
+
+    // Classes selected for the NEW student
+    $selectedClasses = collect($request->classe ?? [])
+        ->map(fn($id) => (int) $id)
+        ->unique()
+        ->values();
+
+    // We cannot compare subjects if no subject was selected
+    if ($selectedClasses->isEmpty()) {
+        return null;
+    }
+
+    /*
+     * Find students having the same first name
+     * and last name.
+     */
+    $students = DB::table('students')
+        ->whereRaw(
+            'LOWER(TRIM(name)) = ?',
+            [strtolower($name)]
+        )
+        ->whereRaw(
+            'LOWER(TRIM(lastname)) = ?',
+            [strtolower($lastName)]
+        )
+        ->get();
+
+    foreach ($students as $student) {
+
+        /*
+         * Get all classes/subjects already registered
+         * for this student.
+         */
+        $existingClasses = DB::table('payments')
+            ->where('student_id', $student->id)
+            ->pluck('class_id')
+            ->map(fn($id) => (int) $id)
+            ->unique()
+            ->values();
+
+        /*
+         * Find subjects/classes shared between:
+         *
+         * NEW student
+         * and
+         * EXISTING student
+         */
+        $matchingClasses = $selectedClasses
+            ->intersect($existingClasses);
+
+        /*
+         * Calculate the matching percentage.
+         *
+         * Name       = 25%
+         * Last name  = 25%
+         * Subjects   = 50%
+         */
+
+        $percentage = 0;
+
+        // Same name
+        if (
+            strtolower(trim($student->name))
+            === strtolower($name)
+        ) {
+            $percentage += 25;
+        }
+
+        // Same last name
+        if (
+            strtolower(trim($student->lastname))
+            === strtolower($lastName)
+        ) {
+            $percentage += 25;
+        }
+
+        /*
+         * Subject matching.
+         *
+         * Example:
+         *
+         * New student:
+         * Math + Physics + French
+         *
+         * Existing:
+         * Math + Physics
+         *
+         * 2 / 3 subjects match.
+         *
+         * 2/3 × 50 = 33.33%
+         */
+        $subjectPercentage = (
+            $matchingClasses->count()
+            / $selectedClasses->count()
+        ) * 50;
+
+        $percentage += $subjectPercentage;
+
+        /*
+         * Only show a duplicate warning if at least
+         * one subject matches.
+         */
+        if ($matchingClasses->isNotEmpty()) {
+
+            /*
+             * Get the names of the existing student's
+             * subjects.
+             */
+            $subjects = DB::table('classes')
+                ->join(
+                    'matieres',
+                    'classes.matiere_id',
+                    '=',
+                    'matieres.id'
+                )
+                ->whereIn('classes.id', $existingClasses)
+                ->pluck('matieres.name')
+                ->unique()
+                ->values();
+
+            return [
+                'student_id' => $student->id,
+
+                'name' => $student->name,
+
+                'lastname' => $student->lastname,
+
+                'parentname' => $student->parentname,
+
+                'studentphone' => $student->studentphone,
+
+                'parentphone' => $student->parentphone,
+
+                'subjects' => $subjects,
+
+                // Matching information
+                'matching_percentage' => round($percentage),
+
+                'matching_subjects' => $matchingClasses->count(),
+
+                'total_subjects' => $selectedClasses->count(),
+            ];
+        }
+    }
+
+    return null;
+}
+
+
+//-----------------------------------------------------------------------------------------------
+
 
 
 
@@ -82,7 +241,27 @@ public function store(Request $request)
         'groupe' => 'nullable',
         'date' => 'required|date',
         'state' => 'required|in:paye,impaye',
+        'force_create' => 'nullable|boolean',
     ]);
+
+
+    if (!$request->boolean('force_create')) {
+
+        $duplicate = $this->findPossibleDuplicate($request);
+
+        if ($duplicate) {
+
+            return response()->json([
+                'duplicate' => true,
+
+                'message' =>
+                    'A possible duplicate student was found.',
+
+                'existing_student' => $duplicate,
+
+            ], 409);
+        }
+    }
 
     $student = Student::create([
         'name' => $request->name,
@@ -774,4 +953,12 @@ DB::table('payments')
         ], 500);
     }
 }
+
+
+
+
+//-----------------------------------------------------------------------------
+
+
+
 }
