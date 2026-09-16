@@ -83,7 +83,7 @@ Route::prefix('tuluacenter/payment')->group(function(){
     Route::get('/students/Qr',[QrController::class,'getStudentsQr']);
     Route::post('/students/details/{student_id}', [QrController::class, 'getStudentPayments']);
 });
-
+        
 
 Route::prefix('tuluacenter/teacher')->group(function () {
 
