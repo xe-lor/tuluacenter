@@ -72,6 +72,7 @@ Route::prefix('/auth')->group(function () {
 Route::prefix('/payment')->group(function(){
     Route::post('/createStudent',[PaymentController::class,'store']);
     Route::get('/getClasses',[PaymentController::class,'getClasses']);
+    Route::get('/getClassesForUpdate/{studentId}',[PaymentController::class, 'getClassesForUpdate']);
     Route::get('/getStudents',[PaymentController::class,'getStudents']);
     Route::post('/setPayment',[PaymentController::class, 'setPayment']);
     Route::post('/setPaymentToCanceled',[PaymentController::class, 'setPaymentToCanceled']);

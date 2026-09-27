@@ -4,7 +4,7 @@ import styles from "./update.module.css";
 import API from "../api.js";
 
 const UpdateStudent = () => {
-  const { id } = useParams();
+  const { id } = useParams(); 
 
   const [name, setName] = useState("");
   const [lastname, setLastname] = useState("");
@@ -31,17 +31,23 @@ const UpdateStudent = () => {
 
   const navigate=useNavigate();
 
-  useEffect(() => {
-    API.get("/payment/getClasses").then((res) => {
-      const flattened = res.data.classes.flatMap((niveau) =>
-        niveau.matieres.map((m) => ({
-          ...m,
-          niveau_name: niveau.niveau_name,
-        }))
-      );
-      setClasses(flattened);
+
+
+
+  
+useEffect(() => {
+  API.get(`/payment/getClassesForUpdate/${id}`)
+    .then((res) => {
+      setClasses(res.data.classes || []);
+    })
+    .catch((err) => {
+      console.error("Error fetching classes:", err);
     });
-  }, []);
+}, [id]);
+
+
+
+
 
   useEffect(() => {
     API
