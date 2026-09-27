@@ -1,0 +1,673 @@
+/* =========================
+   MAIN PAGE
+========================= */
+
+.students-page {
+  position: fixed;
+
+  left: 300px;
+  top: 0;
+  right: 0;
+  bottom: 0;
+
+  width: auto;
+  height: 100vh;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  box-sizing: border-box;
+
+  padding: 55px 6vw 90px;
+
+  background:
+    radial-gradient(
+      circle at 15% 15%,
+      rgba(255, 193, 7, 0.045),
+      transparent 28%
+    ),
+    #090909;
+
+  color: #e5e5e5;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+
+/* =========================
+   PAGE SCROLLBAR
+========================= */
+
+.students-page::-webkit-scrollbar {
+  width: 7px;
+}
+
+.students-page::-webkit-scrollbar-track {
+  background: #090909;
+}
+
+.students-page::-webkit-scrollbar-thumb {
+  background: #292929;
+  border-radius: 10px;
+}
+
+.students-page::-webkit-scrollbar-thumb:hover {
+  background: #ffc107;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+.students-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+
+  margin-bottom: 70px;
+  padding-bottom: 25px;
+
+  border-bottom: 1px solid rgba(255, 193, 7, 0.17);
+}
+
+.students-eyebrow {
+  display: block;
+
+  margin-bottom: 13px;
+
+  color: #ffc107;
+
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 4px;
+}
+
+.students-header h1 {
+  margin: 0;
+
+  color: #f2f2f2;
+
+  font-size: clamp(45px, 6vw, 78px);
+  font-weight: 800;
+
+  letter-spacing: -4px;
+  line-height: 0.95;
+}
+
+.students-gold-line {
+  width: 75px;
+  height: 2px;
+
+  margin-top: 23px;
+
+  background: #ffc107;
+}
+
+.students-header-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+
+  gap: 7px;
+
+  color: #555;
+
+  font-size: 9px;
+  letter-spacing: 2px;
+}
+
+.students-header-info strong {
+  color: #aaa;
+  font-weight: 500;
+}
+
+
+/* =========================
+   FILTERS
+========================= */
+
+.student-filters-section {
+  margin-bottom: 75px;
+}
+
+.filter-title {
+  display: flex;
+  align-items: flex-start;
+
+  gap: 18px;
+
+  margin-bottom: 28px;
+}
+
+.filter-title > span {
+  color: #ffc107;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  letter-spacing: 2px;
+}
+
+.filter-title small {
+  display: block;
+
+  margin-bottom: 7px;
+
+  color: #666;
+
+  font-size: 9px;
+  font-weight: 700;
+
+  letter-spacing: 3px;
+}
+
+.filter-title h2 {
+  margin: 0;
+
+  color: #ddd;
+
+  font-size: 25px;
+  letter-spacing: -0.5px;
+}
+
+
+/* =========================
+   FILTER GRID
+========================= */
+
+.student-filters {
+  display: grid;
+
+  grid-template-columns:
+    1fr
+    0.7fr
+    0.8fr
+    1.3fr;
+
+  gap: 25px;
+
+  padding: 30px 0;
+
+  border-top: 1px solid rgba(255, 255, 255, 0.055);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.055);
+}
+
+
+/* =========================
+   FILTER INPUTS
+========================= */
+
+.cinematic-field {
+  position: relative;
+}
+
+.cinematic-field label {
+  display: block;
+
+  margin-bottom: 12px;
+
+  color: #666;
+
+  font-size: 9px;
+  font-weight: 700;
+
+  letter-spacing: 2px;
+}
+
+.cinematic-field select,
+.cinematic-field input {
+  width: 100%;
+  height: 43px;
+
+  padding: 0 3px;
+
+  box-sizing: border-box;
+
+  background: transparent;
+
+  border: none;
+  border-bottom: 1px solid #363636;
+
+  border-radius: 0;
+
+  outline: none;
+
+  color: #ddd;
+
+  font-size: 13px;
+
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.cinematic-field select {
+  cursor: pointer;
+}
+
+.cinematic-field select option {
+  background: #171717;
+  color: #ddd;
+}
+
+.cinematic-field input::placeholder {
+  color: #555;
+}
+
+.cinematic-field select:focus,
+.cinematic-field input:focus {
+  border-bottom-color: #ffc107;
+}
+
+.cinematic-field select:hover,
+.cinematic-field input:hover {
+  border-bottom-color: #777;
+}
+
+
+/* =========================
+   RECORDS
+========================= */
+
+.students-records {
+  margin-bottom: 80px;
+}
+
+.records-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+
+  margin-bottom: 27px;
+}
+
+.records-heading > div:first-child {
+  display: flex;
+  align-items: flex-start;
+
+  gap: 18px;
+}
+
+.records-number {
+  padding-top: 5px;
+
+  color: #ffc107;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  letter-spacing: 2px;
+}
+
+.records-label {
+  display: block;
+
+  margin-bottom: 7px;
+
+  color: #666;
+
+  font-size: 9px;
+  font-weight: 700;
+
+  letter-spacing: 3px;
+}
+
+.records-heading h2 {
+  margin: 0;
+
+  color: #ddd;
+
+  font-size: 27px;
+
+  letter-spacing: -0.7px;
+}
+
+.records-count {
+  display: flex;
+  align-items: baseline;
+
+  gap: 8px;
+}
+
+.records-count strong {
+  color: #ffc107;
+
+  font-size: 25px;
+  font-weight: 600;
+}
+
+.records-count span {
+  color: #555;
+
+  font-size: 8px;
+
+  letter-spacing: 2px;
+}
+
+
+/* =========================
+   TABLE CONTAINER
+========================= */
+
+.students-table-wrapper {
+  width: 100%;
+
+  overflow-x: auto;
+
+  background: #101010;
+
+  border: 1px solid rgba(255, 255, 255, 0.055);
+
+  box-shadow:
+    0 25px 60px rgba(0, 0, 0, 0.42),
+    inset 0 1px 0 rgba(255, 255, 255, 0.015);
+}
+
+
+/* =========================
+   TABLE
+========================= */
+
+.students-table {
+  width: 100%;
+
+  min-width: 800px;
+
+  border-collapse: collapse;
+}
+
+.students-table th {
+  padding: 17px 20px;
+
+  background: #171717;
+
+  color: #666;
+
+  border-bottom: 1px solid rgba(255, 193, 7, 0.18);
+
+  font-size: 9px;
+  font-weight: 700;
+
+  letter-spacing: 2px;
+
+  text-transform: uppercase;
+
+  text-align: left;
+}
+
+.students-table td {
+  padding: 18px 20px;
+
+  color: #aaa;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.045);
+
+  font-size: 12px;
+}
+
+
+/* =========================
+   TABLE HOVER
+========================= */
+
+.students-table tbody tr {
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.students-table tbody tr:hover {
+  background: rgba(255, 193, 7, 0.03);
+}
+
+.students-table tbody tr:hover .student-name {
+  color: #ffc107;
+}
+
+
+/* =========================
+   STUDENT ID
+========================= */
+
+.student-id {
+  color: #555 !important;
+
+  font-family: monospace;
+
+  font-size: 11px !important;
+}
+
+
+/* =========================
+   STUDENT NAME
+========================= */
+
+.student-name {
+  color: #ddd !important;
+
+  font-weight: 600;
+
+  transition: color 0.2s ease;
+}
+
+
+/* =========================
+   STATUS
+========================= */
+
+.student-status {
+  display: inline-block;
+
+  padding: 6px 10px;
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  background: #171717;
+
+  color: #aaa;
+
+  font-size: 8px;
+  font-weight: 700;
+
+  letter-spacing: 1.5px;
+
+  text-transform: uppercase;
+}
+
+
+/* =========================
+   PAID STATUS
+========================= */
+
+.student-status.bg-success,
+.student-status.success,
+.student-status.paye {
+  color: #ffc107;
+
+  border-color: rgba(255, 193, 7, 0.25);
+}
+
+
+/* =========================
+   UNPAID STATUS
+========================= */
+
+.student-status.bg-danger,
+.student-status.danger,
+.student-status.impaye {
+  color: #aaa;
+}
+
+
+/* =========================
+   CANCELLED STATUS
+========================= */
+
+.student-status.bg-secondary,
+.student-status.secondary,
+.student-status.annule {
+  color: #666;
+}
+
+
+/* =========================
+   TABLE FOOTER
+========================= */
+
+.students-table tfoot td {
+  padding: 22px 20px;
+
+  background: #141414;
+
+  border-top: 1px solid rgba(255, 193, 7, 0.17);
+
+  border-bottom: none;
+}
+
+.footer-total-label {
+  color: #666;
+
+  font-size: 9px;
+  font-weight: 700;
+
+  letter-spacing: 3px;
+}
+
+.footer-total {
+  color: #ffc107 !important;
+
+  font-size: 15px !important;
+  font-weight: 700 !important;
+}
+
+
+/* =========================
+   TABLE SCROLLBAR
+========================= */
+
+.students-table-wrapper::-webkit-scrollbar {
+  height: 6px;
+}
+
+.students-table-wrapper::-webkit-scrollbar-track {
+  background: #0b0b0b;
+}
+
+.students-table-wrapper::-webkit-scrollbar-thumb {
+  background: #292929;
+}
+
+.students-table-wrapper::-webkit-scrollbar-thumb:hover {
+  background: #ffc107;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 1100px) {
+  .students-page {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  .student-filters {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 900px) {
+  .students-page {
+    left: 250px;
+  }
+
+  .student-filters {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 700px) {
+  .students-page {
+    position: fixed;
+
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+
+    width: 100%;
+    height: 100vh;
+
+    padding: 35px 20px 60px;
+
+    overflow-y: auto;
+  }
+
+  .students-header {
+    flex-direction: column;
+    align-items: flex-start;
+
+    gap: 25px;
+
+    margin-bottom: 50px;
+  }
+
+  .students-header-info {
+    align-items: flex-start;
+  }
+
+  .student-filters {
+    grid-template-columns: 1fr;
+
+    gap: 22px;
+  }
+
+  .records-heading {
+    align-items: flex-start;
+
+    gap: 20px;
+  }
+
+  .records-count {
+    display: none;
+  }
+
+  .students-table-wrapper {
+    overflow-x: auto;
+  }
+}
+
+
+/* =========================
+   VERY SMALL SCREENS
+========================= */
+
+@media (max-width: 400px) {
+  .students-page {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .students-header h1 {
+    font-size: 48px;
+  }
+
+  .filter-title h2 {
+    font-size: 21px;
+  }
+
+  .records-heading h2 {
+    font-size: 23px;
+  }
+}

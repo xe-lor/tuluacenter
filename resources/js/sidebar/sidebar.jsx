@@ -52,7 +52,10 @@ const SideBar = () => {
   // =========================
   // Leave empty for now.
   // Add teacher navigation here later.
-  const teacherLinks = [];
+  const teacherLinks = [
+      { label: "Stats Page", to: "/teacher/statistiques" },
+      { label: "Students Page", to: "/teacher/students" },
+  ];
 
   // =========================
   // SELECT LINKS BASED ON ROLE
