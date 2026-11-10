@@ -8,48 +8,66 @@ use Illuminate\Support\Facades\DB;
 
 class QrController extends Controller
 {
-      public function getStudentsQr()
+public function getStudentsQr()
 {
-    $students = DB::table('students')
+    $rows = DB::table('students')
         ->join('payments', 'students.id', '=', 'payments.student_id')
-        ->join('niveaux', 'payments.niveau_id', '=', 'niveaux.id') 
+        ->join('niveaux', 'payments.niveau_id', '=', 'niveaux.id')
+        // leftJoin so students whose payment has no class are not dropped
+        ->leftJoin('classes', 'payments.class_id', '=', 'classes.id')
+        ->leftJoin('matieres', 'classes.matiere_id', '=', 'matieres.id')
         ->select(
             'students.id as student_id',
             'students.name as student_name',
             'students.lastname as student_lastname',
             'students.image as student_image',
-            'payments.id as payment_id',
             'payments.date as payment_date',
             'payments.reduction as payment_reduction',
+            'niveaux.id as niveau_id',
             'niveaux.name as niveau_name',
-
-            // ✅ NEW: global reduction flag per student
-            DB::raw('MAX(payments.reduction) OVER (PARTITION BY students.id) as payment_reduction')
+            'matieres.id as matiere_id',
+            'matieres.name as matiere_name'
         )
+        ->orderBy('students.name')
         ->get();
 
-    $grouped = $students
+    $students = $rows
         ->groupBy('student_id')
         ->map(function ($values) {
             $first = $values->first();
 
             return [
-                'student_id' => $first->student_id,
-                'student_name' => $first->student_name,
-                'student_lastname' => $first->student_lastname,
-                'student_image' => $first->student_image,
-                'niveau_name' => $first->niveau_name,
-                'payment_date' => $first->payment_date,
-                'payment_reduction' => $first->payment_reduction,
-
-                // ✅ NEW FIELD (safe)
-                'payment_reduction' => (int) $first->payment_reduction,
+                'student_id'        => $first->student_id,
+                'student_name'      => $first->student_name,
+                'student_lastname'  => $first->student_lastname,
+                'student_image'     => $first->student_image,
+                // earliest payment = enrollment date
+                'payment_date'      => $values->min('payment_date'),
+                // 1 if ANY payment has a reduction
+                'payment_reduction' => (int) $values->max('payment_reduction'),
+                // all levels / subjects the student is linked to (used by the filters)
+                'niveaux' => $values
+                    ->filter(fn ($r) => $r->niveau_id !== null)
+                    ->unique('niveau_id')
+                    ->map(fn ($r) => ['id' => $r->niveau_id, 'name' => $r->niveau_name])
+                    ->values(),
+                'matieres' => $values
+                    ->filter(fn ($r) => $r->matiere_id !== null)
+                    ->unique('matiere_id')
+                    ->map(fn ($r) => ['id' => $r->matiere_id, 'name' => $r->matiere_name])
+                    ->values(),
             ];
         })
         ->values();
 
+    // Options for the filter dropdowns
+    $niveaux  = DB::table('niveaux')->select('id', 'name')->orderBy('name')->get();
+    $matieres = DB::table('matieres')->select('id', 'name')->orderBy('name')->get();
+
     return response()->json([
-        'students' => $grouped
+        'students' => $students,
+        'niveaux'  => $niveaux,
+        'matieres' => $matieres,
     ]);
 }
 

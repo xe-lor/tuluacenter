@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter,Routes, Route } from 'react-router-dom';
 import Login from './auth/login.jsx';
+import '../css/app.css';
 import SideBar from './sidebar/sidebar.jsx';
 import CreateStudent from './payment/create.jsx';
 import Index from './payment/index.jsx';

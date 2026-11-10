@@ -91,102 +91,113 @@ const SideBar = () => {
   };
 
   return (
-    <aside
-      className={`${styles.sidebar} ${
-        mobileOpen ? styles.mobileOpen : ""
-      }`}
-    >
-      {/* =========================
-          MOBILE TOP BAR
-          ========================= */}
-      <div className={styles.mobileHeader}>
-        <div className={styles.mobileBrand}>
-          <span className={styles.brandMark}>T</span>
+  <aside
+    className={`${styles.sidebar} ${
+      mobileOpen ? styles.mobileOpen : ""
+    }`}
+  >
 
-          <div>
-            <span className={styles.brandName}>TULUA</span>
-            <span className={styles.brandLabel}>CENTER</span>
-          </div>
+    {/* SIDEBAR BACKGROUND IMAGE */}
+    <img
+      src="/images/sideback.avif"
+      alt=""
+      className={styles.sidebarBackground}
+    />
+
+    {/* SUBTLE IMAGE OVERLAY */}
+    <div className={styles.sidebarOverlay}></div>
+
+    {/* =========================
+        MOBILE TOP BAR
+        ========================= */}
+    <div className={styles.mobileHeader}>
+      <div className={styles.mobileBrand}>
+        <span className={styles.brandMark}>T</span>
+
+        <div>
+          <span className={styles.brandName}>TULUA</span>
+          <span className={styles.brandLabel}>CENTER</span>
         </div>
+      </div>
 
+      <button
+        type="button"
+        className={`${styles.menuToggle} ${
+          mobileOpen ? styles.menuToggleOpen : ""
+        }`}
+        onClick={() => setMobileOpen((prev) => !prev)}
+        aria-label={
+          mobileOpen ? "Close navigation" : "Open navigation"
+        }
+        aria-expanded={mobileOpen}
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+
+    {/* =========================
+        SIDEBAR CONTENT
+        ========================= */}
+    <div className={styles.sidebarInner}>
+
+      {/* DESKTOP BRAND */}
+      <div className={styles.brand}>
+        <span className={styles.brandMark}>T</span>
+
+        <div>
+          <span className={styles.brandName}>TULUA</span>
+          <span className={styles.brandLabel}>CENTER</span>
+        </div>
+      </div>
+
+      {/* ROLE */}
+      <div className={styles.role}>
+        <span className={styles.roleLine} />
+        <span>{role}</span>
+      </div>
+
+      {/* NAVIGATION */}
+      <nav className={styles.navigation}>
+        <div className={styles.navLabel}>Navigation</div>
+
+        {links.map((link, index) => (
+          <React.Fragment key={link.to}>
+            <Link
+              className={styles.navLink}
+              to={link.to}
+              onClick={handleMobileLinkClick}
+            >
+              <span className={styles.navNumber}>
+                {String(index + 1).padStart(2, "0")}
+              </span>
+
+              <span>{link.label}</span>
+
+              <span className={styles.arrow}>→</span>
+            </Link>
+
+            <div className={styles.separator} />
+          </React.Fragment>
+        ))}
+      </nav>
+
+      {/* FOOTER */}
+      <div className={styles.sidebarFooter}>
         <button
           type="button"
-          className={`${styles.menuToggle} ${
-            mobileOpen ? styles.menuToggleOpen : ""
-          }`}
-          onClick={() => setMobileOpen((prev) => !prev)}
-          aria-label={
-            mobileOpen ? "Close navigation" : "Open navigation"
-          }
-          aria-expanded={mobileOpen}
+          className={styles.logoutButton}
+          onClick={handleLogout}
         >
-          <span></span>
-          <span></span>
-          <span></span>
+          <span>Logout</span>
+          <span className={styles.logoutIcon}></span>
         </button>
       </div>
 
-      {/* =========================
-          SIDEBAR CONTENT
-          ========================= */}
-      <div className={styles.sidebarInner}>
-
-        {/* DESKTOP BRAND */}
-        <div className={styles.brand}>
-          <span className={styles.brandMark}>T</span>
-
-          <div>
-            <span className={styles.brandName}>TULUA</span>
-            <span className={styles.brandLabel}>CENTER</span>
-          </div>
-        </div>
-
-        {/* ROLE */}
-        <div className={styles.role}>
-          <span className={styles.roleLine} />
-          <span>{role}</span>
-        </div>
-
-        {/* NAVIGATION */}
-        <nav className={styles.navigation}>
-          <div className={styles.navLabel}>Navigation</div>
-
-          {links.map((link, index) => (
-            <React.Fragment key={link.to}>
-              <Link
-                className={styles.navLink}
-                to={link.to}
-                onClick={handleMobileLinkClick}
-              >
-                <span className={styles.navNumber}>
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-
-                <span>{link.label}</span>
-
-                <span className={styles.arrow}>→</span>
-              </Link>
-
-              <div className={styles.separator} />
-            </React.Fragment>
-          ))}
-        </nav>
-
-        {/* FOOTER */}
-        <div className={styles.sidebarFooter}>
-          <button
-            type="button"
-            className={styles.logoutButton}
-            onClick={handleLogout}
-          >
-            <span>Logout</span>
-            <span className={styles.logoutIcon}></span>
-          </button>
-        </div>
-
-      </div>
-    </aside>
-  );
+    </div>
+  </aside>
+);
 };
 
 export default SideBar;

@@ -1,3 +1,6 @@
+/* =========================================
+   MAIN CONTAINER
+   ========================================= */
 
 .containerDiv {
     position: relative;
@@ -7,21 +10,25 @@
     width: 850px;
     height: 500px;
 
-    margin: auto;
-
-    margin-top: 10px;
+    margin: 10px auto 0;
 
     border-radius: 28px;
 
     overflow: hidden;
 
-    background: #101010;
+    background: #000000;
 
     box-shadow:
-        0 35px 80px rgba(0, 0, 0, 0.65),
-        0 0 0 1px rgba(255, 255, 255, 0.06);
+        0 35px 80px rgba(0, 0, 0, 0.664),
+        0 0 0 1px #000000;
 
     isolation: isolate;
+
+    animation:
+        pageEnter
+        0.9s
+        cubic-bezier(0.22, 1, 0.36, 1)
+        both;
 }
 
 
@@ -36,45 +43,22 @@
     height: 100%;
 
     display: flex;
+
     align-items: center;
     justify-content: center;
 
     padding: 45px;
 
-    background:
-        radial-gradient(
-            circle at 10% 90%,
-            rgba(255, 193, 7, 0.07),
-            transparent 35%
-        ),
-        linear-gradient(
-            145deg,
-            #191919,
-            #0d0d0d
-        );
-}
+    box-sizing: border-box;
 
+    background: #000000;
 
-/* Subtle golden corner */
-
-.formDiv::before {
-    content: "";
-
-    position: absolute;
-
-    width: 220px;
-    height: 220px;
-
-    left: -150px;
-    bottom: -150px;
-
-    border-radius: 50%;
-
-    background: #ffc107;
-
-    opacity: 0.04;
-
-    pointer-events: none;
+    animation:
+        formEnter
+        0.85s
+        cubic-bezier(0.22, 1, 0.36, 1)
+        0.1s
+        both;
 }
 
 
@@ -88,6 +72,13 @@
     width: 100%;
 
     z-index: 2;
+
+    animation:
+        contentEnter
+        0.7s
+        ease-out
+        0.35s
+        both;
 }
 
 
@@ -102,16 +93,28 @@
 
     margin-bottom: 30px;
 
-    color: #ffc107;
+    color: #ffffff;
 
     font-size: 12px;
+
     font-weight: 800;
 
     letter-spacing: 6px;
+
+    text-shadow:
+        0 0 5px rgba(255, 255, 255, 0.7),
+        0 0 12px rgba(225, 0, 255, 0.45);
+
+    animation:
+        detailEnter
+        0.6s
+        ease-out
+        0.5s
+        both;
 }
 
 
-/* Small golden line */
+/* Brand underline */
 
 .brand::after {
     content: "";
@@ -124,10 +127,12 @@
     width: 35px;
     height: 2px;
 
-    background: #ffc107;
+    background: #b300ff;
 
     box-shadow:
-        0 0 10px rgba(255, 193, 7, 0.45);
+        0 0 5px #bf00ff,
+        0 0 12px #bf00ff,
+        0 0 20px rgba(204, 0, 255, 0.7);
 }
 
 
@@ -141,11 +146,23 @@
     color: #ffffff;
 
     font-size: 38px;
+
     font-weight: 700;
 
     line-height: 1.05;
 
     letter-spacing: -1.5px;
+
+    text-shadow:
+        0 0 5px rgba(255, 255, 255, 0.35),
+        0 0 15px rgba(225, 0, 255, 0.25);
+
+    animation:
+        detailEnter
+        0.6s
+        ease-out
+        0.6s
+        both;
 }
 
 
@@ -156,10 +173,18 @@
 .subtitle {
     margin: 10px 0 30px;
 
-    color: #777777;
+    color: #a8b8c0;
 
     font-size: 14px;
+
     font-weight: 400;
+
+    animation:
+        detailEnter
+        0.6s
+        ease-out
+        0.7s
+        both;
 }
 
 
@@ -169,15 +194,17 @@
 
 .form {
     width: 100%;
-
     height: 50px;
 
     margin-bottom: 15px;
 
     padding: 0 16px;
 
+    box-sizing: border-box;
+
     border: none;
-    border-bottom: 1px solid #383838;
+
+    border-bottom: 1px solid #8d00b8;
 
     outline: none;
 
@@ -192,21 +219,36 @@
     transition:
         border-color 0.25s ease,
         background 0.25s ease,
-        padding 0.25s ease;
+        padding 0.25s ease,
+        box-shadow 0.25s ease;
+
+    animation:
+        detailEnter
+        0.6s
+        ease-out
+        0.8s
+        both;
 }
 
+
+/* Input placeholder */
 
 .form::placeholder {
-    color: #666666;
+    color: #6f858e;
 }
 
 
-.form:focus {
-    border-bottom-color: #ffc107;
+/* Input focus */
 
-    background: rgba(255, 193, 7, 0.025);
+.form:focus {
+    border-bottom-color: #ae00ff;
+
+    background: rgba(0, 234, 255, 0.06);
 
     padding-left: 20px;
+
+    box-shadow:
+        0 4px 12px rgba(0, 234, 255, 0.08);
 }
 
 
@@ -221,13 +263,19 @@
     margin-top: 12px;
 
     border: none;
+
     border-radius: 4px;
 
-    background: #ffc107;
+    background: linear-gradient(
+        90deg,
+        #d900ff,
+        #d900ff
+    );
 
-    color: #111111;
+    color: #ffffff;
 
     font-size: 13px;
+
     font-weight: 800;
 
     letter-spacing: 2px;
@@ -238,18 +286,33 @@
         transform 0.2s ease,
         box-shadow 0.2s ease,
         background 0.2s ease;
+
+    animation:
+        detailEnter
+        0.6s
+        ease-out
+        0.9s
+        both;
 }
 
+/* Login button hover */
 
 .loginButton:hover {
-    background: #ffd04a;
+    background: linear-gradient(
+        90deg,
+        #8a00ff,
+        #e100ff
+    );
 
     transform: translateY(-2px);
 
     box-shadow:
-        0 10px 25px rgba(255, 193, 7, 0.18);
+        0 8px 20px rgba(217, 0, 255, 0.35),
+        0 0 20px rgba(122, 0, 255, 0.35);
 }
 
+
+/* Login button active */
 
 .loginButton:active {
     transform: translateY(0);
@@ -263,13 +326,20 @@
 .copyright {
     margin: 25px 0 0;
 
-    color: #555555;
+    color: #607780;
 
     text-align: center;
 
     font-size: 11px;
 
     letter-spacing: 0.5px;
+
+    animation:
+        detailEnter
+        0.6s
+        ease-out
+        1s
+        both;
 }
 
 
@@ -286,16 +356,22 @@
 
     padding: 10px 12px;
 
-    border: 1px solid rgba(220, 53, 69, 0.35);
+    box-sizing: border-box;
+
+    border: 1px solid #ff3b30;
+
     border-radius: 4px;
 
-    background: rgba(220, 53, 69, 0.08);
+    background: rgba(225, 71, 43, 0.15);
 
-    color: #ff6b78;
+    color: #ff7066;
 
     text-align: center;
 
     font-size: 12px;
+
+    box-shadow:
+        0 0 10px rgba(225, 71, 43, 0.12);
 }
 
 
@@ -311,15 +387,16 @@
 
     overflow: hidden;
 
-    background: #181818;
+    background: #1D546D;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
 }
 
 
-/* =========================================
-   IMAGE
-   ========================================= */
-
-.img {
+.image {
     width: 100%;
     height: 100%;
 
@@ -327,109 +404,7 @@
 
     object-fit: cover;
 
-    filter:
-        brightness(0.78)
-        contrast(1.08)
-        saturate(0.85);
-
-    transform: scale(1.04);
-
-    transition:
-        transform 0.8s ease,
-        filter 0.8s ease;
-}
-
-
-.containerDiv:hover .img {
-    transform: scale(1.08);
-
-    filter:
-        brightness(0.86)
-        contrast(1.08)
-        saturate(1);
-}
-
-
-/* =========================================
-   IMAGE OVERLAY
-   ========================================= */
-
-.imageDiv::after {
-    content: "";
-
-    position: absolute;
-
-    inset: 0;
-
-    background:
-        linear-gradient(
-            90deg,
-            #101010 0%,
-            rgba(16, 16, 16, 0.72) 8%,
-            rgba(16, 16, 16, 0.12) 55%,
-            rgba(16, 16, 16, 0.42) 100%
-        );
-
-    pointer-events: none;
-}
-
-
-/* =========================================
-   GOLDEN ACCENT
-   ========================================= */
-
-.imageDiv::before {
-    content: "";
-
-    position: absolute;
-
-    z-index: 3;
-
-    left: 26px;
-    top: 35px;
-    bottom: 35px;
-
-    width: 3px;
-
-    border-radius: 10px;
-
-    background: #ffc107;
-
-    box-shadow:
-        0 0 18px rgba(255, 193, 7, 0.45);
-}
-
-
-/* =========================================
-   IMAGE CAPTION
-   ========================================= */
-
-.imageCaption {
-    position: absolute;
-
-    z-index: 4;
-
-    left: 48px;
-    bottom: 38px;
-
-    display: flex;
-    align-items: center;
-    gap: 12px;
-
-    color: rgba(255, 255, 255, 0.72);
-
-    font-size: 10px;
-    font-weight: 700;
-
-    letter-spacing: 3px;
-}
-
-
-.captionLine {
-    width: 24px;
-    height: 1px;
-
-    background: #ffc107;
+    object-position: center;
 }
 
 
@@ -438,17 +413,14 @@
    ========================================= */
 
 @media (max-width: 900px) {
-
     .containerDiv {
         width: 90%;
         max-width: 850px;
     }
-
 }
 
 
 @media (max-width: 650px) {
-
     .containerDiv {
         width: 90%;
         height: auto;
@@ -456,198 +428,131 @@
         min-height: 520px;
     }
 
-
     .imageDiv {
         display: none;
     }
-
 
     .formDiv {
         width: 100%;
 
         padding: 40px;
     }
-
 }
 
 
 @media (max-width: 420px) {
-
     .formDiv {
         padding: 30px 25px;
     }
 
-
     .title {
         font-size: 32px;
     }
-
 }
-
 
 /* =========================================
-   PAGE OPENING ANIMATION
-   ========================================= */
-
-.containerDiv {
-    animation: pageEnter 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-
-/* Login side enters from the left */
-
-.formDiv {
-    animation: formEnter 0.85s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
-}
-
-
-/* Image side enters from the right */
-
-.imageDiv {
-    animation: imageEnter 1s cubic-bezier(0.22, 1, 0.36, 1) 0.05s both;
-}
-
-
-/* Form content appears after the panel */
-
-.formContent {
-    animation: contentEnter 0.7s ease-out 0.35s both;
-}
-
-
-/* Image slowly settles into place */
-
-.img {
-    animation: imageReveal 1.4s ease-out 0.15s both;
-}
-
-
-/* Brand */
-
-.brand {
-    animation: detailEnter 0.6s ease-out 0.5s both;
-}
-
-
-/* Title */
-
-.title {
-    animation: detailEnter 0.6s ease-out 0.6s both;
-}
-
-
-/* Subtitle */
-
-.subtitle {
-    animation: detailEnter 0.6s ease-out 0.7s both;
-}
-
-
-/* Inputs */
-
-.form {
-    animation: detailEnter 0.6s ease-out 0.8s both;
-}
-
-
-/* Login button */
-
-.loginButton {
-    animation: detailEnter 0.6s ease-out 0.9s both;
-}
-
-
-/* Copyright */
-
-.copyright {
-    animation: detailEnter 0.6s ease-out 1s both;
-}
-
-
-/* =========================================
-   KEYFRAMES
+   PAGE ANIMATION
    ========================================= */
 
 @keyframes pageEnter {
-
     from {
         opacity: 0;
-        transform: translateY(28px) scale(0.97);
+
+        transform:
+            translateY(28px)
+            scale(0.97);
     }
 
     to {
         opacity: 1;
-        transform: translateY(0) scale(1);
+
+        transform:
+            translateY(0)
+            scale(1);
     }
 }
 
+
+/* =========================================
+   FORM SIDE ANIMATION
+   ========================================= */
 
 @keyframes formEnter {
-
     from {
         opacity: 0;
-        transform: translateX(-35px);
+
+        transform:
+            translateX(-35px);
     }
 
     to {
         opacity: 1;
-        transform: translateX(0);
+
+        transform:
+            translateX(0);
     }
 }
 
+
+/* =========================================
+   IMAGE SIDE ANIMATION
+   ========================================= */
 
 @keyframes imageEnter {
-
     from {
         opacity: 0;
-        transform: translateX(35px);
+
+        transform:
+            translateX(35px);
     }
 
     to {
         opacity: 1;
-        transform: translateX(0);
+
+        transform:
+            translateX(0);
     }
 }
 
+
+/* =========================================
+   FORM CONTENT ANIMATION
+   ========================================= */
 
 @keyframes contentEnter {
-
     from {
         opacity: 0;
-        transform: translateY(18px);
+
+        transform:
+            translateY(18px);
     }
 
     to {
         opacity: 1;
-        transform: translateY(0);
+
+        transform:
+            translateY(0);
     }
 }
 
 
-@keyframes imageReveal {
-
-    from {
-        opacity: 0;
-        transform: scale(1.12);
-    }
-
-    to {
-        opacity: 1;
-        transform: scale(1.04);
-    }
-}
-
+/* =========================================
+   FORM ELEMENT ANIMATION
+   ========================================= */
 
 @keyframes detailEnter {
-
     from {
         opacity: 0;
-        transform: translateY(10px);
+
+        transform:
+            translateY(10px);
     }
 
     to {
         opacity: 1;
-        transform: translateY(0);
+
+        transform:
+            translateY(0);
     }
 }
 
@@ -657,12 +562,10 @@
    ========================================= */
 
 @media (prefers-reduced-motion: reduce) {
-
     .containerDiv,
     .formDiv,
     .imageDiv,
     .formContent,
-    .img,
     .brand,
     .title,
     .subtitle,
@@ -671,75 +574,435 @@
     .copyright {
         animation: none;
     }
-
 }
 
+
 /* =========================================
-   FLOATING LOGO
+   NEON INSTITUTE TEXT
    ========================================= */
 
-.logo {
+.instituteText {
     position: absolute;
 
-    z-index: 4;
-
-    top: 45%;
+    top: 50%;
     left: 50%;
-
-    width: 190px;
-    height: auto;
 
     transform: translate(-50%, -50%);
 
-    object-fit: contain;
+    z-index: 10;
 
-    opacity: 0;
+    width: 100%;
 
-    filter:
-        drop-shadow(0 12px 25px rgba(0, 0, 0, 0.45));
+    text-align: center;
 
-    animation: logoEnter 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.45s both;
+    color: white;
 
-    transition:
-        transform 0.5s ease,
-        filter 0.5s ease;
-}
+    pointer-events: none;
 
-
-.containerDiv:hover .logo {
-    transform: translate(-50%, -50%) scale(1.04);
-
-    filter:
-        drop-shadow(0 15px 30px rgba(0, 0, 0, 0.55));
+    user-select: none;
 }
 
 
 /* =========================================
-   LOGO OPENING ANIMATION
+   TULUA
    ========================================= */
 
-@keyframes logoEnter {
+.instituteText h1 {
+    margin: 0;
 
-    from {
-        opacity: 0;
-        transform: translate(-50%, -50%) scale(0.75);
-    }
+    padding: 0;
 
-    to {
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(1);
-    }
+    font-size: 58px;
 
+    font-weight: 600;
+
+    line-height: 1;
+
+    letter-spacing: 7px;
+
+    color: #ffffff;
+
+    text-shadow:
+        0 0 5px #ffffff,
+        0 0 10px #ffffff,
+        0 0 20px #e100ff,
+        0 0 35px #c000ff,
+        0 0 55px #8a00ff,
+        0 0 80px #6200ff;
+
+    animation:
+        neonGlow
+        2s
+        ease-in-out
+        infinite
+        alternate;
 }
 
 
-/* Accessibility */
+/* =========================================
+   INSTITUTE
+   ========================================= */
 
-@media (prefers-reduced-motion: reduce) {
+.instituteText h2 {
+    margin: 12px 0 0;
 
-    .logo {
-        animation: none;
-        opacity: 1;
+    padding: 0;
+
+    font-size: 43px;
+
+    font-weight: 400;
+
+    line-height: 1;
+
+    letter-spacing: 5px;
+
+    color: #ffffff;
+
+    text-shadow:
+        0 0 5px #ffffff,
+        0 0 10px #ffffff,
+        0 0 20px #e100ff,
+        0 0 35px #c000ff,
+        0 0 55px #8a00ff,
+        0 0 80px #6200ff;
+
+    animation:
+        neonGlow
+        2s
+        ease-in-out
+        infinite
+        alternate;
+}
+
+
+/* =========================================
+   NEON ANIMATION
+   ========================================= */
+
+@keyframes neonGlow {
+    from {
+        text-shadow:
+            0 0 4px #ffffff,
+            0 0 8px #ffffff,
+            0 0 15px #d900ff,
+            0 0 25px #b000ff,
+            0 0 40px #dd00ff;
     }
 
+    to {
+        text-shadow:
+            0 0 5px #ffffff,
+            0 0 12px #ffffff,
+            0 0 22px #e100ff,
+            0 0 40px #c000ff,
+            0 0 65px #8a00ff,
+            0 0 90px #dd00ff;
+    }
+}
+/* =========================================================
+   RESPONSIVE PATCH — LOGIN PAGE
+   ========================================================= */
+
+/* Prevent horizontal overflow */
+* {
+    box-sizing: border-box;
+}
+
+.containerDiv,
+.formDiv,
+.imageDiv {
+    min-width: 0;
+}
+
+/* Tablets and smaller laptops */
+@media (max-width: 900px) {
+    .containerDiv {
+        width: min(92%, 750px);
+        height: 480px;
+    }
+
+    .formDiv {
+        width: 48%;
+        padding: 32px;
+    }
+
+    .imageDiv {
+        width: 52%;
+    }
+
+    .title {
+        font-size: clamp(28px, 4vw, 36px);
+    }
+
+    .brand {
+        letter-spacing: 4px;
+    }
+
+    .instituteText h1 {
+        font-size: clamp(35px, 6vw, 52px);
+        letter-spacing: 5px;
+    }
+
+    .instituteText h2 {
+        font-size: clamp(27px, 4.5vw, 38px);
+        letter-spacing: 3px;
+    }
+}
+
+/* Small tablets and large phones */
+@media (max-width: 650px) {
+    .containerDiv {
+        width: min(90%, 460px);
+        height: auto;
+        min-height: 0;
+        margin: 30px auto;
+        flex-direction: column;
+        border-radius: 20px;
+    }
+
+    .imageDiv {
+        display: flex;
+        position: relative;
+        width: 100%;
+        height: 190px;
+        min-height: 190px;
+        flex-shrink: 0;
+    }
+
+    .image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+    }
+
+    .instituteText {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .instituteText h1 {
+        font-size: clamp(32px, 9vw, 48px);
+        letter-spacing: 5px;
+    }
+
+    .instituteText h2 {
+        margin-top: 8px;
+        font-size: clamp(24px, 7vw, 36px);
+        letter-spacing: 3px;
+    }
+
+    .formDiv {
+        width: 100%;
+        height: auto;
+        padding: 35px 30px;
+    }
+
+    .formContent {
+        width: 100%;
+        max-width: 360px;
+        margin: 0 auto;
+    }
+
+    .brand {
+        margin-bottom: 25px;
+        font-size: 11px;
+        letter-spacing: 4px;
+    }
+
+    .title {
+        font-size: clamp(28px, 7vw, 34px);
+        line-height: 1.1;
+    }
+
+    .subtitle {
+        margin: 10px 0 24px;
+        font-size: 13px;
+        line-height: 1.5;
+    }
+
+    .form {
+        height: 48px;
+        font-size: 14px;
+    }
+
+    .loginButton {
+        height: 48px;
+    }
+
+    .copyright {
+        margin-top: 22px;
+        font-size: 10px;
+    }
+}
+
+/* Standard mobile phones */
+@media (max-width: 450px) {
+    .containerDiv {
+        width: calc(100% - 28px);
+        margin: 20px auto;
+        border-radius: 16px;
+    }
+
+    .imageDiv {
+        height: 155px;
+        min-height: 155px;
+    }
+
+    .formDiv {
+        padding: 30px 22px;
+    }
+
+    .brand {
+        font-size: 10px;
+        letter-spacing: 3px;
+    }
+
+    .title {
+        font-size: 29px;
+        letter-spacing: -1px;
+    }
+
+    .subtitle {
+        font-size: 12px;
+        margin-bottom: 22px;
+    }
+
+    .form {
+        height: 46px;
+        padding: 0 12px;
+        font-size: 13px;
+    }
+
+    .loginButton {
+        height: 46px;
+        font-size: 12px;
+    }
+
+    .messageBtn {
+        font-size: 11px;
+        padding: 10px;
+    }
+
+    .instituteText h1 {
+        font-size: 34px;
+        letter-spacing: 4px;
+    }
+
+    .instituteText h2 {
+        font-size: 25px;
+        letter-spacing: 3px;
+    }
+}
+
+/* Very small phones */
+@media (max-width: 350px) {
+    .containerDiv {
+        width: calc(100% - 20px);
+    }
+
+    .imageDiv {
+        height: 130px;
+        min-height: 130px;
+    }
+
+    .formDiv {
+        padding: 25px 17px;
+    }
+
+    .title {
+        font-size: 26px;
+    }
+
+    .brand {
+        letter-spacing: 2px;
+    }
+
+    .instituteText h1 {
+        font-size: 29px;
+        letter-spacing: 3px;
+    }
+
+    .instituteText h2 {
+        font-size: 22px;
+        letter-spacing: 2px;
+    }
+}
+
+/* Short screens — avoid clipping the login form */
+@media (max-height: 650px) and (max-width: 650px) {
+    .containerDiv {
+        margin-top: 12px;
+        margin-bottom: 12px;
+    }
+
+    .imageDiv {
+        height: 110px;
+        min-height: 110px;
+    }
+
+    .formDiv {
+        padding-top: 22px;
+        padding-bottom: 22px;
+    }
+
+    .brand {
+        margin-bottom: 20px;
+    }
+
+    .subtitle {
+        margin-bottom: 16px;
+    }
+
+    .form {
+        margin-bottom: 10px;
+    }
+
+    .copyright {
+        margin-top: 15px;
+    }
+}
+
+/* Touch devices */
+@media (hover: none) {
+    .loginButton:hover {
+        transform: none;
+        box-shadow: none;
+    }
+}
+
+/* Reduced motion accessibility */
+@media (prefers-reduced-motion: reduce) {
+    .containerDiv,
+    .formDiv,
+    .imageDiv,
+    .formContent,
+    .brand,
+    .title,
+    .subtitle,
+    .form,
+    .loginButton,
+    .copyright,
+    .instituteText h1,
+    .instituteText h2 {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+@media (max-width: 650px) {
+    .imageDiv {
+        display: none !important;
+    }
+
+    .containerDiv {
+        flex-direction: column;
+        width: 90%;
+        height: auto;
+        min-height: 0;
+    }
+
+    .formDiv {
+        width: 100%;
+        height: auto;
+    }
 }
