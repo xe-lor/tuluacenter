@@ -1,6 +1,18 @@
 import React, { useEffect, useState } from "react";
 import API from "../api.js";
-import "./students.css";
+import styles from '../shared.module.css';
+
+const getStatusClass = (statusClass = "") => {
+  const c = String(statusClass).toLowerCase();
+
+  if (c.includes("success") || c.includes("paye")) return styles.teacher_StudentsPage_statusPaid;
+  if (c.includes("danger") || c.includes("impaye")) return styles.teacher_StudentsPage_statusUnpaid;
+  if (c.includes("secondary") || c.includes("annule")) {
+    return styles.teacher_StudentsPage_statusCancelled;
+  }
+
+  return "";
+};
 
 export default function StudentsPage() {
   const [students, setStudents] = useState([]);
@@ -38,212 +50,239 @@ export default function StudentsPage() {
   };
 
   return (
-    <div className="students-page">
+    <div className={styles.teacher_StudentsPage_pageContainer}>
+      <div className={styles.teacher_StudentsPage_managementCard}>
+        {/* HEADER */}
+        <div className={styles.teacher_StudentsPage_cardHeader}>
+          {/* Header background image */}
+          <img
+            src="/images/neonImage.png"
+            alt=""
+            className={styles.teacher_StudentsPage_headerBackground}
+          />
 
-      {/* HEADER */}
-      <header className="students-header">
-        <div>
-          <span className="students-eyebrow">
-            ESPACE ENSEIGNANT / ARCHIVES
-          </span>
+          {/* Dark overlay over the image */}
+          <div className={styles.teacher_StudentsPage_headerOverlay}></div>
 
-          <h1>Élèves</h1>
+          <div className={styles.teacher_StudentsPage_headerContent}>
+            <span className={styles.teacher_StudentsPage_headerLabel}>
+              ESPACE ENSEIGNANT / ARCHIVES
+            </span>
 
-          <div className="students-gold-line"></div>
-        </div>
+            <h1 className={styles.teacher_StudentsPage_headerTitle}>Élèves</h1>
 
-        <div className="students-header-info">
-          <span>REGISTRE ACADÉMIQUE</span>
-          <strong>ÉLÈVES AFFECTÉS</strong>
-        </div>
-      </header>
-
-      {/* FILTER AREA */}
-      <section className="student-filters-section">
-
-        <div className="filter-title">
-          <span>01</span>
-          <div>
-            <small>RECHERCHE & FILTRAGE</small>
-            <h2>Affiner les résultats</h2>
+            <p className={styles.teacher_StudentsPage_headerSubtitle}>
+              Registre académique des élèves affectés.
+            </p>
           </div>
         </div>
 
-        <div className="student-filters">
+        {/* BODY */}
+        <div className={styles.teacher_StudentsPage_cardBody}>
+          {/* FILTER AREA */}
+          <section className={styles.teacher_StudentsPage_section}>
+            <div className={styles.teacher_StudentsPage_sectionHeading}>
+              <div className={styles.teacher_StudentsPage_sectionLeft}>
+                <span className={styles.teacher_StudentsPage_sectionNumber}>01</span>
 
-          <div className="cinematic-field">
-            <label>CLASSE</label>
-
-            <select
-              value={filters.class_id}
-              onChange={(e) =>
-                setFilters({
-                  ...filters,
-                  class_id: e.target.value,
-                })
-              }
-            >
-              <option value="">Toutes</option>
-
-              {classes.map((c) => (
-                <option key={c.id} value={c.id}>
-                  {c.matiere} - {c.niveau}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="cinematic-field">
-            <label>MOIS</label>
-
-            <select
-              value={filters.month}
-              onChange={(e) =>
-                setFilters({
-                  ...filters,
-                  month: e.target.value,
-                })
-              }
-            >
-              <option value="">Tous</option>
-
-              {[9, 10, 11, 12, 1, 2, 3, 4, 5, 6].map((m) => (
-                <option key={m} value={m}>
-                  {m}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="cinematic-field">
-            <label>STATUT</label>
-
-            <select
-              value={filters.status}
-              onChange={(e) =>
-                setFilters({
-                  ...filters,
-                  status: e.target.value,
-                })
-              }
-            >
-              <option value="">Tous</option>
-              <option value="payé">Payé</option>
-              <option value="impayé">Impayé</option>
-              <option value="annulé">Annulé</option>
-            </select>
-          </div>
-
-          <div className="cinematic-field search-field">
-            <label>RECHERCHER</label>
-
-            <input
-              type="text"
-              value={filters.search}
-              placeholder="Nom ou prénom..."
-              onChange={(e) =>
-                setFilters({
-                  ...filters,
-                  search: e.target.value,
-                })
-              }
-            />
-          </div>
-
-        </div>
-      </section>
-
-      {/* RECORDS */}
-      <section className="students-records">
-
-        <div className="records-heading">
-          <div>
-            <span className="records-number">02</span>
-
-            <div>
-              <span className="records-label">
-                LISTE DES INSCRIPTIONS
-              </span>
-
-              <h2>Élèves affectés</h2>
-            </div>
-          </div>
-
-          <div className="records-count">
-            <strong>{totalStudents}</strong>
-            <span>ÉLÈVES</span>
-          </div>
-        </div>
-
-        <div className="students-table-wrapper">
-
-          <table className="students-table">
-
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Nom</th>
-                <th>Prénom</th>
-                <th>Téléphone</th>
-                <th>Date</th>
-                <th>Statut</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {students.map((s) => (
-                <tr key={s.student_id}>
-
-                  <td className="student-id">
-                    #{s.student_id}
-                  </td>
-
-                  <td className="student-name">
-                    {s.name}
-                  </td>
-
-                  <td>
-                    {s.lastname}
-                  </td>
-
-                  <td>
-                    {s.studentphone}
-                  </td>
-
-                  <td>
-                    {s.payment_date}
-                  </td>
-
-                  <td>
-                    <span
-                      className={`student-status ${s.status_class}`}
-                    >
-                      {s.status_label}
-                    </span>
-                  </td>
-
-                </tr>
-              ))}
-            </tbody>
-
-            <tfoot>
-              <tr>
-                <td colSpan="5">
-                  <span className="footer-total-label">
-                    TOTAL NETTE
+                <div>
+                  <span className={styles.teacher_StudentsPage_sectionLabel}>
+                    RECHERCHE & FILTRAGE
                   </span>
-                </td>
+                  <h2 className={styles.teacher_StudentsPage_sectionTitle}>
+                    Affiner les résultats
+                  </h2>
+                </div>
+              </div>
+            </div>
 
-                <td className="footer-total">
-                  {totalNette} DH
-                </td>
-              </tr>
-            </tfoot>
+            <div className={styles.teacher_StudentsPage_filters}>
+              <div className={styles.teacher_StudentsPage_field}>
+                <label className={styles.teacher_StudentsPage_fieldLabel}>CLASSE</label>
 
-          </table>
+                <select
+                  className={styles.teacher_StudentsPage_tableInput}
+                  value={filters.class_id}
+                  onChange={(e) =>
+                    setFilters({
+                      ...filters,
+                      class_id: e.target.value,
+                    })
+                  }
+                >
+                  <option value="">Toutes</option>
 
+                  {classes.map((c) => (
+                    <option key={c.id} value={c.id}>
+                      {c.matiere} - {c.niveau}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className={styles.teacher_StudentsPage_field}>
+                <label className={styles.teacher_StudentsPage_fieldLabel}>MOIS</label>
+
+                <select
+                  className={styles.teacher_StudentsPage_tableInput}
+                  value={filters.month}
+                  onChange={(e) =>
+                    setFilters({
+                      ...filters,
+                      month: e.target.value,
+                    })
+                  }
+                >
+                  <option value="">Tous</option>
+
+                  {[9, 10, 11, 12, 1, 2, 3, 4, 5, 6].map((m) => (
+                    <option key={m} value={m}>
+                      {m}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className={styles.teacher_StudentsPage_field}>
+                <label className={styles.teacher_StudentsPage_fieldLabel}>STATUT</label>
+
+                <select
+                  className={styles.teacher_StudentsPage_tableInput}
+                  value={filters.status}
+                  onChange={(e) =>
+                    setFilters({
+                      ...filters,
+                      status: e.target.value,
+                    })
+                  }
+                >
+                  <option value="">Tous</option>
+                  <option value="payé">Payé</option>
+                  <option value="impayé">Impayé</option>
+                  <option value="annulé">Annulé</option>
+                </select>
+              </div>
+
+              <div className={styles.teacher_StudentsPage_field}>
+                <label className={styles.teacher_StudentsPage_fieldLabel}>RECHERCHER</label>
+
+                <input
+                  type="text"
+                  className={styles.teacher_StudentsPage_tableInput}
+                  value={filters.search}
+                  placeholder="Nom ou prénom..."
+                  onChange={(e) =>
+                    setFilters({
+                      ...filters,
+                      search: e.target.value,
+                    })
+                  }
+                />
+              </div>
+            </div>
+          </section>
+
+          {/* RECORDS */}
+          <section className={styles.teacher_StudentsPage_section}>
+            <div className={styles.teacher_StudentsPage_sectionHeading}>
+              <div className={styles.teacher_StudentsPage_sectionLeft}>
+                <span className={styles.teacher_StudentsPage_sectionNumber}>02</span>
+
+                <div>
+                  <span className={styles.teacher_StudentsPage_sectionLabel}>
+                    LISTE DES INSCRIPTIONS
+                  </span>
+                  <h2 className={styles.teacher_StudentsPage_sectionTitle}>Élèves affectés</h2>
+                </div>
+              </div>
+
+              <div className={styles.teacher_StudentsPage_recordsCount}>
+                <strong>{totalStudents}</strong>
+                <span>ÉLÈVES</span>
+              </div>
+            </div>
+
+            <div className={styles.teacher_StudentsPage_tableContainer}>
+              <table className={styles.teacher_StudentsPage_table}>
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Téléphone</th>
+                    <th>Date</th>
+                    <th>Statut</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {students.length > 0 ? (
+                    students.map((s) => (
+                      <tr key={s.student_id} className={styles.teacher_StudentsPage_dataRow}>
+                        <td>
+                          <span className={styles.teacher_StudentsPage_idNumber}>
+                            #{s.student_id}
+                          </span>
+                        </td>
+
+                        <td>
+                          <span className={styles.teacher_StudentsPage_nameText}>{s.name}</span>
+                        </td>
+
+                        <td>{s.lastname}</td>
+
+                        <td>{s.studentphone}</td>
+
+                        <td>{s.payment_date}</td>
+
+                        <td>
+                          <span
+                            className={`${styles.teacher_StudentsPage_statusBadge} ${getStatusClass(
+                              s.status_class
+                            )}`}
+                          >
+                            {s.status_label}
+                          </span>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr className={styles.teacher_StudentsPage_emptyRow}>
+                      <td colSpan="6">
+                        <div className={styles.teacher_StudentsPage_emptyState}>
+                          <span className={styles.teacher_StudentsPage_emptyAccent}></span>
+
+                          <span className={styles.teacher_StudentsPage_emptyTitle}>
+                            Aucun élève trouvé
+                          </span>
+
+                          <span className={styles.teacher_StudentsPage_emptySubtitle}>
+                            Modifiez les filtres pour afficher des résultats.
+                          </span>
+                        </div>
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+
+                <tfoot>
+                  <tr className={styles.teacher_StudentsPage_footRow}>
+                    <td colSpan="5">
+                      <span className={styles.teacher_StudentsPage_totalLabel}>TOTAL NETTE</span>
+                    </td>
+
+                    <td>
+                      <span className={styles.teacher_StudentsPage_grandTotal}>
+                        {totalNette} DH
+                      </span>
+                    </td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </section>
         </div>
-      </section>
+      </div>
     </div>
   );
 }

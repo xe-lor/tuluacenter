@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import API from '../../api.js';
-import styles from './index.module.css';
+import styles from '../../shared.module.css';
 
 const AssistantIndex = () => {
     const [assistants, setAssistants] = useState([]);
@@ -93,47 +93,56 @@ const AssistantIndex = () => {
     };
 
     return (
-        <div className={styles.pageContainer}>
+        <div className={styles.admin_assistances_index_pageContainer}>
 
-            <div className={styles.managementCard}>
+            <div className={styles.admin_assistances_index_managementCard}>
 
-                <div className={styles.cardHeader}>
+<div className={styles.admin_assistances_index_cardHeader}>
 
-                    <div className={styles.headerContent}>
-                        <span className={styles.headerLabel}>
-                            ADMINISTRATION
-                        </span>
+    {/* Header background image */}
+    <img
+        src="/images/neonImage.png"
+        alt=""
+        className={styles.admin_assistances_index_headerBackground}
+    />
 
-                        <h1 className={styles.headerTitle}>
-                            Secretaries
-                        </h1>
+    {/* Dark overlay over the image */}
+    <div className={styles.admin_assistances_index_headerOverlay}></div>
 
-                        <p className={styles.headerSubtitle}>
-                            Manage assistant accounts and access.
-                        </p>
-                    </div>
+    <div className={styles.admin_assistances_index_headerContent}>
+        <span className={styles.admin_assistances_index_headerLabel}>
+            ADMINISTRATION
+        </span>
 
-                    <button
-                        className={styles.addButton}
-                        onClick={() => setIsAdding(true)}
-                    >
-                        <span className={styles.addIcon}>+</span>
-                        Add Assistant
-                    </button>
+        <h1 className={styles.admin_assistances_index_headerTitle}>
+            Secretaries
+        </h1>
 
-                </div>
+        <p className={styles.admin_assistances_index_headerSubtitle}>
+            Manage assistant accounts and access.
+        </p>
+    </div>
+
+    <button
+        className={styles.admin_assistances_index_addButton}
+        onClick={() => setIsAdding(true)}
+    >
+        Add Assistant
+    </button>
+
+</div>
 
 
-                <div className={styles.tableContainer}>
+                <div className={styles.admin_assistances_index_tableContainer}>
 
-                    <table className={styles.table}>
+                    <table className={styles.admin_assistances_index_table}>
 
                         <thead>
                             <tr>
                                 <th>ID</th>
                                 <th>Name</th>
                                 <th>Password</th>
-                                <th className={styles.actionsHeader}>
+                                <th className={styles.admin_assistances_index_actionsHeader}>
                                     Actions
                                 </th>
                             </tr>
@@ -142,17 +151,17 @@ const AssistantIndex = () => {
                         <tbody>
 
                             {isAdding && (
-                                <tr className={styles.addRow}>
+                                <tr className={styles.admin_assistances_index_addRow}>
 
                                     <td>
-                                        <span className={styles.newBadge}>
+                                        <span className={styles.admin_assistances_index_newBadge}>
                                             NEW
                                         </span>
                                     </td>
 
                                     <td>
                                         <input
-                                            className={styles.tableInput}
+                                            className={styles.admin_assistances_index_tableInput}
                                             placeholder="Name"
                                             value={newName}
                                             onChange={e => setNewName(e.target.value)}
@@ -162,7 +171,7 @@ const AssistantIndex = () => {
                                     <td>
                                         <input
                                             type="password"
-                                            className={styles.tableInput}
+                                            className={styles.admin_assistances_index_tableInput}
                                             placeholder="Password"
                                             value={newPassword}
                                             onChange={e => setNewPassword(e.target.value)}
@@ -170,17 +179,17 @@ const AssistantIndex = () => {
                                     </td>
 
                                     <td>
-                                        <div className={styles.actionGroup}>
+                                        <div className={styles.admin_assistances_index_actionGroup}>
 
                                             <button
-                                                className={styles.saveButton}
+                                                className={styles.admin_assistances_index_saveButton}
                                                 onClick={handleAdd}
                                             >
                                                 Save
                                             </button>
 
                                             <button
-                                                className={styles.cancelButton}
+                                                className={styles.admin_assistances_index_cancelButton}
                                                 onClick={() => setIsAdding(false)}
                                             >
                                                 Cancel
@@ -199,11 +208,11 @@ const AssistantIndex = () => {
 
                                     <tr
                                         key={a.id}
-                                        className={styles.dataRow}
+                                        className={styles.admin_assistances_index_dataRow}
                                     >
 
                                         <td>
-                                            <span className={styles.idNumber}>
+                                            <span className={styles.admin_assistances_index_idNumber}>
                                                 {a.id}
                                             </span>
                                         </td>
@@ -213,14 +222,14 @@ const AssistantIndex = () => {
                                             {editingId === a.id ? (
 
                                                 <input
-                                                    className={styles.tableInput}
+                                                    className={styles.admin_assistances_index_tableInput}
                                                     value={editName}
                                                     onChange={e => setEditName(e.target.value)}
                                                 />
 
                                             ) : (
 
-                                                <span className={styles.nameText}>
+                                                <span className={styles.admin_assistances_index_nameText}>
                                                     {a.name}
                                                 </span>
 
@@ -235,7 +244,7 @@ const AssistantIndex = () => {
 
                                                 <input
                                                     type="password"
-                                                    className={styles.tableInput}
+                                                    className={styles.admin_assistances_index_tableInput}
                                                     placeholder="New password (optional)"
                                                     value={editPassword}
                                                     onChange={e => setEditPassword(e.target.value)}
@@ -243,7 +252,7 @@ const AssistantIndex = () => {
 
                                             ) : (
 
-                                                <span className={styles.passwordText}>
+                                                <span className={styles.admin_assistances_index_passwordText}>
                                                     ••••••
                                                 </span>
 
@@ -256,17 +265,17 @@ const AssistantIndex = () => {
 
                                             {editingId === a.id ? (
 
-                                                <div className={styles.actionGroup}>
+                                                <div className={styles.admin_assistances_index_actionGroup}>
 
                                                     <button
-                                                        className={styles.saveButton}
+                                                        className={styles.admin_assistances_index_saveButton}
                                                         onClick={() => handleUpdate(a.id)}
                                                     >
                                                         Save
                                                     </button>
 
                                                     <button
-                                                        className={styles.cancelButton}
+                                                        className={styles.admin_assistances_index_cancelButton}
                                                         onClick={() => setEditingId(null)}
                                                     >
                                                         Cancel
@@ -276,17 +285,17 @@ const AssistantIndex = () => {
 
                                             ) : (
 
-                                                <div className={styles.actionGroup}>
+                                                <div className={styles.admin_assistances_index_actionGroup}>
 
                                                     <button
-                                                        className={styles.editButton}
+                                                        className={styles.admin_assistances_index_editButton}
                                                         onClick={() => handleEdit(a)}
                                                     >
                                                         Edit
                                                     </button>
 
                                                     <button
-                                                        className={styles.deleteButton}
+                                                        className={styles.admin_assistances_index_deleteButton}
                                                         onClick={() => handleDelete(a.id)}
                                                     >
                                                         Delete
@@ -304,16 +313,16 @@ const AssistantIndex = () => {
 
                             ) : (
 
-                                <tr className={styles.emptyRow}>
+                                <tr className={styles.admin_assistances_index_emptyRow}>
                                     <td colSpan="4">
-                                        <div className={styles.emptyState}>
-                                            <span className={styles.emptyAccent}></span>
+                                        <div className={styles.admin_assistances_index_emptyState}>
+                                            <span className={styles.admin_assistances_index_emptyAccent}></span>
 
-                                            <span className={styles.emptyTitle}>
+                                            <span className={styles.admin_assistances_index_emptyTitle}>
                                                 No Assistants Found
                                             </span>
 
-                                            <span className={styles.emptySubtitle}>
+                                            <span className={styles.admin_assistances_index_emptySubtitle}>
                                                 Create an assistant account to get started.
                                             </span>
                                         </div>

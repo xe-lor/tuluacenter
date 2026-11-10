@@ -4,51 +4,109 @@
    ========================================================= */
 
 .sidebar {
-  position: fixed;
+    position: fixed;
 
-  top: 0;
-  left: 0;
+    top: 0;
+    left: 0;
 
-  width: 300px;
-  height: 100vh;
+    width: 250px;
+    height: 100vh;
 
-  box-sizing: border-box;
+    box-sizing: border-box;
 
-  overflow-y: auto;
-  overflow-x: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
 
-  color: #f5f5f5;
+    color: #F3F4F4;
 
-  background:
-    radial-gradient(
-      circle at 20% 10%,
-      rgba(255, 193, 7, 0.055),
-      transparent 30%
-    ),
-    #090909;
+    /*
+       Fallback background.
+       The image sits above this.
+    */
+    background: #061E29;
 
-  border-right: 1px solid rgba(255, 255, 255, 0.07);
+    border-right: 1px solid rgba(255, 255, 255, 0.12);
 
-  z-index: 1000;
+    z-index: 1000;
 
-  scrollbar-width: thin;
-  scrollbar-color: #3b3b3b #101010;
+    scrollbar-width: thin;
+
+    scrollbar-color:
+        #7B2FF2
+        #0F1624;
 }
 
-.sidebar::-webkit-scrollbar {
-  width: 6px;
+
+/* =========================================================
+   SIDEBAR BACKGROUND IMAGE
+   ========================================================= */
+
+.sidebarBackground {
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 250px;
+    height: 100vh;
+
+    /*
+       Fills the entire sidebar without stretching.
+    */
+    object-fit: cover;
+    object-position: center center;
+
+    display: block;
+    /*
+       IMPORTANT:
+       Keep the original image appearance.
+    */
+        filter: blur(10px);
+    pointer-events: none;
+
+    z-index: -2;
+
+    transform: scale(1.005);
+
+    animation:
+        sidebarImageEnter 0.8s ease-out both;
 }
 
-.sidebar::-webkit-scrollbar-track {
-  background: #101010;
-}
 
-.sidebar::-webkit-scrollbar-thumb {
-  background: #3b3b3b;
-}
+/* =========================================================
+   SIDEBAR IMAGE OVERLAY
+   ========================================================= */
 
-.sidebar::-webkit-scrollbar-thumb:hover {
-  background: #ffc107;
+/*
+   Very subtle overlay.
+
+   It does NOT heavily darken the image.
+   It only helps the text remain readable.
+*/
+
+.sidebarOverlay {
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 250px;
+    height: 100vh;
+
+    pointer-events: none;
+
+    z-index: -1;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(5, 8, 18, 0.10),
+            rgba(5, 8, 18, 0.18)
+        );
+
+    box-shadow:
+        inset -1px 0 0 rgba(255, 255, 255, 0.12),
+        inset 0 0 45px rgba(0, 0, 0, 0.15);
 }
 
 
@@ -57,15 +115,19 @@
    ========================================================= */
 
 .sidebarInner {
-  min-height: 100%;
+    position: relative;
 
-  display: flex;
+    z-index: 2;
 
-  flex-direction: column;
+    min-height: 100%;
 
-  box-sizing: border-box;
+    display: flex;
 
-  padding: 35px 22px 25px;
+    flex-direction: column;
+
+    box-sizing: border-box;
+
+    padding: 35px 22px 25px;
 }
 
 
@@ -74,61 +136,97 @@
    ========================================================= */
 
 .brand {
-  display: flex;
+    display: flex;
 
-  align-items: center;
+    align-items: center;
 
-  gap: 13px;
+    gap: 13px;
 
-  margin-bottom: 38px;
+    margin-bottom: 38px;
 
-  padding-left: 5px;
+    padding-left: 5px;
 }
+
+
+/* =========================================================
+   BRAND MARK
+   ========================================================= */
 
 .brandMark {
-  display: flex;
+    position: relative;
 
-  width: 38px;
-  height: 38px;
+    display: flex;
 
-  align-items: center;
-  justify-content: center;
+    width: 38px;
+    height: 38px;
 
-  flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
 
-  color: #090909;
+    flex-shrink: 0;
 
-  font-size: 1.1rem;
+    color: #FFFFFF;
 
-  font-weight: 900;
+    font-size: 1.1rem;
 
-  background: #ffc107;
+    font-weight: 900;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(123, 47, 242, 0.85),
+            rgba(95, 149, 152, 0.75)
+        );
+
+    border: 1px solid rgba(255, 255, 255, 0.5);
+
+    box-shadow:
+        0 0 6px rgba(255, 255, 255, 0.35),
+        0 0 16px rgba(123, 47, 242, 0.55),
+        inset 0 0 12px rgba(255, 255, 255, 0.12);
 }
+
+
+/* =========================================================
+   BRAND NAME
+   ========================================================= */
 
 .brandName {
-  display: block;
+    display: block;
 
-  color: #f5f5f5;
+    color: #FFFFFF;
 
-  font-size: 0.82rem;
+    font-size: 0.82rem;
 
-  font-weight: 800;
+    font-weight: 800;
 
-  letter-spacing: 0.18em;
+    letter-spacing: 0.18em;
+
+    text-shadow:
+        0 0 4px rgba(255, 255, 255, 0.8),
+        0 0 12px rgba(123, 47, 242, 0.65);
 }
 
+
+/* =========================================================
+   BRAND LABEL
+   ========================================================= */
+
 .brandLabel {
-  display: block;
+    display: block;
 
-  margin-top: 2px;
+    margin-top: 2px;
 
-  color: rgba(255, 255, 255, 0.3);
+    color: #ffffff;
 
-  font-size: 0.5rem;
+    font-size: 0.5rem;
 
-  font-weight: 700;
+    font-weight: 700;
 
-  letter-spacing: 0.28em;
+    letter-spacing: 0.28em;
+
+    text-shadow:
+        0 0 6px rgba(123, 47, 242, 0.75);
 }
 
 
@@ -137,35 +235,53 @@
    ========================================================= */
 
 .role {
-  display: flex;
+    display: flex;
 
-  align-items: center;
+    align-items: center;
 
-  gap: 10px;
+    gap: 10px;
 
-  margin-bottom: 34px;
+    margin-bottom: 34px;
 
-  padding-left: 5px;
+    padding-left: 5px;
 
-  color: rgba(255, 255, 255, 0.35);
+    color: rgba(255, 255, 255, 0.65);
 
-  font-size: 0.56rem;
+    font-size: 0.56rem;
 
-  font-weight: 700;
+    font-weight: 700;
 
-  letter-spacing: 0.2em;
+    letter-spacing: 0.2em;
 
-  text-transform: uppercase;
+    text-transform: uppercase;
+
+    text-shadow:
+        0 0 7px rgba(255, 255, 255, 0.3);
 }
 
+
+/* =========================================================
+   ROLE LINE
+   ========================================================= */
+
 .roleLine {
-  width: 22px;
+    width: 22px;
 
-  height: 1px;
+    height: 2px;
 
-  flex-shrink: 0;
+    flex-shrink: 0;
 
-  background: #ffc107;
+    background:
+        linear-gradient(
+            90deg,
+            #FFFFFF,
+            #A86CFF,
+            #7B2FF2
+        );
+
+    box-shadow:
+        0 0 5px #FFFFFF,
+        0 0 12px rgba(123, 47, 242, 0.9);
 }
 
 
@@ -174,120 +290,196 @@
    ========================================================= */
 
 .navigation {
-  flex: 1;
+    flex: 1;
 }
+
 
 .navLabel {
-  margin-bottom: 13px;
+    margin-bottom: 13px;
 
-  padding-left: 5px;
+    padding-left: 5px;
 
-  color: rgba(255, 255, 255, 0.23);
+    color: rgb(255, 253, 253);
 
-  font-size: 0.55rem;
+    font-size: 0.55rem;
 
-  font-weight: 700;
+    font-weight: 700;
 
-  letter-spacing: 0.2em;
+    letter-spacing: 0.2em;
 
-  text-transform: uppercase;
+    text-transform: uppercase;
+
+    text-shadow:
+        0 0 7px rgb(255, 254, 254);
 }
+
+
+/* =========================================================
+   NAVIGATION LINK
+   ========================================================= */
 
 .navLink {
-  position: relative;
+    position: relative;
 
-  display: grid;
+    display: grid;
 
-  grid-template-columns: 25px minmax(0, 1fr) 18px;
+    grid-template-columns:
+        25px
+        minmax(0, 1fr)
+        18px;
 
-  align-items: center;
+    align-items: center;
 
-  min-height: 47px;
+    min-height: 47px;
 
-  padding: 0 5px;
+    padding: 0 5px;
 
-  color: rgba(255, 255, 255, 0.62);
+    color: rgb(255, 255, 255);
 
-  font-size: 0.78rem;
+    font-size: 0.78rem;
 
-  font-weight: 600;
+    font-weight: 600;
 
-  letter-spacing: 0.015em;
+    letter-spacing: 0.015em;
 
-  text-decoration: none;
+    text-decoration: none;
 
-  transition:
-    color 180ms ease,
-    padding 180ms ease,
-    background 180ms ease;
+    transition:
+        color 180ms ease,
+        padding 180ms ease,
+        background 180ms ease,
+        text-shadow 180ms ease;
 }
+
+
+/* =========================================================
+   NAVIGATION ACTIVE INDICATOR
+   ========================================================= */
 
 .navLink::before {
-  content: "";
+    content: "";
 
-  position: absolute;
+    position: absolute;
 
-  left: -22px;
+    left: -22px;
 
-  top: 0;
+    top: 0;
 
-  width: 2px;
+    width: 2px;
 
-  height: 100%;
+    height: 100%;
 
-  background: #ffc107;
+    background:
+        linear-gradient(
+            180deg,
+            #FFFFFF,
+            #A86CFF,
+            #7B2FF2,
+            #FFFFFF
+        );
 
-  opacity: 0;
+    box-shadow:
+        0 0 5px #FFFFFF,
+        0 0 12px rgba(123, 47, 242, 0.9);
 
-  transition: opacity 180ms ease;
+    opacity: 0;
+
+    transition:
+        opacity 180ms ease;
 }
+
+
+/* =========================================================
+   NAVIGATION HOVER
+   ========================================================= */
 
 .navLink:hover {
-  padding-left: 10px;
+    padding-left: 10px;
 
-  color: #ffc107;
+    color: #FFFFFF;
 
-  background: rgba(255, 193, 7, 0.035);
+    background:
+        linear-gradient(
+            90deg,
+            rgba(123, 47, 242, 0.12),
+            rgba(123, 47, 242, 0.025),
+            transparent
+        );
+
+    text-shadow:
+        0 0 5px rgba(255, 255, 255, 0.8),
+        0 0 12px rgba(123, 47, 242, 0.65);
 }
+
 
 .navLink:hover::before {
-  opacity: 1;
+    opacity: 1;
 }
+
+
+/* =========================================================
+   NAV NUMBER
+   ========================================================= */
 
 .navNumber {
-  color: rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.38);
 
-  font-size: 0.54rem;
+    font-size: 0.54rem;
 
-  font-weight: 700;
+    font-weight: 700;
+
+    transition:
+        color 180ms ease;
 }
+
 
 .navLink:hover .navNumber {
-  color: rgba(255, 193, 7, 0.55);
+    color: #C9A8FF;
 }
+
+
+/* =========================================================
+   ARROW
+   ========================================================= */
 
 .arrow {
-  color: rgba(255, 193, 7, 0);
+    color: transparent;
 
-  font-size: 0.95rem;
+    font-size: 0.95rem;
 
-  transform: translateX(-5px);
+    transform: translateX(-5px);
 
-  transition:
-    color 180ms ease,
-    transform 180ms ease;
+    transition:
+        color 180ms ease,
+        transform 180ms ease;
 }
+
 
 .navLink:hover .arrow {
-  color: #ffc107;
+    color: #FFFFFF;
 
-  transform: translateX(0);
+    transform: translateX(0);
+
+    text-shadow:
+        0 0 7px #FFFFFF,
+        0 0 15px rgba(123, 47, 242, 0.8);
 }
 
-.separator {
-  height: 1px;
 
-  background: rgba(255, 255, 255, 0.055);
+/* =========================================================
+   SEPARATOR
+   ========================================================= */
+
+.separator {
+    height: 1px;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.09),
+            rgba(123, 47, 242, 0.08),
+            transparent
+        );
 }
 
 
@@ -296,67 +488,88 @@
    ========================================================= */
 
 .sidebarFooter {
-  margin-top: 40px;
+    margin-top: 40px;
 
-  padding-top: 20px;
+    padding-top: 20px;
 
-  border-top: 1px solid rgba(255, 255, 255, 0.07);
+    border-top:
+        1px solid rgba(255, 255, 255, 0.10);
 }
+
+
+/* =========================================================
+   LOGOUT BUTTON
+   ========================================================= */
 
 .logoutButton {
-  width: 100%;
+    width: 100%;
 
-  min-height: 44px;
+    min-height: 44px;
 
-  display: flex;
+    display: flex;
 
-  align-items: center;
+    align-items: center;
 
-  justify-content: space-between;
+    justify-content: space-between;
 
-  padding: 0 14px;
+    padding: 0 14px;
 
-  color: rgba(255, 255, 255, 0.52);
+    color: rgba(255, 255, 255, 0.72);
 
-  font-family: inherit;
+    font-family: inherit;
 
-  font-size: 0.68rem;
+    font-size: 0.68rem;
 
-  font-weight: 700;
+    font-weight: 700;
 
-  letter-spacing: 0.12em;
+    letter-spacing: 0.12em;
 
-  text-transform: uppercase;
+    text-transform: uppercase;
 
-  cursor: pointer;
+    cursor: pointer;
 
-  background: #101010;
+    background:
+        rgba(7, 8, 18, 0.22);
 
-  border: 1px solid rgba(255, 255, 255, 0.07);
+    backdrop-filter: blur(2px);
 
-  border-radius: 2px;
+    border:
+        1px solid rgba(255, 255, 255, 0.12);
 
-  transition:
-    color 180ms ease,
-    border-color 180ms ease,
-    background 180ms ease,
-    transform 180ms ease;
+    border-radius: 2px;
+
+    transition:
+        color 180ms ease,
+        border-color 180ms ease,
+        background 180ms ease,
+        transform 180ms ease,
+        box-shadow 180ms ease;
 }
+
 
 .logoutButton:hover {
-  color: #ffc107;
+    color: #FFFFFF;
 
-  background: rgba(255, 193, 7, 0.035);
+    background:
+        rgba(123, 47, 242, 0.16);
 
-  border-color: rgba(255, 193, 7, 0.25);
+    border-color:
+        rgba(168, 108, 255, 0.55);
 
-  transform: translateY(-1px);
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 0 12px rgba(123, 47, 242, 0.25);
+
+    text-shadow:
+        0 0 6px rgba(255, 255, 255, 0.8);
 }
 
-.logoutIcon {
-  font-size: 1rem;
 
-  line-height: 1;
+.logoutIcon {
+    font-size: 1rem;
+
+    line-height: 1;
 }
 
 
@@ -366,7 +579,11 @@
    ========================================================= */
 
 .mobileHeader {
-  display: none;
+    position: relative;
+
+    z-index: 3;
+
+    display: none;
 }
 
 
@@ -376,230 +593,302 @@
 
 @media (max-width: 650px) {
 
-  .sidebar {
-    position: fixed;
+    .sidebar {
+        position: fixed;
 
-    top: 0;
-    left: 0;
+        top: 0;
+        left: 0;
 
-    width: 100%;
+        width: 100%;
 
-    height: auto;
+        height: auto;
 
-    max-height: 70px;
+        max-height: 70px;
 
-    overflow: hidden;
+        overflow: hidden;
 
-    border-right: none;
+        border-right: none;
 
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        border-bottom:
+            1px solid rgba(255, 255, 255, 0.12);
 
-    background:
-      radial-gradient(
-        circle at 20% 10%,
-        rgba(255, 193, 7, 0.055),
-        transparent 35%
-      ),
-      #090909;
+        background: #061E29;
 
-    transition:
-      max-height 280ms ease,
-      box-shadow 280ms ease;
-  }
+        transition:
+            max-height 280ms ease,
+            box-shadow 280ms ease;
+    }
 
-  .sidebar.mobileOpen {
-    max-height: calc(100vh - 10px);
 
-    overflow-y: auto;
+    /* Mobile image */
 
-    box-shadow:
-      0 20px 60px rgba(0, 0, 0, 0.65);
-  }
+    .sidebarBackground {
+        position: absolute;
 
+        width: 100%;
+        height: 100vh;
 
-  /* ---------------------------------------------------------
-     MOBILE TOP BAR
-     --------------------------------------------------------- */
+        min-height: 100vh;
 
-  .mobileHeader {
-    height: 70px;
+        object-fit: cover;
 
-    display: flex;
+        object-position: center center;
 
-    align-items: center;
+        z-index: -2;
+    }
 
-    justify-content: space-between;
 
-    padding: 0 18px;
+    /* Mobile overlay */
 
-    box-sizing: border-box;
-  }
+    .sidebarOverlay {
+        position: absolute;
 
-  .mobileBrand {
-    display: flex;
+        width: 100%;
+        height: 100vh;
 
-    align-items: center;
+        min-height: 100vh;
 
-    gap: 11px;
-  }
+        z-index: -1;
 
-  .mobileBrand .brandMark {
-    width: 34px;
-    height: 34px;
+        background:
+            rgba(5, 8, 18, 0.12);
+    }
 
-    font-size: 1rem;
-  }
 
-  .mobileBrand .brandName {
-    font-size: 0.75rem;
-  }
+    .sidebar.mobileOpen {
+        max-height: calc(100vh - 10px);
 
-  .mobileBrand .brandLabel {
-    font-size: 0.45rem;
-  }
+        overflow-y: auto;
 
+        box-shadow:
+            0 20px 60px rgba(0, 0, 0, 0.65);
+    }
 
-  /* ---------------------------------------------------------
-     MOBILE TOGGLE
-     --------------------------------------------------------- */
 
-  .menuToggle {
-    position: relative;
+    /* =====================================================
+       MOBILE TOP BAR
+       ===================================================== */
 
-    width: 44px;
-    height: 44px;
+    .mobileHeader {
+        height: 70px;
 
-    display: flex;
+        display: flex;
 
-    flex-direction: column;
+        align-items: center;
 
-    align-items: center;
+        justify-content: space-between;
 
-    justify-content: center;
+        padding: 0 18px;
 
-    gap: 5px;
+        box-sizing: border-box;
+    }
 
-    padding: 0;
 
-    background: #101010;
+    .mobileBrand {
+        display: flex;
 
-    border: 1px solid rgba(255, 255, 255, 0.1);
+        align-items: center;
 
-    border-radius: 2px;
+        gap: 11px;
+    }
 
-    cursor: pointer;
 
-    transition:
-      background 180ms ease,
-      border-color 180ms ease;
-  }
+    .mobileBrand .brandMark {
+        width: 34px;
 
-  .menuToggle span {
-    display: block;
+        height: 34px;
 
-    width: 17px;
+        font-size: 1rem;
+    }
 
-    height: 1px;
 
-    background: rgba(255, 255, 255, 0.75);
+    .mobileBrand .brandName {
+        font-size: 0.75rem;
+    }
 
-    transition:
-      transform 220ms ease,
-      opacity 180ms ease,
-      background 180ms ease;
-  }
 
-  .menuToggle:hover {
-    background: rgba(255, 193, 7, 0.06);
+    .mobileBrand .brandLabel {
+        font-size: 0.45rem;
+    }
 
-    border-color: rgba(255, 193, 7, 0.3);
-  }
 
-  .menuToggle:hover span {
-    background: #ffc107;
-  }
+    /* =====================================================
+       MOBILE TOGGLE
+       ===================================================== */
 
+    .menuToggle {
+        position: relative;
 
-  /* ---------------------------------------------------------
-     ANIMATED X
-     --------------------------------------------------------- */
+        width: 44px;
 
-  .menuToggleOpen span:nth-child(1) {
-    transform: translateY(6px) rotate(45deg);
-  }
+        height: 44px;
 
-  .menuToggleOpen span:nth-child(2) {
-    opacity: 0;
-  }
+        display: flex;
 
-  .menuToggleOpen span:nth-child(3) {
-    transform: translateY(-6px) rotate(-45deg);
-  }
+        flex-direction: column;
 
+        align-items: center;
 
-  /* ---------------------------------------------------------
-     MOBILE SIDEBAR CONTENT
-     --------------------------------------------------------- */
+        justify-content: center;
 
-  .sidebarInner {
-    min-height: auto;
+        gap: 5px;
 
-    padding: 0 18px 20px;
-  }
+        padding: 0;
 
-  /* Hide desktop brand because mobileHeader already has it */
+        background:
+            rgba(7, 8, 18, 0.30);
 
-  .sidebarInner > .brand {
-    display: none;
-  }
+        border:
+            1px solid rgba(255, 255, 255, 0.15);
 
-  .role {
-    margin-top: 10px;
+        border-radius: 2px;
 
-    margin-bottom: 25px;
+        cursor: pointer;
 
-    padding-left: 0;
-  }
+        transition:
+            background 180ms ease,
+            border-color 180ms ease,
+            box-shadow 180ms ease;
+    }
 
-  .navigation {
-    flex: none;
-  }
 
-  .navLabel {
-    padding-left: 0;
+    .menuToggle span {
+        display: block;
 
-    margin-bottom: 8px;
-  }
+        width: 17px;
 
-  .navLink {
-    grid-template-columns: 35px minmax(0, 1fr) 20px;
+        height: 1px;
 
-    min-height: 50px;
+        background: #FFFFFF;
 
-    padding: 0 8px;
-  }
+        box-shadow:
+            0 0 5px rgba(255, 255, 255, 0.5);
 
-  .navLink:hover {
-    padding-left: 13px;
-  }
+        transition:
+            transform 220ms ease,
+            opacity 180ms ease,
+            background 180ms ease;
+    }
 
-  .navLink::before {
-    left: -18px;
-  }
 
-  .separator {
-    background: rgba(255, 255, 255, 0.055);
-  }
+    .menuToggle:hover {
+        background:
+            rgba(123, 47, 242, 0.16);
 
-  .sidebarFooter {
-    margin-top: 25px;
+        border-color:
+            rgba(168, 108, 255, 0.5);
 
-    padding-top: 18px;
-  }
+        box-shadow:
+            0 0 12px rgba(123, 47, 242, 0.3);
+    }
 
-  .logoutButton {
-    min-height: 46px;
-  }
+
+    .menuToggle:hover span {
+        background: #FFFFFF;
+    }
+
+
+    /* =====================================================
+       ANIMATED X
+       ===================================================== */
+
+    .menuToggleOpen span:nth-child(1) {
+        transform:
+            translateY(6px)
+            rotate(45deg);
+    }
+
+
+    .menuToggleOpen span:nth-child(2) {
+        opacity: 0;
+    }
+
+
+    .menuToggleOpen span:nth-child(3) {
+        transform:
+            translateY(-6px)
+            rotate(-45deg);
+    }
+
+
+    /* =====================================================
+       MOBILE SIDEBAR CONTENT
+       ===================================================== */
+
+    .sidebarInner {
+        min-height: auto;
+
+        padding:
+            0 18px 20px;
+    }
+
+
+    /* Hide desktop brand */
+
+    .sidebarInner > .brand {
+        display: none;
+    }
+
+
+    .role {
+        margin-top: 10px;
+
+        margin-bottom: 25px;
+
+        padding-left: 0;
+    }
+
+
+    .navigation {
+        flex: none;
+    }
+
+
+    .navLabel {
+        padding-left: 0;
+
+        margin-bottom: 8px;
+    }
+
+
+    .navLink {
+        grid-template-columns:
+            35px
+            minmax(0, 1fr)
+            20px;
+
+        min-height: 50px;
+
+        padding: 0 8px;
+    }
+
+
+    .navLink:hover {
+        padding-left: 13px;
+    }
+
+
+    .navLink::before {
+        left: -18px;
+    }
+
+
+    .separator {
+        background:
+            rgba(255, 255, 255, 0.08);
+    }
+
+
+    .sidebarFooter {
+        margin-top: 25px;
+
+        padding-top: 18px;
+    }
+
+
+    .logoutButton {
+        min-height: 46px;
+    }
 }
 
 
@@ -609,43 +898,93 @@
 
 @media (max-width: 400px) {
 
-  .mobileHeader {
-    height: 64px;
+    .mobileHeader {
+        height: 64px;
 
-    padding: 0 14px;
-  }
+        padding: 0 14px;
+    }
 
-  .sidebar {
-    max-height: 64px;
-  }
 
-  .sidebarInner {
-    padding-left: 14px;
-    padding-right: 14px;
-    padding-bottom: 18px;
-  }
+    .sidebar {
+        max-height: 64px;
+    }
 
-  .mobileBrand .brandMark {
-    width: 32px;
-    height: 32px;
-  }
 
-  .mobileBrand .brandName {
-    font-size: 0.7rem;
-  }
+    .sidebarInner {
+        padding-left: 14px;
 
-  .mobileBrand .brandLabel {
-    font-size: 0.42rem;
-  }
+        padding-right: 14px;
 
-  .menuToggle {
-    width: 42px;
-    height: 42px;
-  }
+        padding-bottom: 18px;
+    }
 
-  .navLink {
-    min-height: 47px;
 
-    font-size: 0.73rem;
-  }
+    .mobileBrand .brandMark {
+        width: 32px;
+
+        height: 32px;
+    }
+
+
+    .mobileBrand .brandName {
+        font-size: 0.7rem;
+    }
+
+
+    .mobileBrand .brandLabel {
+        font-size: 0.42rem;
+    }
+
+
+    .menuToggle {
+        width: 42px;
+
+        height: 42px;
+    }
+
+
+    .navLink {
+        min-height: 47px;
+
+        font-size: 0.73rem;
+    }
+}
+
+
+/* =========================================================
+   SIDEBAR IMAGE ANIMATION
+   ========================================================= */
+
+@keyframes sidebarImageEnter {
+
+    from {
+        opacity: 0;
+
+        transform: scale(1.02);
+    }
+
+    to {
+        opacity: 1;
+
+        transform: scale(1.005);
+    }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .sidebarBackground {
+        animation: none;
+    }
+
+    .navLink,
+    .logoutButton,
+    .menuToggle,
+    .menuToggle span {
+        transition: none;
+    }
 }

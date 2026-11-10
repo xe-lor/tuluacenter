@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import API from '../../api.js';
-import styles from './index.module.css';
+import React, { useEffect, useState } from "react";
+import API from "../../api.js";
+import styles from '../../shared.module.css';
 
 const IndexNiveaux = () => {
     const [niveaux, setNiveaux] = useState([]);
@@ -13,23 +13,26 @@ const IndexNiveaux = () => {
     const [editAvrage, setEditAvrage] = useState("");
 
     useEffect(() => {
-        API.get('/admin/niveaux')
-            .then(res => setNiveaux(res.data.niveaux))
-            .catch(err => console.error(err));
+        API.get("/admin/niveaux")
+            .then((res) => setNiveaux(res.data.niveaux))
+            .catch((err) => console.error(err));
     }, []);
 
     // ADD
     const handleAdd = () => {
         if (!newName.trim()) return alert("Name required");
 
-        API.post('/admin/storeNiveau', { name: newName, avrage: newAvrage })
-            .then(res => {
+        API.post("/admin/storeNiveau", {
+            name: newName,
+            avrage: newAvrage,
+        })
+            .then((res) => {
                 setNiveaux([...niveaux, res.data.niveau]);
                 setNewName("");
                 setNewAvrage("");
                 setIsAdding(false);
             })
-            .catch(err => console.error(err));
+            .catch((err) => console.error(err));
     };
 
     // EDIT
@@ -42,292 +45,280 @@ const IndexNiveaux = () => {
     const handleUpdate = (id) => {
         if (!editName.trim()) return alert("Name required");
 
-        API.put(`/admin/niveaux/${id}`, { name: editName, avrage: editAvrage })
-            .then(res => {
+        API.put(`/admin/niveaux/${id}`, {
+            name: editName,
+            avrage: editAvrage,
+        })
+            .then((res) => {
                 const updated = res.data.niveau;
-                setNiveaux(niveaux.map(n => n.id === id ? updated : n));
+
+                setNiveaux(niveaux.map((n) => (n.id === id ? updated : n)));
+
                 setEditingId(null);
             })
-            .catch(err => console.error(err));
+            .catch((err) => console.error(err));
     };
 
     // DELETE
     const handleDelete = (id) => {
         if (!window.confirm("Are you sure?")) return;
 
-        API.post('/admin/niveaux/delete', { id })
+        API.post("/admin/niveaux/delete", { id })
             .then(() => {
-                setNiveaux(niveaux.filter(n => n.id !== id));
+                setNiveaux(niveaux.filter((n) => n.id !== id));
             })
-            .catch(err => console.error(err));
+            .catch((err) => console.error(err));
     };
 
     return (
-        <div className={styles.pageContainer}>
-
-            <div className={styles.managementCard}>
-
+        <div className={styles.admin_niveaux_index_pageContainer}>
+            <div className={styles.admin_niveaux_index_managementCard}>
                 {/* HEADER */}
+                <div className={styles.admin_niveaux_index_cardHeader}>
+                    {/* Header background image */}
+                    <img
+                        src="/images/neonImage.png"
+                        alt=""
+                        className={styles.admin_niveaux_index_headerBackground}
+                    />
 
-                <div className={styles.cardHeader}>
+                    {/* Dark overlay */}
+                    <div className={styles.admin_niveaux_index_headerOverlay}></div>
 
-                    <div className={styles.headerContent}>
-
-                        <span className={styles.headerLabel}>
+                    <div className={styles.admin_niveaux_index_headerContent}>
+                        <span className={styles.admin_niveaux_index_headerLabel}>
                             ACADEMIC ADMINISTRATION
                         </span>
 
-                        <h1 className={styles.headerTitle}>
-                            Niveaux
-                        </h1>
+                        <h1 className={styles.admin_niveaux_index_headerTitle}>Niveaux</h1>
 
-                        <p className={styles.headerSubtitle}>
+                        <p className={styles.admin_niveaux_index_headerSubtitle}>
                             Manage academic levels and their average values.
                         </p>
-
                     </div>
 
                     <button
-                        className={styles.addButton}
+                        className={styles.admin_niveaux_index_addButton}
                         onClick={() => setIsAdding(true)}
                     >
-                        <span className={styles.addIcon}>+</span>
                         Add Niveau
                     </button>
-
                 </div>
 
                 {/* TABLE BODY */}
-
-                <div className={styles.cardBody}>
-
-                    <table className={styles.table}>
-
+                <div className={styles.admin_niveaux_index_tableContainer}>
+                    <table className={styles.admin_niveaux_index_table}>
                         <thead>
-
                             <tr>
-                                <th className={styles.idHeader}>
-                                    ID
-                                </th>
+                                <th className={styles.admin_niveaux_index_idHeader}>ID</th>
 
-                                <th>
-                                    Name
-                                </th>
+                                <th>Name</th>
 
-                                <th>
-                                    Avrage
-                                </th>
+                                <th>Avrage</th>
 
-                                <th className={styles.actionsHeader}>
+                                <th className={styles.admin_niveaux_index_actionsHeader}>
                                     Actions
                                 </th>
                             </tr>
-
                         </thead>
 
                         <tbody>
-
                             {/* ADD ROW */}
-
                             {isAdding && (
-
-                                <tr className={styles.addRow}>
-
+                                <tr className={styles.admin_niveaux_index_addRow}>
                                     <td>
-
-                                        <span className={styles.newBadge}>
+                                        <span className={styles.admin_niveaux_index_newBadge}>
                                             NEW
                                         </span>
-
                                     </td>
 
                                     <td>
-
                                         <input
-                                            className={styles.tableInput}
+                                            className={styles.admin_niveaux_index_tableInput}
                                             placeholder="Name"
                                             value={newName}
-                                            onChange={e => setNewName(e.target.value)}
+                                            onChange={(e) =>
+                                                setNewName(e.target.value)
+                                            }
                                         />
-
                                     </td>
 
                                     <td>
-
                                         <input
-                                            className={styles.tableInput}
+                                            className={styles.admin_niveaux_index_tableInput}
                                             placeholder="Avrage"
                                             value={newAvrage}
-                                            onChange={e => setNewAvrage(e.target.value)}
+                                            onChange={(e) =>
+                                                setNewAvrage(e.target.value)
+                                            }
                                         />
-
                                     </td>
 
                                     <td>
-
-                                        <div className={styles.actionGroup}>
-
+                                        <div className={styles.admin_niveaux_index_actionGroup}>
                                             <button
-                                                className={styles.saveButton}
+                                                className={styles.admin_niveaux_index_saveButton}
                                                 onClick={handleAdd}
                                             >
                                                 Save
                                             </button>
 
                                             <button
-                                                className={styles.cancelButton}
-                                                onClick={() => setIsAdding(false)}
+                                                className={styles.admin_niveaux_index_cancelButton}
+                                                onClick={() =>
+                                                    setIsAdding(false)
+                                                }
                                             >
                                                 Cancel
                                             </button>
-
                                         </div>
-
                                     </td>
-
                                 </tr>
-
                             )}
 
                             {/* DATA ROWS */}
-
-                            {niveaux.length > 0 ? niveaux.map(n => (
-
-                                <tr
-                                    key={n.id}
-                                    className={styles.dataRow}
-                                >
-
-                                    <td>
-
-                                        <span className={styles.idNumber}>
-                                            {n.id}
-                                        </span>
-
-                                    </td>
-
-                                    <td>
-
-                                        {editingId === n.id ? (
-
-                                            <input
-                                                className={styles.tableInput}
-                                                value={editName}
-                                                onChange={e => setEditName(e.target.value)}
-                                            />
-
-                                        ) : (
-
-                                            <span className={styles.nameText}>
-                                                {n.name}
+                            {niveaux.length > 0 ? (
+                                niveaux.map((n) => (
+                                    <tr key={n.id} className={styles.admin_niveaux_index_dataRow}>
+                                        <td>
+                                            <span className={styles.admin_niveaux_index_idNumber}>
+                                                {n.id}
                                             </span>
+                                        </td>
 
-                                        )}
-
-                                    </td>
-
-                                    <td>
-
-                                        {editingId === n.id ? (
-
-                                            <input
-                                                className={styles.tableInput}
-                                                value={editAvrage}
-                                                onChange={e => setEditAvrage(e.target.value)}
-                                            />
-
-                                        ) : (
-
-                                            <span className={styles.averageText}>
-                                                {n.avrage}
-                                            </span>
-
-                                        )}
-
-                                    </td>
-
-                                    <td>
-
-                                        {editingId === n.id ? (
-
-                                            <div className={styles.actionGroup}>
-
-                                                <button
-                                                    className={styles.saveButton}
-                                                    onClick={() => handleUpdate(n.id)}
+                                        <td>
+                                            {editingId === n.id ? (
+                                                <input
+                                                    className={
+                                                        styles.admin_niveaux_index_tableInput
+                                                    }
+                                                    value={editName}
+                                                    onChange={(e) =>
+                                                        setEditName(
+                                                            e.target.value,
+                                                        )
+                                                    }
+                                                />
+                                            ) : (
+                                                <span
+                                                    className={styles.admin_niveaux_index_nameText}
                                                 >
-                                                    Save
-                                                </button>
+                                                    {n.name}
+                                                </span>
+                                            )}
+                                        </td>
 
-                                                <button
-                                                    className={styles.cancelButton}
-                                                    onClick={() => setEditingId(null)}
+                                        <td>
+                                            {editingId === n.id ? (
+                                                <input
+                                                    className={
+                                                        styles.admin_niveaux_index_tableInput
+                                                    }
+                                                    value={editAvrage}
+                                                    onChange={(e) =>
+                                                        setEditAvrage(
+                                                            e.target.value,
+                                                        )
+                                                    }
+                                                />
+                                            ) : (
+                                                <span
+                                                    className={
+                                                        styles.admin_niveaux_index_averageText
+                                                    }
                                                 >
-                                                    Cancel
-                                                </button>
+                                                    {n.avrage}
+                                                </span>
+                                            )}
+                                        </td>
 
-                                            </div>
-
-                                        ) : (
-
-                                            <div className={styles.actionGroup}>
-
-                                                <button
-                                                    className={styles.editButton}
-                                                    onClick={() => handleEdit(n)}
+                                        <td>
+                                            {editingId === n.id ? (
+                                                <div
+                                                    className={
+                                                        styles.admin_niveaux_index_actionGroup
+                                                    }
                                                 >
-                                                    Edit
-                                                </button>
+                                                    <button
+                                                        className={
+                                                            styles.admin_niveaux_index_saveButton
+                                                        }
+                                                        onClick={() =>
+                                                            handleUpdate(n.id)
+                                                        }
+                                                    >
+                                                        Save
+                                                    </button>
 
-                                                <button
-                                                    className={styles.deleteButton}
-                                                    onClick={() => handleDelete(n.id)}
+                                                    <button
+                                                        className={
+                                                            styles.admin_niveaux_index_cancelButton
+                                                        }
+                                                        onClick={() =>
+                                                            setEditingId(null)
+                                                        }
+                                                    >
+                                                        Cancel
+                                                    </button>
+                                                </div>
+                                            ) : (
+                                                <div
+                                                    className={
+                                                        styles.admin_niveaux_index_actionGroup
+                                                    }
                                                 >
-                                                    Delete
-                                                </button>
+                                                    <button
+                                                        className={
+                                                            styles.admin_niveaux_index_editButton
+                                                        }
+                                                        onClick={() =>
+                                                            handleEdit(n)
+                                                        }
+                                                    >
+                                                        Edit
+                                                    </button>
 
-                                            </div>
-
-                                        )}
-
-                                    </td>
-
-                                </tr>
-
-                            )) : (
-
-                                <tr className={styles.emptyRow}>
-
+                                                    <button
+                                                        className={
+                                                            styles.admin_niveaux_index_deleteButton
+                                                        }
+                                                        onClick={() =>
+                                                            handleDelete(n.id)
+                                                        }
+                                                    >
+                                                        Delete
+                                                    </button>
+                                                </div>
+                                            )}
+                                        </td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr className={styles.admin_niveaux_index_emptyRow}>
                                     <td colSpan="4">
+                                        <div className={styles.admin_niveaux_index_emptyState}>
+                                            <span
+                                                className={styles.admin_niveaux_index_emptyAccent}
+                                            ></span>
 
-                                        <div className={styles.emptyState}>
-
-                                            <span className={styles.emptyAccent}></span>
-
-                                            <span className={styles.emptyTitle}>
+                                            <span className={styles.admin_niveaux_index_emptyTitle}>
                                                 No Niveaux Found
                                             </span>
 
-                                            <span className={styles.emptySubtitle}>
-                                                Add a level to begin managing your academic structure.
+                                            <span
+                                                className={styles.admin_niveaux_index_emptySubtitle}
+                                            >
+                                                Add a level to begin managing
+                                                your academic structure.
                                             </span>
-
                                         </div>
-
                                     </td>
-
                                 </tr>
-
                             )}
-
                         </tbody>
-
                     </table>
-
                 </div>
-
             </div>
-
         </div>
     );
 };

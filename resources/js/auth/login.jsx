@@ -14,25 +14,31 @@ const Login = () => {
     const handleLogin = (e) => {
         e.preventDefault();
 
-        API.post(
-            "/auth/login",
-            { name, password },
-            { withCredentials: true }, // important for Laravel session cookies
-        )
+        API.post("/auth/login", { name, password }, { withCredentials: true })
             .then((res) => {
                 if (res.data.success === true) {
                     const user = res.data.user;
 
-                    // Store role and user info in localStorage for global access
+                    // Store role and user information
                     localStorage.setItem("user_role", user.role);
                     localStorage.setItem("user_id", user.id);
                     localStorage.setItem("username", user.name);
 
-                    // Dispatch custom event so sidebar updates immediately
+                    // Update Sidebar
                     window.dispatchEvent(new Event("updateRole"));
 
-                    // Navigate to classes page (or dashboard)
-                    navigate("/classes", { state: { user } });
+                    // Navigation according to role
+                    if (user.role === "admin") {
+                        navigate("/classes/index");
+                    }
+
+                    if (user.role === "teacher") {
+                        navigate("/teacher/students");
+                    }
+
+                    if (user.role === "assistant") {
+                        navigate("/payment/index");
+                    }
                 } else {
                     setMessage("Invalid Credentials!");
                 }
@@ -80,19 +86,21 @@ const Login = () => {
             </form>
             <div className={styles.imageDiv}>
                 <img
-                    className={styles.img}
-                    src="/images/tulua.png"
-                    alt="Tulua"
+                    className={styles.image}
+                    src="/images/sideback.avif"
+                    alt="LoginLogo"
                 />
 
-                <img
-                    className={styles.logo}
-                    src="/images/Logo.png"
-                    alt="Tulua Logo"
-                />
-                <div className={styles.imageCaption}>
-                    <span className={styles.captionLine}></span>
-                    <span>LEARN · CREATE · BECOME</span>
+                <div className={styles.instituteText}>
+                    <span className={styles.welcome}>WELCOME TO</span>
+
+                    <h1>TULUA</h1>
+
+                    <h2>INSTITUTE</h2>
+
+                    <div className={styles.line}></div>
+
+                    <p>LEARN. GROW. SUCCEED.</p>
                 </div>
             </div>
         </div>

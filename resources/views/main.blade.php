@@ -19,9 +19,40 @@
             background: whitesmoke;
             background-size: cover;
             background-position: center;
-            background-color: black;
         }
-    </style>
+
+    /* Firefox */
+    * {
+        scrollbar-width: thin;
+        scrollbar-color: #5F9598 rgba(243, 244, 244, 0.035);
+    }
+
+    /* Chrome / Edge / Brave / Safari */
+    ::-webkit-scrollbar {
+        width: 7px;
+        height: 7px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: rgba(243, 244, 244, 0.035);
+        border-radius: 10px;
+        margin: 4px 0;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: #5F9598;
+        border-radius: 10px;
+        border: 1px solid rgba(95, 149, 152, 0.08);
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: #1D546D;
+    }
+
+    ::-webkit-scrollbar-corner {
+        background: transparent;
+    }
+</style>
 </head>
 <body>
     <div id="app"></div>

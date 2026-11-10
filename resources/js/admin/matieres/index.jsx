@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import API from '../../api.js';
-import styles from './index.module.css';
+import React, { useEffect, useState } from "react";
+import API from "../../api.js";
+import styles from '../../shared.module.css';
 
 const IndexMatieres = () => {
     const [matieres, setMatieres] = useState([]);
@@ -11,22 +11,26 @@ const IndexMatieres = () => {
     const [editValue, setEditValue] = useState("");
 
     useEffect(() => {
-        API.get('/admin/matieres')
-            .then(res => setMatieres(res.data.matieres))
-            .catch(err => console.error(err));
+        API.get("/admin/matieres")
+            .then((res) => setMatieres(res.data.matieres))
+            .catch((err) => console.error(err));
     }, []);
 
     // ADD
     const handleAdd = () => {
-        if (!newMatiere.trim()) return alert("Name is required");
+        const name = newMatiere.trim();
+        if (!name) return alert("Name is required");
 
-        API.post('/admin/storeMatiere', { name: newMatiere })
-            .then(res => {
-                setMatieres([...matieres, res.data.matiere]);
+        API.post("/admin/storeMatiere", { name })
+            .then((res) => {
+                setMatieres((prev) => [...prev, res.data.matiere]);
                 setNewMatiere("");
                 setIsAdding(false);
             })
-            .catch(err => console.error(err));
+            .catch((err) => {
+                console.error(err);
+                alert("Error adding matiere");
+            });
     };
 
     // EDIT
@@ -36,260 +40,250 @@ const IndexMatieres = () => {
     };
 
     const handleUpdate = (id) => {
-        if (!editValue.trim()) return alert("Name is required");
+        const name = editValue.trim();
+        if (!name) return alert("Name is required");
 
-        API.put(`/admin/matieres/${id}`, { name: editValue })
-            .then(res => {
+        API.put(`/admin/matieres/${id}`, { name })
+            .then((res) => {
                 const updated = res.data.matiere;
-                setMatieres(matieres.map(m => m.id === id ? updated : m));
+                setMatieres((prev) =>
+                    prev.map((m) => (m.id === id ? updated : m)),
+                );
                 setEditingId(null);
                 setEditValue("");
             })
-            .catch(err => console.error(err));
+            .catch((err) => {
+                console.error(err);
+                alert("Error updating matiere");
+            });
     };
 
     // DELETE
     const handleDelete = (id) => {
         if (!window.confirm("Are you sure you want to delete this?")) return;
 
-        API.post('/admin/matieres/delete', { id })
+        API.post("/admin/matieres/delete", { id })
             .then(() => {
-                setMatieres(matieres.filter(m => m.id !== id));
+                setMatieres((prev) => prev.filter((m) => m.id !== id));
             })
-            .catch(err => console.error(err));
+            .catch((err) => {
+                console.error(err);
+                alert("Error deleting matiere");
+            });
     };
 
     return (
-        <div className={styles.pageContainer}>
-
-            <div className={styles.managementCard}>
-
+        <div className={styles.admin_matieres_index_pageContainer}>
+            <div className={styles.admin_matieres_index_managementCard}>
                 {/* HEADER */}
+                <div className={styles.admin_matieres_index_cardHeader}>
+                    {/* Header background image */}
+                    <img
+                        src="/images/neonImage.png"
+                        alt=""
+                        aria-hidden="true"
+                        className={styles.admin_matieres_index_headerBackground}
+                    />
 
-                <div className={styles.cardHeader}>
+                    {/* Dark overlay over the image */}
+                    <div className={styles.admin_matieres_index_headerOverlay}></div>
 
-                    <div className={styles.headerContent}>
-
-                        <span className={styles.headerLabel}>
+                    <div className={styles.admin_matieres_index_headerContent}>
+                        <span className={styles.admin_matieres_index_headerLabel}>
                             ACADEMIC ADMINISTRATION
                         </span>
 
-                        <h1 className={styles.headerTitle}>
-                            Matieres
-                        </h1>
+                        <h1 className={styles.admin_matieres_index_headerTitle}>Matieres</h1>
 
-                        <p className={styles.headerSubtitle}>
+                        <p className={styles.admin_matieres_index_headerSubtitle}>
                             Manage subjects and their academic information.
                         </p>
-
                     </div>
 
                     <button
-                        className={styles.addButton}
+                        className={styles.admin_matieres_index_addButton}
                         onClick={() => setIsAdding(true)}
                     >
-                        <span className={styles.addIcon}>+</span>
+                        <span className={styles.admin_matieres_index_addIcon}>+</span>
                         Add Matiere
                     </button>
-
                 </div>
 
-                {/* TABLE BODY */}
-
-                <div className={styles.cardBody}>
-
-                    <table className={styles.table}>
-
+                {/* TABLE */}
+                <div className={styles.admin_matieres_index_tableContainer}>
+                    <table className={styles.admin_matieres_index_table}>
                         <thead>
-
                             <tr>
-                                <th className={styles.idHeader}>
-                                    ID
-                                </th>
-
-                                <th>
-                                    Name
-                                </th>
-
-                                <th className={styles.actionsHeader}>
+                                <th className={styles.admin_matieres_index_idHeader}>ID</th>
+                                <th>Name</th>
+                                <th className={styles.admin_matieres_index_actionsHeader}>
                                     Actions
                                 </th>
                             </tr>
-
                         </thead>
 
                         <tbody>
-
                             {/* ADD ROW */}
-
                             {isAdding && (
-
-                                <tr className={styles.addRow}>
-
+                                <tr className={styles.admin_matieres_index_addRow}>
                                     <td>
-
-                                        <span className={styles.newBadge}>
+                                        <span className={styles.admin_matieres_index_newBadge}>
                                             NEW
                                         </span>
-
                                     </td>
 
                                     <td>
-
                                         <input
-                                            className={styles.tableInput}
+                                            className={styles.admin_matieres_index_tableInput}
                                             placeholder="Matiere name"
                                             value={newMatiere}
-                                            onChange={e => setNewMatiere(e.target.value)}
+                                            onChange={(e) =>
+                                                setNewMatiere(e.target.value)
+                                            }
                                         />
-
                                     </td>
 
                                     <td>
-
-                                        <div className={styles.actionGroup}>
-
+                                        <div className={styles.admin_matieres_index_actionGroup}>
                                             <button
-                                                className={styles.saveButton}
+                                                className={styles.admin_matieres_index_saveButton}
                                                 onClick={handleAdd}
                                             >
                                                 Save
                                             </button>
 
                                             <button
-                                                className={styles.cancelButton}
-                                                onClick={() => setIsAdding(false)}
+                                                className={styles.admin_matieres_index_cancelButton}
+                                                onClick={() =>
+                                                    setIsAdding(false)
+                                                }
                                             >
                                                 Cancel
                                             </button>
-
                                         </div>
-
                                     </td>
-
                                 </tr>
-
                             )}
 
                             {/* DATA ROWS */}
-
-                            {matieres.length > 0 ? matieres.map(m => (
-
-                                <tr
-                                    key={m.id}
-                                    className={styles.dataRow}
-                                >
-
-                                    <td>
-
-                                        <span className={styles.idNumber}>
-                                            {m.id}
-                                        </span>
-
-                                    </td>
-
-                                    <td>
-
-                                        {editingId === m.id ? (
-
-                                            <input
-                                                className={styles.tableInput}
-                                                value={editValue}
-                                                onChange={e => setEditValue(e.target.value)}
-                                            />
-
-                                        ) : (
-
-                                            <span className={styles.nameText}>
-                                                {m.name}
+                            {matieres.length > 0 ? (
+                                matieres.map((m) => (
+                                    <tr key={m.id} className={styles.admin_matieres_index_dataRow}>
+                                        <td>
+                                            <span className={styles.admin_matieres_index_idNumber}>
+                                                {m.id}
                                             </span>
+                                        </td>
 
-                                        )}
-
-                                    </td>
-
-                                    <td>
-
-                                        {editingId === m.id ? (
-
-                                            <div className={styles.actionGroup}>
-
-                                                <button
-                                                    className={styles.saveButton}
-                                                    onClick={() => handleUpdate(m.id)}
+                                        <td>
+                                            {editingId === m.id ? (
+                                                <input
+                                                    className={
+                                                        styles.admin_matieres_index_tableInput
+                                                    }
+                                                    value={editValue}
+                                                    onChange={(e) =>
+                                                        setEditValue(
+                                                            e.target.value,
+                                                        )
+                                                    }
+                                                />
+                                            ) : (
+                                                <span
+                                                    className={styles.admin_matieres_index_nameText}
                                                 >
-                                                    Save
-                                                </button>
+                                                    {m.name}
+                                                </span>
+                                            )}
+                                        </td>
 
-                                                <button
-                                                    className={styles.cancelButton}
-                                                    onClick={() => setEditingId(null)}
+                                        <td>
+                                            {editingId === m.id ? (
+                                                <div
+                                                    className={
+                                                        styles.admin_matieres_index_actionGroup
+                                                    }
                                                 >
-                                                    Cancel
-                                                </button>
+                                                    <button
+                                                        className={
+                                                            styles.admin_matieres_index_saveButton
+                                                        }
+                                                        onClick={() =>
+                                                            handleUpdate(m.id)
+                                                        }
+                                                    >
+                                                        Save
+                                                    </button>
 
-                                            </div>
-
-                                        ) : (
-
-                                            <div className={styles.actionGroup}>
-
-                                                <button
-                                                    className={styles.editButton}
-                                                    onClick={() => handleEdit(m)}
+                                                    <button
+                                                        className={
+                                                            styles.admin_matieres_index_cancelButton
+                                                        }
+                                                        onClick={() =>
+                                                            setEditingId(null)
+                                                        }
+                                                    >
+                                                        Cancel
+                                                    </button>
+                                                </div>
+                                            ) : (
+                                                <div
+                                                    className={
+                                                        styles.admin_matieres_index_actionGroup
+                                                    }
                                                 >
-                                                    Edit
-                                                </button>
+                                                    <button
+                                                        className={
+                                                            styles.admin_matieres_index_editButton
+                                                        }
+                                                        onClick={() =>
+                                                            handleEdit(m)
+                                                        }
+                                                    >
+                                                        Edit
+                                                    </button>
 
-                                                <button
-                                                    className={styles.deleteButton}
-                                                    onClick={() => handleDelete(m.id)}
-                                                >
-                                                    Delete
-                                                </button>
-
-                                            </div>
-
-                                        )}
-
-                                    </td>
-
-                                </tr>
-
-                            )) : (
-
-                                <tr className={styles.emptyRow}>
-
+                                                    <button
+                                                        className={
+                                                            styles.admin_matieres_index_deleteButton
+                                                        }
+                                                        onClick={() =>
+                                                            handleDelete(m.id)
+                                                        }
+                                                    >
+                                                        Delete
+                                                    </button>
+                                                </div>
+                                            )}
+                                        </td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr className={styles.admin_matieres_index_emptyRow}>
                                     <td colSpan="3">
+                                        <div className={styles.admin_matieres_index_emptyState}>
+                                            <span
+                                                className={styles.admin_matieres_index_emptyAccent}
+                                            ></span>
 
-                                        <div className={styles.emptyState}>
-
-                                            <span className={styles.emptyAccent}></span>
-
-                                            <span className={styles.emptyTitle}>
+                                            <span className={styles.admin_matieres_index_emptyTitle}>
                                                 No Matieres Found
                                             </span>
 
-                                            <span className={styles.emptySubtitle}>
-                                                Add a subject to begin managing your academic data.
+                                            <span
+                                                className={styles.admin_matieres_index_emptySubtitle}
+                                            >
+                                                Add a subject to begin managing
+                                                your academic data.
                                             </span>
-
                                         </div>
-
                                     </td>
-
                                 </tr>
-
                             )}
-
                         </tbody>
-
                     </table>
-
                 </div>
-
             </div>
-
         </div>
     );
 };
