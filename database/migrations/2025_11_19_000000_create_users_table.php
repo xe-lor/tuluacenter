@@ -10,6 +10,10 @@ return new class extends Migration {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            // Optional email, used by "forgot password" (teachers).
+            $table->string('email')->nullable();
+            // Set once the "please add your email" popup was answered or skipped.
+            $table->timestamp('email_prompted_at')->nullable();
             $table->string('password');
             $table->string('role');
             $table->rememberToken();

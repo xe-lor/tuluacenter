@@ -55,6 +55,7 @@ const SideBar = () => {
   const teacherLinks = [
       { label: "Stats Page", to: "/teacher/statistiques" },
       { label: "Students Page", to: "/teacher/students" },
+      { label: "Account", to: "/teacher/account" },
   ];
 
   // =========================

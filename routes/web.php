@@ -7,11 +7,12 @@ use App\Http\Controllers\admin\NiveauController;
 use App\Http\Controllers\admin\TeacherController;
 
 use App\Http\Controllers\auth\AuthController;
-
+use App\Http\Controllers\auth\PasswordResetController;
 use App\Http\Controllers\payment\PaymentController;
 use App\Http\Controllers\payment\QrController;
 
 use App\Http\Controllers\teacher\TeacherController as TeacherPaymentController;
+use App\Http\Controllers\teacher\AccountController as TeacherAccountController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -59,6 +60,8 @@ Route::prefix('/admin')->group(function(){
 Route::prefix('/auth')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/logout', [AuthController::class, 'logout']);
+    Route::post('/forgot-password', [PasswordResetController::class, 'sendCode'])->middleware('throttle:5,1');
+    Route::post('/reset-password', [PasswordResetController::class, 'resetPassword'])->middleware('throttle:10,1');
 });
 
 
@@ -93,6 +96,12 @@ Route::prefix('/teacher')->group(function () {
 
     // Stats
     Route::get('/stats', [TeacherPaymentController::class, 'stats']);
+
+    // Account settings (username / email / password)
+    Route::get('/profile', [TeacherAccountController::class, 'show']);
+    Route::put('/profile', [TeacherAccountController::class, 'updateProfile'])->middleware('throttle:10,1');
+    Route::put('/profile/password', [TeacherAccountController::class, 'updatePassword'])->middleware('throttle:10,1');
+    Route::post('/profile/email-prompt', [TeacherAccountController::class, 'answerEmailPrompt']);
 
 });
 
