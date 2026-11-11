@@ -5,18 +5,21 @@ import Login from './auth/login.jsx';
 import '../css/app.css';
 import SideBar from './sidebar/sidebar.jsx';
 import CreateStudent from './payment/create.jsx';
-import Index from './payment/index.jsx';
+import Index from './payment/Index.jsx';
 import UpdateStudent from './payment/update.jsx';
 import StudentsQr from './studentsQr/studentsQr.jsx';
 import Scanner from './studentsQr/scanner.jsx';
 import PrivateRoute from './PrivateRoute.jsx';
 import StudentsPage from './teacher/StudentsPage.jsx';
 import StatsPage from './teacher/StatsPage.jsx';
+import AccountPage from './teacher/AccountPage.jsx';
+import EmailPrompt from './teacher/EmailPrompt.jsx';
 import TeacherIndex from './admin/teachers/index.jsx';
 import AssistantIndex from './admin/assistances/index.jsx';
 import IndexMatieres from './admin/matieres/index.jsx';
 import IndexNiveaux from './admin/niveaux/index.jsx';
 import IndexClass from './admin/classes/index.jsx';
+import ForgotPassword from './auth/ForgotPassword.jsx';
 
 
 
@@ -24,9 +27,12 @@ import IndexClass from './admin/classes/index.jsx';
 ReactDOM.createRoot(document.getElementById('app')).render(
       <BrowserRouter basename='/tuluacenter'>
     <SideBar />
+    <EmailPrompt />
     <Routes>
       {/* Public login route */}
       <Route path='/' element={<Login />} />
+      <Route path='/ForgotPassword' element={<ForgotPassword />} />
+
 
       {/* Admin-only routes */}
       <Route path='/matieres' element={<PrivateRoute allowedRoles={['admin']}><IndexMatieres /></PrivateRoute>} />
@@ -63,6 +69,7 @@ ReactDOM.createRoot(document.getElementById('app')).render(
 
       <Route path='/teacher/students' element={<PrivateRoute allowedRoles={['teacher']}><StudentsPage /></PrivateRoute>} />
       <Route path='/teacher/statistiques' element={<PrivateRoute allowedRoles={['teacher']}><StatsPage /></PrivateRoute>} />
+      <Route path='/teacher/account' element={<PrivateRoute allowedRoles={['teacher']}><AccountPage /></PrivateRoute>} />
 
     </Routes>
   </BrowserRouter>

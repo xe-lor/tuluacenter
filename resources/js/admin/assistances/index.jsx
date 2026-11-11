@@ -90,12 +90,12 @@ const AssistantIndex = () => {
                 );
             })
             .catch(() => alert("Error deleting"));
-    };
+    }; 
 
     return (
-        <div className={styles.admin_assistances_index_pageContainer}>
+        <div className={styles.admin_classes_index_pageContainer}>
 
-            <div className={styles.admin_assistances_index_managementCard}>
+            <div className={styles.admin_classes_index_managementCard}>
 
 <div className={styles.admin_assistances_index_cardHeader}>
 

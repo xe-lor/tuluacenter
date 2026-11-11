@@ -17,6 +17,10 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    protected $casts = [
+        'email_prompted_at' => 'datetime',
+    ];
+
     public function profs()
     {
         return $this->hasMany(Prof::class);
