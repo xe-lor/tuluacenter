@@ -7,10 +7,10 @@ import styles from "./login.module.css";
 const ZOOM_MS = 1100;
 
 // White curtain timings
-const WHITE_IN_DELAY = 100;   // when the white starts fading in (during the zoom)
-const WHITE_IN_MS = 450;      // how long the white takes to fade in
-const WHITE_OUT_MS = 800;     // how long the white takes to fade away on the new page
-const PAGE_SETTLE_MS = 350;   // time given to the new page to render behind the white
+const WHITE_IN_DELAY = 100; // when the white starts fading in (during the zoom)
+const WHITE_IN_MS = 450; // how long the white takes to fade in
+const WHITE_OUT_MS = 800; // how long the white takes to fade away on the new page
+const PAGE_SETTLE_MS = 350; // time given to the new page to render behind the white
 
 // The curtain lives directly on <body>, so it survives the route change
 // (the Login component unmounts when we navigate).
@@ -78,7 +78,7 @@ const Login = () => {
 
                     // Respect reduced-motion: skip the animation
                     const reduceMotion = window.matchMedia(
-                        "(prefers-reduced-motion: reduce)"
+                        "(prefers-reduced-motion: reduce)",
                     ).matches;
 
                     if (reduceMotion) {
@@ -106,7 +106,10 @@ const Login = () => {
                         setTimeout(() => {
                             curtain.style.transition = `opacity ${WHITE_OUT_MS}ms ease-out`;
                             curtain.style.opacity = "0";
-                            setTimeout(() => curtain.remove(), WHITE_OUT_MS + 100);
+                            setTimeout(
+                                () => curtain.remove(),
+                                WHITE_OUT_MS + 100,
+                            );
                         }, PAGE_SETTLE_MS);
                     }, ZOOM_MS + 100);
                 } else {
@@ -176,17 +179,6 @@ const Login = () => {
                         src="/images/neonLogin.gif"
                         alt="LoginLogo"
                     />
-
-                    {/* Text fades out as soon as the zoom starts */}
-                    <div
-                        className={`${styles.instituteText} ${
-                            zooming ? styles.textHide : ""
-                        }`}
-                    >
-
-                    <div className={styles.line}></div>
-
-                    </div>
                 </div>
             </div>
 
