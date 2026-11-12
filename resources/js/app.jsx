@@ -5,7 +5,7 @@ import Login from './auth/login.jsx';
 import '../css/app.css';
 import SideBar from './sidebar/sidebar.jsx';
 import CreateStudent from './payment/create.jsx';
-import Index from './payment/Index.jsx';
+import Index from './payment/index.jsx';
 import UpdateStudent from './payment/update.jsx';
 import StudentsQr from './studentsQr/studentsQr.jsx';
 import Scanner from './studentsQr/scanner.jsx';
