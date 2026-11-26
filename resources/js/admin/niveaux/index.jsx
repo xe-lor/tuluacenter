@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import API from "../../api.js";
+import TableSkeleton from "../../TableSkeleton.jsx";
 import styles from '../../shared.module.css';
 
 const IndexNiveaux = () => {
     const [niveaux, setNiveaux] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [isAdding, setIsAdding] = useState(false);
     const [newName, setNewName] = useState("");
     const [newAvrage, setNewAvrage] = useState("");
@@ -15,7 +17,8 @@ const IndexNiveaux = () => {
     useEffect(() => {
         API.get("/admin/niveaux")
             .then((res) => setNiveaux(res.data.niveaux))
-            .catch((err) => console.error(err));
+            .catch((err) => console.error(err))
+            .finally(() => setLoading(false));
     }, []);
 
     // ADD
@@ -137,9 +140,7 @@ const IndexNiveaux = () => {
                                             className={styles.admin_niveaux_index_tableInput}
                                             placeholder="Name"
                                             value={newName}
-                                            onChange={(e) =>
-                                                setNewName(e.target.value)
-                                            }
+                                            onChange={(e) => setNewName(e.target.value)}
                                         />
                                     </td>
 
@@ -148,9 +149,7 @@ const IndexNiveaux = () => {
                                             className={styles.admin_niveaux_index_tableInput}
                                             placeholder="Avrage"
                                             value={newAvrage}
-                                            onChange={(e) =>
-                                                setNewAvrage(e.target.value)
-                                            }
+                                            onChange={(e) => setNewAvrage(e.target.value)}
                                         />
                                     </td>
 
@@ -165,9 +164,7 @@ const IndexNiveaux = () => {
 
                                             <button
                                                 className={styles.admin_niveaux_index_cancelButton}
-                                                onClick={() =>
-                                                    setIsAdding(false)
-                                                }
+                                                onClick={() => setIsAdding(false)}
                                             >
                                                 Cancel
                                             </button>
@@ -177,7 +174,9 @@ const IndexNiveaux = () => {
                             )}
 
                             {/* DATA ROWS */}
-                            {niveaux.length > 0 ? (
+                            {loading ? (
+                                <TableSkeleton rows={6} widths={["30px", "60%", "40%", "120px"]} />
+                            ) : niveaux.length > 0 ? (
                                 niveaux.map((n) => (
                                     <tr key={n.id} className={styles.admin_niveaux_index_dataRow}>
                                         <td>
@@ -189,20 +188,12 @@ const IndexNiveaux = () => {
                                         <td>
                                             {editingId === n.id ? (
                                                 <input
-                                                    className={
-                                                        styles.admin_niveaux_index_tableInput
-                                                    }
+                                                    className={styles.admin_niveaux_index_tableInput}
                                                     value={editName}
-                                                    onChange={(e) =>
-                                                        setEditName(
-                                                            e.target.value,
-                                                        )
-                                                    }
+                                                    onChange={(e) => setEditName(e.target.value)}
                                                 />
                                             ) : (
-                                                <span
-                                                    className={styles.admin_niveaux_index_nameText}
-                                                >
+                                                <span className={styles.admin_niveaux_index_nameText}>
                                                     {n.name}
                                                 </span>
                                             )}
@@ -211,22 +202,12 @@ const IndexNiveaux = () => {
                                         <td>
                                             {editingId === n.id ? (
                                                 <input
-                                                    className={
-                                                        styles.admin_niveaux_index_tableInput
-                                                    }
+                                                    className={styles.admin_niveaux_index_tableInput}
                                                     value={editAvrage}
-                                                    onChange={(e) =>
-                                                        setEditAvrage(
-                                                            e.target.value,
-                                                        )
-                                                    }
+                                                    onChange={(e) => setEditAvrage(e.target.value)}
                                                 />
                                             ) : (
-                                                <span
-                                                    className={
-                                                        styles.admin_niveaux_index_averageText
-                                                    }
-                                                >
+                                                <span className={styles.admin_niveaux_index_averageText}>
                                                     {n.avrage}
                                                 </span>
                                             )}
@@ -234,57 +215,33 @@ const IndexNiveaux = () => {
 
                                         <td>
                                             {editingId === n.id ? (
-                                                <div
-                                                    className={
-                                                        styles.admin_niveaux_index_actionGroup
-                                                    }
-                                                >
+                                                <div className={styles.admin_niveaux_index_actionGroup}>
                                                     <button
-                                                        className={
-                                                            styles.admin_niveaux_index_saveButton
-                                                        }
-                                                        onClick={() =>
-                                                            handleUpdate(n.id)
-                                                        }
+                                                        className={styles.admin_niveaux_index_saveButton}
+                                                        onClick={() => handleUpdate(n.id)}
                                                     >
                                                         Save
                                                     </button>
 
                                                     <button
-                                                        className={
-                                                            styles.admin_niveaux_index_cancelButton
-                                                        }
-                                                        onClick={() =>
-                                                            setEditingId(null)
-                                                        }
+                                                        className={styles.admin_niveaux_index_cancelButton}
+                                                        onClick={() => setEditingId(null)}
                                                     >
                                                         Cancel
                                                     </button>
                                                 </div>
                                             ) : (
-                                                <div
-                                                    className={
-                                                        styles.admin_niveaux_index_actionGroup
-                                                    }
-                                                >
+                                                <div className={styles.admin_niveaux_index_actionGroup}>
                                                     <button
-                                                        className={
-                                                            styles.admin_niveaux_index_editButton
-                                                        }
-                                                        onClick={() =>
-                                                            handleEdit(n)
-                                                        }
+                                                        className={styles.admin_niveaux_index_editButton}
+                                                        onClick={() => handleEdit(n)}
                                                     >
                                                         Edit
                                                     </button>
 
                                                     <button
-                                                        className={
-                                                            styles.admin_niveaux_index_deleteButton
-                                                        }
-                                                        onClick={() =>
-                                                            handleDelete(n.id)
-                                                        }
+                                                        className={styles.admin_niveaux_index_deleteButton}
+                                                        onClick={() => handleDelete(n.id)}
                                                     >
                                                         Delete
                                                     </button>
@@ -297,19 +254,14 @@ const IndexNiveaux = () => {
                                 <tr className={styles.admin_niveaux_index_emptyRow}>
                                     <td colSpan="4">
                                         <div className={styles.admin_niveaux_index_emptyState}>
-                                            <span
-                                                className={styles.admin_niveaux_index_emptyAccent}
-                                            ></span>
+                                            <span className={styles.admin_niveaux_index_emptyAccent}></span>
 
                                             <span className={styles.admin_niveaux_index_emptyTitle}>
                                                 No Niveaux Found
                                             </span>
 
-                                            <span
-                                                className={styles.admin_niveaux_index_emptySubtitle}
-                                            >
-                                                Add a level to begin managing
-                                                your academic structure.
+                                            <span className={styles.admin_niveaux_index_emptySubtitle}>
+                                                Add a level to begin managing your academic structure.
                                             </span>
                                         </div>
                                     </td>

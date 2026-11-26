@@ -20,7 +20,8 @@ import IndexMatieres from './admin/matieres/index.jsx';
 import IndexNiveaux from './admin/niveaux/index.jsx';
 import IndexClass from './admin/classes/index.jsx';
 import ForgotPassword from './auth/ForgotPassword.jsx';
-
+import History from './admin/history/index';
+import Restricted from './admin/restricted/index.jsx';
 
 
 
@@ -36,6 +37,8 @@ ReactDOM.createRoot(document.getElementById('app')).render(
 
       {/* Admin-only routes */}
       <Route path='/matieres' element={<PrivateRoute allowedRoles={['admin']}><IndexMatieres /></PrivateRoute>} />
+      <Route path='/history' element={<PrivateRoute allowedRoles={['admin']}><History /></PrivateRoute>} />
+      <Route path='/restricted' element={<PrivateRoute allowedRoles={['admin']}><Restricted /></PrivateRoute>} />
 
 
 

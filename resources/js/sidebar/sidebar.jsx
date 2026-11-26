@@ -35,6 +35,8 @@ const SideBar = () => {
     { label: "Teachers", to: "/teachers" },
     { label: "Assistant", to: "/assistances" },
     { label: "Subjects", to: "/matieres" },
+    { label: "History", to: "/history" },
+    { label: "Restricted", to: "/restricted" },
   ];
 
   // =========================

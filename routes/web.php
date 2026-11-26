@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\admin\AssistantController;
 use App\Http\Controllers\admin\ClassController;
+use App\Http\Controllers\admin\HistoryController;
 use App\Http\Controllers\admin\MatiereController;
 use App\Http\Controllers\admin\NiveauController;
+use App\Http\Controllers\admin\RestrictedController;
 use App\Http\Controllers\admin\TeacherController;
 
 use App\Http\Controllers\auth\AuthController;
@@ -24,6 +26,13 @@ Route::prefix('/admin')->group(function(){
     Route::get('/matieres/{id}', [MatiereController::class, 'show']);
     Route::put('/matieres/{id}', [MatiereController::class, 'update']);
 
+   Route::get('/restricted-data', [RestrictedController::class, 'index']);
+    Route::put('/restricted-data/{secretary}', [RestrictedController::class, 'update']);
+
+    Route::get('/histories', [HistoryController::class, 'index']);
+    Route::get('/histories/{id}', [HistoryController::class, 'show']);
+    Route::post('/storeHistory', [HistoryController::class, 'store']);
+    Route::post('/histories/delete', [HistoryController::class, 'destroy']);
 
     Route::get('/niveaux', [NiveauController::class, 'index']);
     Route::post('/storeNiveau',[NiveauController::class,'store']);

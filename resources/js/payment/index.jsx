@@ -3,7 +3,9 @@ import { exportTableToExcel } from "../utils/exportExcel";
 import { exportTableToPdf } from "../utils/exportPdf";
 import { useNavigate } from "react-router-dom";
 import API from "../api.js";
+import TableSkeleton from "../TableSkeleton.jsx";
 import styles from "../shared.module.css";
+
 
 const Index = () => {
     const [students, setStudents] = useState([]);
@@ -20,19 +22,23 @@ const Index = () => {
     const [classColor, setClasscolor] = useState({});
     const [classTextColor, setClassTextcolor] = useState({});
     const [studentClasses, setStudentClasses] = useState({});
+    const [loading, setLoading] = useState(true);
 
     const navigate = useNavigate();
 
     useEffect(() => {
-        API.get("/payment/getStudents").then((res) => {
-            setStudents(res.data.students);
+        API.get("/payment/getStudents")
+            .then((res) => {
+                setStudents(res.data.students);
 
-            const map = {};
-            res.data.students.forEach((s) => {
-                map[s.student_id] = s.payments.map((p) => p.class_id);
-            });
-            setStudentClasses(map);
-        });
+                const map = {};
+                res.data.students.forEach((s) => {
+                    map[s.student_id] = s.payments.map((p) => p.class_id);
+                });
+                setStudentClasses(map);
+            })
+            .catch((err) => console.error(err))
+            .finally(() => setLoading(false));
     }, []);
 
     useEffect(() => {
@@ -628,7 +634,13 @@ const Index = () => {
                                 </thead>
 
                                 <tbody className={styles.payment_index_tbody}>
-                                    {students.map((s) => {
+                                    {loading ? (
+                                        <TableSkeleton
+                                            rows={6}
+                                            rowClassName={styles.payment_index_studentRow}
+                                            widths={["60%", "60%", "70%", "60px", "140px"]}
+                                        />
+                                    ) : students.map((s) => {
                                         if (
                                             !studentMatchesSearch(s, search) ||
                                             !studentStateFilter(

@@ -14,7 +14,66 @@ use Illuminate\Support\Facades\Session;
 
 class PaymentController extends Controller
 {
- 
+
+//-----------------------------------------------------------------------------------------------
+// HISTORY HELPERS
+//-----------------------------------------------------------------------------------------------
+
+/**
+ * Insert one row in `histories` for the connected secretary.
+ * - Admins / teachers have no row in `secretaries`, so nothing is logged for them
+ *   (histories.secretary_id has a foreign key on secretaries.id).
+ * - A failure here never breaks the main action.
+ */
+private function logHistory(string $name): void
+{
+    try {
+        $secretaryId = DB::table('secretaries')
+            ->where('user_id', Session::get('user_id'))
+            ->value('id');
+
+        if (!$secretaryId) {
+            return;
+        }
+
+        DB::table('histories')->insert([
+            'name'         => $name,
+            'secretary_id' => $secretaryId,
+            'created_at'   => now(),
+            'updated_at'   => now(),
+        ]);
+    } catch (\Throwable $e) {
+        Log::error('History log failed: ' . $e->getMessage());
+    }
+}
+
+/** "Lastname Name (#id)" used inside history messages. */
+private function studentLabel($studentId): string
+{
+    $s = DB::table('students')->where('id', $studentId)->first();
+
+    return $s
+        ? trim($s->name . ' ' . $s->lastname) . ' (#' . $studentId . ')'
+        : 'étudiant #' . $studentId;
+}
+
+/** "Maths - 3eme (classe #5)" used inside history messages. */
+private function classLabel($classId): string
+{
+    $c = DB::table('classes')
+        ->join('matieres', 'classes.matiere_id', '=', 'matieres.id')
+        ->join('niveaux', 'classes.niveau_id', '=', 'niveaux.id')
+        ->where('classes.id', $classId)
+        ->select('matieres.name as matiere', 'niveaux.name as niveau')
+        ->first();
+
+    return $c
+        ? $c->matiere . ' - ' . $c->niveau . ' (classe #' . $classId . ')'
+        : 'classe #' . $classId;
+}
+
+//-----------------------------------------------------------------------------------------------
+
 public function getClasses()
 {
     $classes = DB::table('classes')
@@ -59,8 +118,21 @@ public function getClasses()
 
 
 public function delete($Id){
-    $student=Student::find($Id);
+    $student = Student::find($Id);
+
+    if (!$student) {
+        return response()->json([
+            'message' => 'Student not found',
+            'type' => 'btn btn-danger',
+        ], 404);
+    }
+
+    // Build the label BEFORE deleting, afterwards the row no longer exists
+    $label = trim($student->name . ' ' . $student->lastname) . ' (#' . $student->id . ')';
+
     $student->delete();
+
+    $this->logHistory("Étudiant supprimé : $label");
 }
 
 
@@ -250,6 +322,13 @@ public function store(Request $request)
     }
 
     if ($payment) {
+        $this->logHistory(
+            'Étudiant inscrit : ' . $this->studentLabel($student->id)
+            . ' | ' . count($request->classe) . ' classe(s)'
+            . ' | à partir du mois ' . $registrationMonth
+            . ' | premier mois ' . ($request->state === 'paye' ? 'payé' : 'impayé')
+        );
+
         return response()->json([
             'message' => 'Student inserted successfully!',
             'type' => 'btn btn-success',
@@ -404,6 +483,11 @@ public function getStudent($id)
         $current->status = 'impaye';
         $current->save();
 
+        $this->logHistory(
+            "Paiement annulé (marqué impayé) : mois $month | "
+            . $this->studentLabel($studentId) . ' | ' . $this->classLabel($classId)
+        );
+
         return response()->json([
             'success' => true,
             'clicked_month' => $month,
@@ -417,6 +501,12 @@ public function getStudent($id)
         if ($current->status === 'impaye') {
         $current->status = 'paye';
         $current->save();
+
+        $this->logHistory(
+            "Paiement encaissé (marqué payé) : mois $month | "
+            . $this->studentLabel($studentId) . ' | ' . $this->classLabel($classId)
+            . ' | ' . $current->price . ' DH'
+        );
 
         return response()->json([
             'success' => true,
@@ -453,6 +543,12 @@ public function getStudent($id)
             }
         }
     }
+
+    $this->logHistory(
+        "Réactivation d'une classe annulée : à partir du mois $month | "
+        . $this->studentLabel($studentId) . ' | ' . $this->classLabel($classId)
+        . ' | ' . count($updated) . ' paiement(s) modifié(s)'
+    );
 
     return response()->json([
         'success' => true,
@@ -505,6 +601,12 @@ public function setPaymentToCanceled(Request $request){
         'status'     => 'canceled'
     ])->values();
 
+    $this->logHistory(
+        "Classe annulée à partir du mois $month : "
+        . $this->studentLabel($studentId) . ' | ' . $this->classLabel($classId)
+        . ' | ' . $affected->count() . ' paiement(s) annulé(s)'
+    );
+
     return response()->json([
         'status'  => 'canceled',
         'updated' => $updated
@@ -548,6 +650,12 @@ public function setPaymentToCanceledAll(Request $request){
         'payment_id' => $p->id,
         'status'     => 'canceled'
     ])->values();
+
+    $this->logHistory(
+        "Toutes les classes annulées à partir du mois $month : "
+        . $this->studentLabel($studentId)
+        . ' | ' . $affected->count() . ' paiement(s) annulé(s)'
+    );
 
     return response()->json([
         'status'  => 'canceled',
@@ -636,6 +744,12 @@ public function setPaymentAll(Request $request)
             }
         }
     }
+
+    $this->logHistory(
+        "Paiement de toutes les classes pour le mois $month : "
+        . $this->studentLabel($studentId)
+        . ' | ' . count($updated) . ' paiement(s) modifié(s)'
+    );
 
     return response()->json([
         'success' => true,
@@ -884,6 +998,20 @@ DB::table('payments')
                 }
             }
         });
+
+        // Logged only after the transaction succeeded
+        $details = [];
+        if (!empty($validated['payments']) && !empty($validated['selected_month'])) {
+            $details[] = count($validated['payments']) . ' paiement(s) modifié(s)';
+        }
+        if (!empty($validated['new_classes'])) {
+            $details[] = count($validated['new_classes']) . ' classe(s) ajoutée(s)';
+        }
+
+        $this->logHistory(
+            'Étudiant modifié : ' . $this->studentLabel($studentId)
+            . (empty($details) ? '' : ' | ' . implode(', ', $details))
+        );
 
         return response()->json([
             'message' => 'Student updated successfully',

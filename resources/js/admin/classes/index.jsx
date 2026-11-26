@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import API from '../../api.js';
 import styles from '../../shared.module.css';
+import TableSkeleton from '../../TableSkeleton.jsx';
 
 const IndexClasses = () => {
     const [classes, setClasses] = useState([]);
@@ -210,22 +211,7 @@ const IndexClasses = () => {
                 {/* TABLE */}
                 <div className={styles.admin_classes_index_tableContainer}>
 
-                    {loading ? (
-
-                        <div className={styles.admin_classes_index_loadingState}>
-
-                            <span className={styles.admin_classes_index_loadingLine}></span>
-
-                            <span className={styles.admin_classes_index_loadingText}>
-                                Loading classes...
-                            </span>
-
-                        </div>
-
-                    ) : (
-
-                        <table className={styles.admin_classes_index_table}>
-
+                   <table className={styles.admin_classes_index_table}>
                             <thead>
                                 <tr>
                                     <th className={styles.admin_classes_index_idHeader}>ID</th>
@@ -344,7 +330,11 @@ const IndexClasses = () => {
                                 )}
 
                                 {/* DATA ROWS */}
-                                {classes.length > 0 ? (
+                                {loading ? (
+
+                                        <TableSkeleton rows={6} widths={["30px", "60%", "60%", "60%", "50px", "70px", "120px"]} />
+                                                                    
+                                    ) : classes.length > 0 ? (
 
                                     classes.map(classe => (
 
@@ -551,11 +541,9 @@ const IndexClasses = () => {
 
                             </tbody>
 
-                        </table>
+        </table>
 
-                    )}
-
-                </div>
+</div>
 
             </div>
 

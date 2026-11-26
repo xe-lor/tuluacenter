@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import API from '../../api.js';
+import TableSkeleton from '../../TableSkeleton.jsx';
 import styles from '../../shared.module.css';
 
 const TeacherIndex = () => {
     const [teachers, setTeachers] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     const [isAdding, setIsAdding] = useState(false);
     const [newName, setNewName] = useState("");
@@ -16,7 +18,8 @@ const TeacherIndex = () => {
     useEffect(() => {
         API.get('/admin/profs')
             .then(res => setTeachers(res.data.teachers))
-            .catch(err => console.error(err));
+            .catch(err => console.error(err))
+            .finally(() => setLoading(false));
     }, []);
 
     // ADD
@@ -198,7 +201,11 @@ const TeacherIndex = () => {
                             )}
 
                             {/* DATA ROWS */}
-                            {teachers.length > 0 ? (
+                            {loading ? (
+
+                                <TableSkeleton rows={6} widths={["30px", "60%", "40%", "120px"]} />
+
+                            ) : teachers.length > 0 ? (
 
                                 teachers.map(t => (
 
