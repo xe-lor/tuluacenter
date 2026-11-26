@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import API from "../../api.js";
+import TableSkeleton from "../../TableSkeleton.jsx";
 import styles from '../../shared.module.css';
 
 const IndexMatieres = () => {
     const [matieres, setMatieres] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [newMatiere, setNewMatiere] = useState("");
     const [isAdding, setIsAdding] = useState(false);
 
@@ -13,7 +15,8 @@ const IndexMatieres = () => {
     useEffect(() => {
         API.get("/admin/matieres")
             .then((res) => setMatieres(res.data.matieres))
-            .catch((err) => console.error(err));
+            .catch((err) => console.error(err))
+            .finally(() => setLoading(false));
     }, []);
 
     // ADD
@@ -137,9 +140,7 @@ const IndexMatieres = () => {
                                             className={styles.admin_matieres_index_tableInput}
                                             placeholder="Matiere name"
                                             value={newMatiere}
-                                            onChange={(e) =>
-                                                setNewMatiere(e.target.value)
-                                            }
+                                            onChange={(e) => setNewMatiere(e.target.value)}
                                         />
                                     </td>
 
@@ -154,9 +155,7 @@ const IndexMatieres = () => {
 
                                             <button
                                                 className={styles.admin_matieres_index_cancelButton}
-                                                onClick={() =>
-                                                    setIsAdding(false)
-                                                }
+                                                onClick={() => setIsAdding(false)}
                                             >
                                                 Cancel
                                             </button>
@@ -166,7 +165,9 @@ const IndexMatieres = () => {
                             )}
 
                             {/* DATA ROWS */}
-                            {matieres.length > 0 ? (
+                            {loading ? (
+                                <TableSkeleton rows={6} widths={["30px", "60%", "120px"]} />
+                            ) : matieres.length > 0 ? (
                                 matieres.map((m) => (
                                     <tr key={m.id} className={styles.admin_matieres_index_dataRow}>
                                         <td>
@@ -178,20 +179,12 @@ const IndexMatieres = () => {
                                         <td>
                                             {editingId === m.id ? (
                                                 <input
-                                                    className={
-                                                        styles.admin_matieres_index_tableInput
-                                                    }
+                                                    className={styles.admin_matieres_index_tableInput}
                                                     value={editValue}
-                                                    onChange={(e) =>
-                                                        setEditValue(
-                                                            e.target.value,
-                                                        )
-                                                    }
+                                                    onChange={(e) => setEditValue(e.target.value)}
                                                 />
                                             ) : (
-                                                <span
-                                                    className={styles.admin_matieres_index_nameText}
-                                                >
+                                                <span className={styles.admin_matieres_index_nameText}>
                                                     {m.name}
                                                 </span>
                                             )}
@@ -199,57 +192,33 @@ const IndexMatieres = () => {
 
                                         <td>
                                             {editingId === m.id ? (
-                                                <div
-                                                    className={
-                                                        styles.admin_matieres_index_actionGroup
-                                                    }
-                                                >
+                                                <div className={styles.admin_matieres_index_actionGroup}>
                                                     <button
-                                                        className={
-                                                            styles.admin_matieres_index_saveButton
-                                                        }
-                                                        onClick={() =>
-                                                            handleUpdate(m.id)
-                                                        }
+                                                        className={styles.admin_matieres_index_saveButton}
+                                                        onClick={() => handleUpdate(m.id)}
                                                     >
                                                         Save
                                                     </button>
 
                                                     <button
-                                                        className={
-                                                            styles.admin_matieres_index_cancelButton
-                                                        }
-                                                        onClick={() =>
-                                                            setEditingId(null)
-                                                        }
+                                                        className={styles.admin_matieres_index_cancelButton}
+                                                        onClick={() => setEditingId(null)}
                                                     >
                                                         Cancel
                                                     </button>
                                                 </div>
                                             ) : (
-                                                <div
-                                                    className={
-                                                        styles.admin_matieres_index_actionGroup
-                                                    }
-                                                >
+                                                <div className={styles.admin_matieres_index_actionGroup}>
                                                     <button
-                                                        className={
-                                                            styles.admin_matieres_index_editButton
-                                                        }
-                                                        onClick={() =>
-                                                            handleEdit(m)
-                                                        }
+                                                        className={styles.admin_matieres_index_editButton}
+                                                        onClick={() => handleEdit(m)}
                                                     >
                                                         Edit
                                                     </button>
 
                                                     <button
-                                                        className={
-                                                            styles.admin_matieres_index_deleteButton
-                                                        }
-                                                        onClick={() =>
-                                                            handleDelete(m.id)
-                                                        }
+                                                        className={styles.admin_matieres_index_deleteButton}
+                                                        onClick={() => handleDelete(m.id)}
                                                     >
                                                         Delete
                                                     </button>
@@ -262,19 +231,14 @@ const IndexMatieres = () => {
                                 <tr className={styles.admin_matieres_index_emptyRow}>
                                     <td colSpan="3">
                                         <div className={styles.admin_matieres_index_emptyState}>
-                                            <span
-                                                className={styles.admin_matieres_index_emptyAccent}
-                                            ></span>
+                                            <span className={styles.admin_matieres_index_emptyAccent}></span>
 
                                             <span className={styles.admin_matieres_index_emptyTitle}>
                                                 No Matieres Found
                                             </span>
 
-                                            <span
-                                                className={styles.admin_matieres_index_emptySubtitle}
-                                            >
-                                                Add a subject to begin managing
-                                                your academic data.
+                                            <span className={styles.admin_matieres_index_emptySubtitle}>
+                                                Add a subject to begin managing your academic data.
                                             </span>
                                         </div>
                                     </td>

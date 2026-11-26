@@ -12401,3 +12401,30 @@ select.teacher_StudentsPage_tableInput {
         animation: none;
     }
 }
+
+
+
+
+
+
+.skeleton {
+    height: 14px;
+    border-radius: 6px;
+    background: linear-gradient(
+        90deg,
+        rgba(128, 128, 128, 0.15) 25%,
+        rgba(128, 128, 128, 0.32) 37%,
+        rgba(128, 128, 128, 0.15) 63%
+    );
+    background-size: 400% 100%;
+    animation: skeletonShimmer 1.4s ease infinite;
+}
+
+@keyframes skeletonShimmer {
+    0%   { background-position: 100% 50%; }
+    100% { background-position: 0 50%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .skeleton { animation: none; }
+}

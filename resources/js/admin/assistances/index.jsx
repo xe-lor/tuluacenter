@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import API from '../../api.js';
 import styles from '../../shared.module.css';
+import TableSkeleton from '../../TableSkeleton.jsx';
 
 const AssistantIndex = () => {
     const [assistants, setAssistants] = useState([]);
@@ -12,11 +13,13 @@ const AssistantIndex = () => {
     const [editName, setEditName] = useState("");
     const [editRole, setEditRole] = useState("");
     const [editPassword, setEditPassword] = useState("");
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         API.get('/admin/secretaries')
             .then(res => setAssistants(res.data.assistantes))
-            .catch(err => console.error(err));
+            .catch(err => console.error(err))
+            .finally(() => setLoading(false));
     }, []);
 
     const handleAdd = () => {
@@ -202,7 +205,11 @@ const AssistantIndex = () => {
                             )}
 
 
-                            {assistants.length > 0 ? (
+                            {loading ? (
+
+                                <TableSkeleton rows={6} widths={["30px", "50%", "40%", "120px"]} />
+                                                        
+                            ) : assistants.length > 0 ? (
 
                                 assistants.map(a => (
 

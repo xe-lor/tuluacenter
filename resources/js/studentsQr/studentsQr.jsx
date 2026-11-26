@@ -4,6 +4,7 @@ import html2canvas from "html2canvas";
 import { jsPDF } from "jspdf";
 import API from "../api.js";
 import styles from "../shared.module.css";
+import CardSkeleton from "../CardSkeleton.jsx";
 
 const StudentsQr = () => {
   const [students, setStudents] = useState([]);
@@ -15,6 +16,8 @@ const StudentsQr = () => {
   const [subjectFilter, setSubjectFilter] = useState("");
   const [exportingId, setExportingId] = useState(null);
 
+  const [loading, setLoading] = useState(true);
+
   const cardRefs = useRef({});
   const fallbackImage = "/images/noImage.png";
 
@@ -25,7 +28,7 @@ const StudentsQr = () => {
         setNiveaux(res.data.niveaux || []);
         setMatieres(res.data.matieres || []);
       })
-      .catch((err) => console.error("Failed to fetch students:", err));
+      .catch((err) => console.error("Failed to fetch students:", err)).finally(() => setLoading(false));
   }, []);
 
   // Live filtering: runs on every keystroke / filter change
@@ -190,7 +193,12 @@ const StudentsQr = () => {
             )}
 
             <div className={styles.studentsQr_studentsQr_cardsGrid}>
-              {filteredStudents.map((s) => (
+              {loading ? (
+  <CardSkeleton
+    count={8}
+    cardClassName={styles.studentsQr_studentsQr_card}
+  />
+) : filteredStudents.map((s) => (
                 <div key={s.student_id} className={styles.studentsQr_studentsQr_cardWrapper}>
                   {/* Only this node is captured in the PDF */}
                   <div

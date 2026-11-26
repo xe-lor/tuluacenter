@@ -11,9 +11,8 @@ return new class extends Migration {
             $table->id();
             $table->string('name');
             $table->boolean('restricted')->default(false);
-            $table->foreignId('user_id')
-                  ->constrained('users')
-                  ->cascadeOnDelete();
+            $table->unsignedBigInteger('blocked_months')->nullable();
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->timestamps();
         });
     }
